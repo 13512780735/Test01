@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.main.CloudFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/main_header_item"></include>
+        <!-- TODO: Update blank fragment layout -->
+
+        <RadioGroup
+            android:id="@+id/mRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:background="@color/gray_background_color"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/dp_20"
+            android:paddingRight="@dimen/dp_20">
+
+
+            <RadioButton
+                android:id="@+id/mRb01"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/rb_main_background"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:text="云空间"
+                android:textColor="@drawable/radiobutton_main_textcolor"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/mRb02"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/rb_main_background"
+                android:button="@null"
+                android:gravity="center"
+                android:text="操作台"
+                android:textColor="@drawable/radiobutton_main_textcolor"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/mRb03"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/rb_main_background"
+                android:button="@null"
+                android:gravity="center"
+                android:text="星标"
+                android:textColor="@drawable/radiobutton_main_textcolor"></RadioButton>
+
+            <RadioButton
+                android:id="@+id/mRb04"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/rb_main_background"
+                android:button="@null"
+                android:gravity="center"
+                android:text="下载历史"
+                android:textColor="@drawable/radiobutton_main_textcolor"></RadioButton>
+        </RadioGroup>
+
+        <FrameLayout
+            android:id="@+id/main_frag1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"></FrameLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

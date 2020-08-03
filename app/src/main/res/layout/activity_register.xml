@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/dp_20">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/myScrollView"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/layout_login_header"></include>
+
+            <LinearLayout
+                android:id="@+id/ll01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dp_40"
+                android:paddingTop="@dimen/dp_60"
+                android:paddingRight="@dimen/dp_40">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/mTvName"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="+86"
+                        android:paddingRight="@dimen/dp_20"
+                        android:layout_gravity="center"
+                        android:drawableRight="@mipmap/icon_down"
+
+                        android:textColor="@color/black">
+
+                    </TextView>
+
+                    <cn.nzy.library.ClearEditText
+                        android:id="@+id/mEtName"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:hint="请输入手机号"
+                        android:singleLine="true"
+                        android:layout_weight="2"
+                        android:background="@null"></cn.nzy.library.ClearEditText>
+
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/mView01"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:background="@color/line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/mTvPass"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="验证码"
+                        android:textColor="@color/black">
+
+                    </TextView>
+
+                    <cn.nzy.library.ClearEditText
+                        android:id="@+id/mEtPass"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:hint="请输入验证码"
+                        android:layout_weight="2"
+                        android:background="@null"></cn.nzy.library.ClearEditText>
+
+
+                    <com.fmapp.test01.widght.BorderTextView
+                        android:id="@+id/send_code_btn"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dip"
+                        android:layout_weight="1.5"
+                        android:gravity="center"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:padding="10dip"
+                        android:text="获取验证码"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:contentBackColor="@color/yellow_button_bg_pressed_color"
+                        app:cornerRadius="@dimen/dp_10"
+                        app:strokeColor01="#999999"
+                        app:strokeWidth01="0dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/mView02"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:background="@color/line"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_gravity="center_vertical">
+
+
+
+                    <TextView
+                        android:id="@+id/mTvCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:text="收不到验证码？"></TextView>
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <com.fmapp.test01.widght.BorderTextView
+                        android:id="@+id/mTvNext"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_45"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/dp_40"
+                        android:text="下一步"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/white"
+                        app:contentBackColor="@color/button_confirm"
+                        app:cornerRadius="@dimen/dp_5"
+                        app:strokeColor01="#999999"
+                        app:strokeWidth01="0dp"></com.fmapp.test01.widght.BorderTextView>
+
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:id="@+id/titleBgRl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/gray_background_color">
+
+        <TextView
+            android:id="@+id/btn_title_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_20"
+            android:textStyle="bold" />
+        <!--标题-->
+        <TextView
+            android:id="@+id/tv_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:visibility="gone" />
+        <!--详情-->
+        <TextView
+            android:id="@+id/btn_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="详情"
+            android:textColor="#ffffff"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,0 +1,2 @@
+include ':app', ':SwipeBackLayout', ':PhoneAreaCodeLibray', ':AdapterLibrary'
+rootProject.name='Test01'
