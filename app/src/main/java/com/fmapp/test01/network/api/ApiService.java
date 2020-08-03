@@ -180,6 +180,7 @@ public interface ApiService {
 
     /**
      * 推至操作台
+     *
      * @param token
      * @param id
      * @return
@@ -187,11 +188,12 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("file/tospro")
     Observable<BaseResponse<String>> tospro(@Header("token") String token,
-                                             @Field("id") int id
+                                            @Field("id") int id
     );
 
     /**
      * 下载过渡页
+     *
      * @param token
      * @param id
      * @return
@@ -200,6 +202,32 @@ public interface ApiService {
     @POST("file/filedetail")
     Observable<BaseResponse<DownLoadModel>> filedetail(@Header("token") String token,
                                                        @Field("id") int id
+    );
+
+    /**
+     * 转存至永久空间
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/toever")
+    Observable<BaseResponse<String>> toever(@Header("token") String token,
+                                            @Field("id") int id
+    );
+
+    /**
+     * 星标文件
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/cltfile")
+    Observable<BaseResponse<String>> cltfile(@Header("token") String token,
+                                             @Field("id") int id
     );
 
     /**

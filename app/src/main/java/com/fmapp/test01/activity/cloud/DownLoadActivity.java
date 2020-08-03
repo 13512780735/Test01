@@ -88,13 +88,79 @@ public class DownLoadActivity extends BaseActivity {
             case R.id.llVip:
                 break;
             case R.id.rlCloud:
+                toCloud();
+
                 break;
             case R.id.rlStar:
+                toStar();
                 break;
             case R.id.rlSvipDown:
                 break;
             case R.id.rlQuanDown:
                 break;
         }
+    }
+
+    /**
+     * 收藏到星标
+     */
+    private void toStar() {
+        LoaddingShow();
+        RetrofitUtil.getInstance().cltfile(token, id, new Subscriber<BaseResponse<String>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                LoaddingDismiss();
+                if (e instanceof DataResultException) {
+                    DataResultException resultException = (DataResultException) e;
+                    showToast(resultException.getMsg());
+                }
+            }
+
+            @Override
+            public void onNext(BaseResponse<String> baseResponse) {
+                LoaddingDismiss();
+                if (baseResponse.getStatus() == 1) {
+                    showToast(baseResponse.getMsg());
+                } else {
+                    showToast(baseResponse.getMsg());
+                }
+            }
+        });
+    }
+
+    //操作台文件列表数据（包括永久空间）
+    private void toCloud() {
+        LoaddingShow();
+        RetrofitUtil.getInstance().toever(token, id, new Subscriber<BaseResponse<String>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                LoaddingDismiss();
+                if (e instanceof DataResultException) {
+                    DataResultException resultException = (DataResultException) e;
+                    showToast(resultException.getMsg());
+                }
+            }
+
+            @Override
+            public void onNext(BaseResponse<String> baseResponse) {
+                LoaddingDismiss();
+                if (baseResponse.getStatus() == 1) {
+                    showToast(baseResponse.getMsg());
+                } else {
+                    showToast(baseResponse.getMsg());
+                }
+
+            }
+        });
     }
 }

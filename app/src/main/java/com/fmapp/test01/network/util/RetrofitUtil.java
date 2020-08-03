@@ -267,6 +267,36 @@ public class RetrofitUtil {
     }
 
     /**
+     * 转存至永久空间
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void toever(String token, int id, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.toever(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 星标文件
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void cltfile(String token, int id, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.cltfile(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
      * 星标文件列表数据
      *
      * @param token
