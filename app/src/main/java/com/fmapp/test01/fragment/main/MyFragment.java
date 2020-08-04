@@ -1,6 +1,7 @@
 package com.fmapp.test01.fragment.main;
 
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -84,28 +85,19 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         mTitle.setText(data.getUsername());
         mTvVip.setText(data.getSlevel());
         mTvEndTime.setText(data.getEndtime());
-        ImageLoaderUtils.getInstance(getActivity()).displayImage(data.getLogo(),ivHeader);
-      //  Glide.with(getActivity()).load(data.getLogo()).transition(withCrossFade()).into(ivHeader);
+        ImageLoaderUtils.getInstance(getActivity()).displayImage(data.getLogo(), ivHeader);
+        //  Glide.with(getActivity()).load(data.getLogo()).transition(withCrossFade()).into(ivHeader);
     }
 
     public static MyFragment newInstance() {
         return new MyFragment();
     }
 
-    @Override
-    protected int setContentView() {
-        return R.layout.fragment_my;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initUI();
-    }
 
     private LinearLayout llVip, llUserInfo, llQianDao, llCard, llMessage, llBindPhone, llKeFu, llSetting;
 
-    private void initUI() {
+    @Override
+    protected void initView(View view) {
         ll01 = findView(R.id.ll01);
         ivHeader = findView(R.id.iv01);
         mRlHeader = findView(R.id.rl_header);
@@ -144,10 +136,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         // ll01.setLayoutParams(params1);//设置配置参数
     }
 
-    @Override
-    protected void lazyLoad() {
-
-    }
 
     @Override
     public void onPause() {
@@ -178,5 +166,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 toActivity(SettingActivity.class);
                 break;
         }
+    }
+
+    @Override
+    protected int initLayout() {
+        return R.layout.fragment_my;
+    }
+
+
+    @Override
+    protected void initData(Context mContext) {
+
     }
 }

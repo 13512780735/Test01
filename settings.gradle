@@ -1,2 +1,2 @@
-include ':app', ':SwipeBackLayout', ':PhoneAreaCodeLibray', ':AdapterLibrary'
+include ':app', ':SwipeBackLayout', ':PhoneAreaCodeLibray', ':AdapterLibrary', ':commonrefreshlayout'
 rootProject.name='Test01'

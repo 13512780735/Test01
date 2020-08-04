@@ -1,10 +1,11 @@
 package com.fmapp.test01.fragment.main;
 
 
-
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,24 +29,7 @@ public class SelectFragment extends BaseFragment {
 
 
     @Override
-    protected int setContentView() {
-        return R.layout.fragment_select;
-    }
-
-    @Override
-    protected void lazyLoad() {
-
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("SelectFragment","执行类");
-        initUI();
-    }
-
-    private void initUI() {
+    protected void initView(View v) {
         mTitleName = findView(R.id.tv_title);
         mHeader01 = findView(R.id.iv_main_header01);
         mHeader02 = findView(R.id.iv_main_header02);
@@ -57,4 +41,14 @@ public class SelectFragment extends BaseFragment {
         mHeader01.setOnClickListener(view -> showToast("点击了"));
     }
 
+    @Override
+    protected int initLayout() {
+        return R.layout.fragment_select;
+    }
+
+
+    @Override
+    protected void initData(Context mContext) {
+
+    }
 }

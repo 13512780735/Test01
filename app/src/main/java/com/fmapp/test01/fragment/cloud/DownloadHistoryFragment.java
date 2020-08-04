@@ -4,8 +4,14 @@ package com.fmapp.test01.fragment.cloud;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.Animation;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.HistoryAdapter;
@@ -16,6 +22,8 @@ import com.fmapp.test01.network.model.history.HistoryListModel;
 import com.fmapp.test01.network.model.history.HistoryModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
+import com.mylhyl.crlayout.SwipeRefreshAdapterView;
+import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +33,12 @@ import rx.Subscriber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DownloadHistoryFragment extends BaseFragment {
-
-    private RecyclerView mRecycleView;
+public class DownloadHistoryFragment extends BaseFragment implements SwipeRefreshAdapterView.OnListLoadListener, SwipeRefreshLayout.OnRefreshListener {
+    private SwipeRefreshRecyclerView mRecycleView;
     private boolean isGetData = false;
     private List<HistoryModel> mHisData = new ArrayList<>();
     private HistoryAdapter mHistoryAdapter;
+    private int pg = 1;
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
@@ -39,6 +47,7 @@ public class DownloadHistoryFragment extends BaseFragment {
             //   这里可以做网络请求或者需要的数据刷新操作
             if (mHisData.size() > 0) {
                 mHisData.clear();
+                mHistoryAdapter.notifyDataSetChanged();
             }
             GetData();
         } else {
@@ -52,7 +61,7 @@ public class DownloadHistoryFragment extends BaseFragment {
      */
     private void GetData() {
         LoaddingShow();
-        RetrofitUtil.getInstance().gethisfiles(token, 1, new Subscriber<BaseResponse<HistoryListModel>>() {
+        RetrofitUtil.getInstance().gethisfiles(token, pg, new Subscriber<BaseResponse<HistoryListModel>>() {
             @Override
             public void onCompleted() {
 
@@ -102,21 +111,52 @@ public class DownloadHistoryFragment extends BaseFragment {
         return new DownloadHistoryFragment();
     }
 
-
     @Override
-    public void onResume() {
-        super.onResume();
-        initUI();
-    }
-
-    private void initUI() {
-        mRecycleView = findViewById(R.id.recycler_view);
-        mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    protected void initView(View view) {
+        mRecycleView = findView(R.id.mRecycleView);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false));
+        View EmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_downhis_recycler_empty, null, false);
+        mRecycleView.setEmptyView(EmptyView);
+        mRecycleView.setOnListLoadListener(this);
+        mRecycleView.setOnRefreshListener(this);
         mHistoryAdapter = new HistoryAdapter(mHisData);
         mRecycleView.setAdapter(mHistoryAdapter);
         mHistoryAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onListLoad() {
+        ++pg;
+        mRecycleView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mHistoryAdapter.notifyDataSetChanged();
+                mRecycleView.setLoading(false);
+                if (pg == 1) {
+                    mRecycleView.setLoadCompleted(true);
+                } else GetData();
+                mRecycleView.setLoadCompleted(true);
+            }
+        }, 2000);
+    }
+
+    @Override
+    public void onRefresh() {
+        pg = 1;
+        mRecycleView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mHisData.size() > 0) {
+                    mHisData.clear();
+                    mHistoryAdapter.notifyDataSetChanged();
+                }
+                GetData();
+                mHistoryAdapter.notifyDataSetChanged();
+                mRecycleView.setRefreshing(false);
+            }
+        }, 1000);
+    }
 
     @Override
     public void onPause() {
@@ -124,14 +164,15 @@ public class DownloadHistoryFragment extends BaseFragment {
         isGetData = false;
     }
 
+
     @Override
-    protected int setContentView() {
+    protected int initLayout() {
         return R.layout.fragment_download_history;
     }
 
+
     @Override
-    protected void lazyLoad() {
+    protected void initData(Context mContext) {
 
     }
-
 }

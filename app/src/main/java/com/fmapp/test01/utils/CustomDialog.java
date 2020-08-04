@@ -72,7 +72,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog position
+     * setting cloud_dialog position
      *
      * @param gravity
      * @return
@@ -83,7 +83,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog icon
+     * setting cloud_dialog icon
      *
      * @param drawable
      * @return
@@ -95,7 +95,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog title
+     * setting cloud_dialog title
      *
      * @param title
      * @return
@@ -153,7 +153,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog title
+     * setting cloud_dialog title
      *
      * @param title
      * @return
@@ -191,7 +191,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog right button
+     * setting cloud_dialog right button
      *
      * @param text
      * @param listener
@@ -239,7 +239,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog left button
+     * setting cloud_dialog left button
      *
      * @param text
      * @param listener
@@ -280,7 +280,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog center button
+     * setting cloud_dialog center button
      *
      * @param text
      * @param listener
@@ -306,7 +306,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog center button
+     * setting cloud_dialog center button
      *
      * @param text
      * @param listener
@@ -333,7 +333,7 @@ public class CustomDialog {
     }
 
     /**
-     * setting dialog cancelable
+     * setting cloud_dialog cancelable
      *
      * @param cancelable
      * @return
@@ -344,7 +344,7 @@ public class CustomDialog {
     }
 
     /**
-     * cancel dialog
+     * cancel cloud_dialog
      *
      * @return
      */
@@ -354,7 +354,7 @@ public class CustomDialog {
     }
 
     /**
-     * show dialog
+     * show cloud_dialog
      */
     public void show() {
         dialog.show();

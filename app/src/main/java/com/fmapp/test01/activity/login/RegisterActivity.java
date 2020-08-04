@@ -42,6 +42,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import rx.Subscriber;
 
+/**
+ * 注册一步骤
+ */
 public class RegisterActivity extends BaseActivity {
     @BindView(R.id.myScrollView)
     NestedScrollView myScrollView;
@@ -115,9 +118,12 @@ public class RegisterActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.send_code_btn, R.id.mTvCode, R.id.mTvNext})
+    @OnClick({R.id.send_code_btn, R.id.mTvCode, R.id.mTvNext, R.id.btn_title_left})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_title_left:
+                onBackPressed();
+                break;
             case R.id.send_code_btn:
                 sendCode();
                 break;

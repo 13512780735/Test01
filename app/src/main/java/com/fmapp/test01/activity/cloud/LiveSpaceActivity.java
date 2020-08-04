@@ -1,30 +1,24 @@
-package com.fmapp.test01.fragment.cloud;
+package com.fmapp.test01.activity.cloud;
 
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.WorkStationAdapter;
-import com.fmapp.test01.base.BaseFragment;
+import com.fmapp.test01.base.BaseActivity;
 import com.fmapp.test01.network.model.BaseResponse;
 import com.fmapp.test01.network.model.workStation.FilesModel;
 import com.fmapp.test01.network.model.workStation.FolderModel;
-import com.fmapp.test01.network.model.workStation.SpaceModel;
 import com.fmapp.test01.network.model.workStation.WorkStationListModel;
 import com.fmapp.test01.network.model.workStation.workStationModel;
 import com.fmapp.test01.network.util.DataResultException;
@@ -35,52 +29,35 @@ import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import rx.Subscriber;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 永存空间
  */
-public class WorkStationFragment extends BaseFragment implements SwipeRefreshAdapterView.OnListLoadListener, SwipeRefreshLayout.OnRefreshListener {
+public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapterView.OnListLoadListener, SwipeRefreshLayout.OnRefreshListener {
+    @BindView(R.id.tv_back)
+    ImageView mBack;
     private SwipeRefreshRecyclerView mRecycleView;
-    private boolean isGetData = false;
     private WorkStationAdapter mWorkStationAdapter;
     private List<workStationModel> mWorkStationData = new ArrayList<>();
     private MBroadcastReceiver receiver;
+
+
     private int pg = 1;
-    boolean flag = false;
-
-    public WorkStationFragment() {
-        // Required empty public constructor
-    }
 
     @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (enter && !isGetData) {
-            isGetData = true;
-            //   这里可以做网络请求或者需要的数据刷新操作
-            if (mWorkStationData.size() > 0) {
-                mWorkStationData.clear();
-                mWorkStationAdapter.notifyDataSetChanged();
-            }
-            GetData();
-        } else {
-            isGetData = false;
-        }
-        return super.onCreateAnimation(transit, enter, nextAnim);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_live_space);
+
+        initUI();
+        GetData();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        isGetData = false;
-    }
-
-    /**
-     * 操作台数据
-     */
     private void GetData() {
         LoaddingShow();
-        RetrofitUtil.getInstance().getprofiles(token, 0, 0, "", pg, new Subscriber<BaseResponse<WorkStationListModel>>() {
+        RetrofitUtil.getInstance().getprofiles(token, 1, 0, "", pg, new Subscriber<BaseResponse<WorkStationListModel>>() {
             @Override
             public void onCompleted() {
 
@@ -98,19 +75,8 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
             @Override
             public void onNext(BaseResponse<WorkStationListModel> baseResponse) {
                 LoaddingDismiss();
-                Log.d("数据Work", baseResponse.getMsg());
                 if (baseResponse.getStatus() == 1) {
                     WorkStationListModel workStationListModel = baseResponse.getData();
-
-                    if (workStationListModel.getSpace().toString().length() > 0) {
-                        WorkStationListModel.SpaceBean spaceBeans = workStationListModel.getSpace();
-                        SpaceModel spaceModel = new SpaceModel();
-                        spaceModel.setTotal(spaceBeans.getTotal());
-                        spaceModel.setUsed(spaceBeans.getUsed());
-                        if (flag == false) {
-                            mWorkStationData.add(spaceModel);
-                        }
-                    }
                     if (workStationListModel.getFolder().size() > 0) {
                         List<WorkStationListModel.FolderBean> folderBeans = workStationListModel.getFolder();
                         for (WorkStationListModel.FolderBean bean : folderBeans) {
@@ -140,29 +106,25 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
                 } else {
                     showToast(baseResponse.getMsg());
                 }
-
             }
         });
     }
 
-    public static WorkStationFragment newInstance() {
-        return new WorkStationFragment();
-    }
-
-
-    @Override
-    protected void initView(View view) {
+    private void initUI() {
+        setBackView();
+        mBack.setImageDrawable(getResources().getDrawable(R.mipmap.icon_back01));
+        setTitle("永存空间");
         register();
         mRecycleView = findView(R.id.mRecycleView);
-        mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(),
+        mRecycleView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false));
+        View EmptyView = LayoutInflater.from(this).inflate(R.layout.view_livespace_recycler_empty, null, false);
+        mRecycleView.setEmptyView(EmptyView);
         mRecycleView.setOnListLoadListener(this);
         mRecycleView.setOnRefreshListener(this);
         mWorkStationAdapter = new WorkStationAdapter(mWorkStationData);
         mRecycleView.setAdapter(mWorkStationAdapter);
         mWorkStationAdapter.notifyDataSetChanged();
-
-
     }
 
     /**
@@ -172,14 +134,34 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
 
         receiver = new MBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("android.intent.action.work");
-        getActivity().registerReceiver(receiver, filter);
+        filter.addAction("android.intent.action.liveSpace");
+        registerReceiver(receiver, filter);
+    }
+
+    /**
+     * 定义广播
+     */
+    class MBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle data = intent.getExtras();
+            int position = data.getInt("id");
+            mWorkStationAdapter.remove(position);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
     }
 
     @Override
     public void onListLoad() {
         ++pg;
-        flag = true;
         mRecycleView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -193,16 +175,9 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
         }, 2000);
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        onRefresh();
-//    }
-
     @Override
     public void onRefresh() {
         pg = 1;
-        flag = false;
         mRecycleView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -211,48 +186,10 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
                     mWorkStationAdapter.notifyDataSetChanged();
                 }
                 GetData();
+                GetData();
                 mWorkStationAdapter.notifyDataSetChanged();
                 mRecycleView.setRefreshing(false);
             }
         }, 1000);
     }
-
-    /**
-     * 定义广播
-     */
-    class MBroadcastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle data = intent.getExtras();
-            String flag = data.getString("flag");
-            int position = data.getInt("id");
-            if ("0".equals(flag)) {
-                mWorkStationAdapter.remove(position);
-            } else {
-                onRefresh();
-            }
-        }
-    }
-
-    @Override
-    protected int initLayout() {
-        return R.layout.fragment_work_station;
-    }
-
-
-    @Override
-    protected void initData(Context mContext) {
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (receiver != null) {
-            getActivity().unregisterReceiver(receiver);
-        }
-    }
-
-
 }

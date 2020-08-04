@@ -13,6 +13,9 @@ import com.fmapp.test01.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 注册协议
+ */
 public class RegisterProtocolActivity extends BaseActivity {
     @BindView(R.id.webView)
     WebView mWebView;

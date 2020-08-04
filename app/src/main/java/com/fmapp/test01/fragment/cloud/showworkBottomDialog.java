@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.fmapp.test01.R;
 import com.fmapp.test01.network.model.BaseResponse;
@@ -39,6 +40,16 @@ public class showworkBottomDialog {
         window.setWindowAnimations(R.style.main_menu_animStyle);
         //设置对话框大小
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        TextView tv_online = view.findViewById(R.id.tv_online);
+        TextView tv_look01 = view.findViewById(R.id.tv_look01);
+        TextView tv_look = view.findViewById(R.id.tv_look);
+        if ("zip".equals(data.getExt())) {
+            tv_online.setVisibility(View.VISIBLE);
+            tv_look.setVisibility(View.VISIBLE);
+        }
+        if ("png".equals(data.getExt())) {
+            tv_look01.setVisibility(View.VISIBLE);
+        }
         dialog.show();
 
         dialog.findViewById(R.id.tv_down).setOnClickListener(new View.OnClickListener() {
@@ -55,6 +66,8 @@ public class showworkBottomDialog {
         dialog.findViewById(R.id.tv_online).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showOnlineDialog dialog01 = new showOnlineDialog();
+                dialog01.CenterDialog(context, data.getId(), "0", position);
                 dialog.dismiss();
             }
         });
@@ -79,7 +92,7 @@ public class showworkBottomDialog {
         dialog.findViewById(R.id.tv_cloud).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                toEverCloud(context, data.getId(), position);
                 dialog.dismiss();
             }
         });
@@ -107,10 +120,6 @@ public class showworkBottomDialog {
                             @Override
                             public void onClick(View view) {
                                 del(context, data.getId(), position);
-//                                Intent intent = new Intent();
-//                                intent.setAction("android.intent.action.cloud");
-//                                intent.putExtra("id", position);
-//                                context.sendBroadcast(intent);
                             }
                         });
                 dialog1.show();
@@ -119,6 +128,47 @@ public class showworkBottomDialog {
         });
 
 
+    }
+
+
+
+    /**
+     * 推至永存空间
+     *
+     * @param context
+     * @param id
+     * @param position
+     */
+    private void toEverCloud(Context context, String id, int position) {
+        loaddingDialog.show();
+        RetrofitUtil.getInstance().toever(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(id), new Subscriber<BaseResponse<String>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                loaddingDialog.dismiss();
+                if (e instanceof DataResultException) {
+                    DataResultException resultException = (DataResultException) e;
+                    showToast(context, resultException.getMsg());
+                }
+            }
+
+            @Override
+            public void onNext(BaseResponse<String> baseResponse) {
+                loaddingDialog.dismiss();
+                if (baseResponse.getStatus() == 1) {
+                    showToast(context, baseResponse.getMsg());
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.work");
+                    intent.putExtra("id", position);
+                    intent.putExtra("flag", "0");
+                    context.sendBroadcast(intent);
+                }
+            }
+        });
     }
 
     /**
@@ -132,7 +182,7 @@ public class showworkBottomDialog {
 
         loaddingDialog.show();
 
-        RetrofitUtil.getInstance().delfile(SharedPreferencesUtils.getString(context, "token"), Integer.valueOf(id), new Subscriber<BaseResponse<String>>() {
+        RetrofitUtil.getInstance().delprofile(SharedPreferencesUtils.getString(context, "token"), Integer.valueOf(id), new Subscriber<BaseResponse<String>>() {
             @Override
             public void onCompleted() {
 

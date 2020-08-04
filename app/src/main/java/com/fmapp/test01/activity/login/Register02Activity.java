@@ -25,6 +25,9 @@ import butterknife.OnClick;
 import cn.nzy.library.ClearEditText;
 import rx.Subscriber;
 
+/**
+ * 注册二步骤
+ */
 public class Register02Activity extends BaseActivity {
     @BindView(R.id.mRadioGroup)
     RadioGroup mRadioGroup;

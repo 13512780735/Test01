@@ -3,14 +3,19 @@ package com.fmapp.test01.fragment.cloud;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.Animation;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.CloudAdapter;
@@ -22,6 +27,8 @@ import com.fmapp.test01.network.model.cloud.FilesModel;
 import com.fmapp.test01.network.model.cloud.FolderModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
+import com.mylhyl.crlayout.SwipeRefreshAdapterView;
+import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +38,14 @@ import rx.Subscriber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Cloud2Fragment extends BaseFragment {
+public class Cloud2Fragment extends BaseFragment implements SwipeRefreshAdapterView.OnListLoadListener, SwipeRefreshLayout.OnRefreshListener {
 
-
-    private RecyclerView mRecycleView;
+    private SwipeRefreshRecyclerView mRecycleView;
     private boolean isGetData = false;
     private List<CloudModel> mCloudData = new ArrayList<>();
     private CloudAdapter mCloudAdapter;
     private MBroadcastReceiver receiver;
+    private int pg = 1;
 
     public Cloud2Fragment() {
         // Required empty public constructor
@@ -51,11 +58,13 @@ public class Cloud2Fragment extends BaseFragment {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        Log.d("执行", "onCreateAnimation");
         if (enter && !isGetData) {
             isGetData = true;
             //   这里可以做网络请求或者需要的数据刷新操作
             if (mCloudData.size() > 0) {
                 mCloudData.clear();
+                mCloudAdapter.notifyDataSetChanged();
             }
             GetData();
         } else {
@@ -66,7 +75,7 @@ public class Cloud2Fragment extends BaseFragment {
 
     private void GetData() {
         LoaddingShow();
-        RetrofitUtil.getInstance().getfiles(token, 0, "", 1, new Subscriber<BaseResponse<FilesListModel>>() {
+        RetrofitUtil.getInstance().getfiles(token, 0, "", pg, new Subscriber<BaseResponse<FilesListModel>>() {
             @Override
             public void onCompleted() {
 
@@ -84,6 +93,7 @@ public class Cloud2Fragment extends BaseFragment {
             @Override
             public void onNext(BaseResponse<FilesListModel> baseResponse) {
                 LoaddingDismiss();
+                Log.d("数据Cloud",baseResponse.getMsg());
                 if (baseResponse.getStatus() == 1) {
                     FilesListModel filesListModel = baseResponse.getData();
                     if (filesListModel.getFolder().size() > 0) {
@@ -127,28 +137,18 @@ public class Cloud2Fragment extends BaseFragment {
     }
 
     @Override
-    protected int setContentView() {
-        return R.layout.fragment_cloud2;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        initUI();
-    }
-
-    private void initUI() {
+    protected void initView(View view) {
         register();
         mRecycleView = findViewById(R.id.recycler_view);
-        mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecycleView.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL, false));
+        View EmptyView = LayoutInflater.from(getActivity()).inflate(R.layout.view_cloud_recycler_empty, null, false);
+        mRecycleView.setEmptyView(EmptyView);
+        mRecycleView.setOnListLoadListener(this);
+        mRecycleView.setOnRefreshListener(this);
         mCloudAdapter = new CloudAdapter(mCloudData);
         mRecycleView.setAdapter(mCloudAdapter);
         mCloudAdapter.notifyDataSetChanged();
-
-    }
-
-    @Override
-    protected void lazyLoad() {
 
     }
 
@@ -164,6 +164,51 @@ public class Cloud2Fragment extends BaseFragment {
     }
 
     /**
+     * 加载更多
+     */
+    @Override
+    public void onListLoad() {
+        ++pg;
+
+        mRecycleView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mCloudAdapter.notifyDataSetChanged();
+                mRecycleView.setLoading(false);
+                if (pg == 1) {
+                    mRecycleView.setLoadCompleted(true);
+                } else GetData();
+                mRecycleView.setLoadCompleted(true);
+            }
+        }, 2000);
+    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        onRefresh();
+//    }
+
+    /**
+     * 下拉刷新
+     */
+    @Override
+    public void onRefresh() {
+        pg = 1;
+        mRecycleView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCloudData.size() > 0) {
+                    mCloudData.clear();
+                    mCloudAdapter.notifyDataSetChanged();
+                }
+                GetData();
+                mCloudAdapter.notifyDataSetChanged();
+                mRecycleView.setRefreshing(false);
+            }
+        }, 1000);
+    }
+
+    /**
      * 定义广播
      */
     class MBroadcastReceiver extends BroadcastReceiver {
@@ -174,6 +219,17 @@ public class Cloud2Fragment extends BaseFragment {
             int position = data.getInt("id");
             mCloudAdapter.remove(position);
         }
+    }
+
+    @Override
+    protected int initLayout() {
+        return R.layout.fragment_cloud2;
+    }
+
+
+    @Override
+    protected void initData(Context mContext) {
+      //  GetData();
     }
 
     @Override

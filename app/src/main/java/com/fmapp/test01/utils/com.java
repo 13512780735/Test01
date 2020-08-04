@@ -7,9 +7,8 @@ public class com {
 
         if ("zip".equals(ext)) {
             return R.mipmap.icon_zip;
-        } else if ("png".equals(ext)) {
-            return R.mipmap.icon_photo;
-        } else if ("png".equals(ext)) {
+        }
+        else if ("png".equals(ext)) {
             return R.mipmap.icon_photo;
         } else if ("ipa".equals(ext)) {
             return R.mipmap.icon_mac;

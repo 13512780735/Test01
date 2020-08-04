@@ -1,6 +1,7 @@
 package com.fmapp.test01.network.util;
 
 
+import com.fmapp.test01.BuildConfig;
 import com.fmapp.test01.network.Appconst.AppConst;
 import com.fmapp.test01.network.EmptyEntity;
 import com.fmapp.test01.network.api.ApiService;
@@ -10,14 +11,19 @@ import com.fmapp.test01.network.model.FilesListModel;
 import com.fmapp.test01.network.model.LoginRegisterModel;
 import com.fmapp.test01.network.model.LoginCodeModel;
 import com.fmapp.test01.network.model.MemberModel;
+import com.fmapp.test01.network.model.SvipDownModel;
 import com.fmapp.test01.network.model.history.HistoryListModel;
 import com.fmapp.test01.network.model.star.StarListModel;
+import com.fmapp.test01.network.model.workStation.OnlineFilesModel;
 import com.fmapp.test01.network.model.workStation.WorkStationListModel;
+import com.ihsanbal.logging.Level;
+import com.ihsanbal.logging.LoggingInterceptor;
 
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.internal.platform.Platform;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observable;
@@ -49,20 +55,18 @@ public class RetrofitUtil {
 
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-//        if (BuildConfig.DEBUG)
-//
-//        {
-        //打印网络请求日志
-//            LoggingInterceptor httpLoggingInterceptor = new LoggingInterceptor.Builder()
-//                    .loggable(BuildConfig.DEBUG)
-//                    .setLevel(HttpLoggingInterceptor.Level.BASIC)
-//                    .log(Platform.INFO)
-//                    .request("Request")
-//                    .response("Response")
-//                    .build();
-//            httpClientBuilder.addInterceptor(httpLoggingInterceptor);
+        if (BuildConfig.DEBUG) {
+            // 打印网络请求日志
+            LoggingInterceptor httpLoggingInterceptor = new LoggingInterceptor.Builder()
+                    .loggable(BuildConfig.DEBUG)
+                    .setLevel(Level.BASIC)
+                    .log(Platform.INFO)
+                    .request("Request")
+                    .response("Response")
+                    .build();
+            httpClientBuilder.addInterceptor(httpLoggingInterceptor);
 
-        //  }
+        }
 
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -252,6 +256,21 @@ public class RetrofitUtil {
     }
 
     /**
+     * 删除操作台文件
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void delprofile(String token, int id, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.delprofile(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
      * 下载过渡页
      *
      * @param token
@@ -313,6 +332,21 @@ public class RetrofitUtil {
     }
 
     /**
+     * 删除星标文件
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void delcltfile(String token, int id, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.delcltfile(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
      * 操作台文件列表数据（包括永久空间）
      *
      * @param token
@@ -331,6 +365,23 @@ public class RetrofitUtil {
     }
 
     /**
+     * 预览/在线解压-压缩包文件-步骤1
+     *
+     * @param token
+     * @param id
+     * @param isview
+     * @param password
+     * @param subscriber
+     */
+    public void getzip(String token, int id, int isview, String password, Subscriber<BaseResponse<OnlineFilesModel>> subscriber) {
+        mApiService.getzip(token, id, isview, password)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
      * 下载历史列表数据
      *
      * @param token
@@ -340,6 +391,21 @@ public class RetrofitUtil {
 
     public void gethisfiles(String token, int pg, Subscriber<BaseResponse<HistoryListModel>> subscriber) {
         mApiService.gethisfiles(token, pg)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void svipdown(String token, int id, Subscriber<BaseResponse<SvipDownModel>> subscriber) {
+        mApiService.svipdown(token, id)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

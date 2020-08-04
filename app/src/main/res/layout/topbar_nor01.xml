@@ -11,13 +11,11 @@
     <ImageView
         android:id="@+id/tv_back"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="match_parent"
         android:layout_marginLeft="5px"
         android:gravity="center"
-        android:paddingTop="@dimen/dp_20"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/icon_back"
-   android:visibility="gone"
+        android:padding="@dimen/dp_5"
+        android:src="@mipmap/icon_back01"
          />
 
     <TextView
@@ -29,8 +27,9 @@
         android:layout_marginRight="120px"
         android:maxLines="1"
         android:paddingTop="@dimen/dp_20"
+        android:text=""
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_18" />
+        android:textSize="@dimen/sp_16" />
 
     <TextView
         android:id="@+id/tv_right"
@@ -39,7 +38,6 @@
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:padding="@dimen/dp_10"
-        android:paddingTop="@dimen/dp_20"
         android:text=""
         android:textSize="@dimen/sp_14" />
 

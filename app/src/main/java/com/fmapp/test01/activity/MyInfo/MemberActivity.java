@@ -27,6 +27,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 个人中心
+ */
 public class MemberActivity extends BaseActivity {
     @BindView(R.id.ivHeader)
     CircleImageView mIvHeader;

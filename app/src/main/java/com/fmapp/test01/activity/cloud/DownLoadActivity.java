@@ -2,6 +2,7 @@ package com.fmapp.test01.activity.cloud;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.fmapp.test01.R;
 import com.fmapp.test01.base.BaseActivity;
 import com.fmapp.test01.network.model.BaseResponse;
 import com.fmapp.test01.network.model.DownLoadModel;
+import com.fmapp.test01.network.model.SvipDownModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
 import com.fmapp.test01.utils.StatusBarUtil;
@@ -20,6 +22,9 @@ import rx.Subscriber;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;
 
+/**
+ * 文件下载
+ */
 public class DownLoadActivity extends BaseActivity {
     @BindView(R.id.tv_back)
     ImageView mBack;
@@ -95,10 +100,43 @@ public class DownLoadActivity extends BaseActivity {
                 toStar();
                 break;
             case R.id.rlSvipDown:
-                break;
             case R.id.rlQuanDown:
+                toDownLoad();
                 break;
         }
+    }
+
+    private void toDownLoad() {
+        LoaddingShow();
+        RetrofitUtil.getInstance().svipdown(token, id, new Subscriber<BaseResponse<SvipDownModel>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                LoaddingDismiss();
+                if (e instanceof DataResultException) {
+                    DataResultException resultException = (DataResultException) e;
+                    showToast(resultException.getMsg());
+                }
+            }
+
+            @Override
+            public void onNext(BaseResponse<SvipDownModel> baseResponse) {
+                LoaddingDismiss();
+                if (baseResponse.getStatus() == 1) {
+                    String link = baseResponse.getData().getLink();
+                    String ext = baseResponse.getData().getExtension();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("link", link);
+                    bundle.putString("ext", ext);
+                    toActivity(DownLoadListActivity.class, bundle);
+
+                }
+            }
+        });
     }
 
     /**
@@ -136,7 +174,7 @@ public class DownLoadActivity extends BaseActivity {
     //操作台文件列表数据（包括永久空间）
     private void toCloud() {
         LoaddingShow();
-        RetrofitUtil.getInstance().toever(token, id, new Subscriber<BaseResponse<String>>() {
+        RetrofitUtil.getInstance().tospro(token, id, new Subscriber<BaseResponse<String>>() {
             @Override
             public void onCompleted() {
 

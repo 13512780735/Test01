@@ -12,7 +12,7 @@ import android.view.Window;
 import com.fmapp.test01.R;
 import com.fmapp.test01.activity.cloud.DownLoadActivity;
 import com.fmapp.test01.network.model.BaseResponse;
-import com.fmapp.test01.network.model.cloud.FilesModel;
+import com.fmapp.test01.network.model.history.FilesModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
 import com.fmapp.test01.utils.CustomDialog;
@@ -20,10 +20,9 @@ import com.fmapp.test01.utils.LoaddingDialog;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.ToastUtil;
 
-
 import rx.Subscriber;
 
-public class showCloudBottomDialog {
+public class showHistoryBottomDialog {
     private View view;
     private LoaddingDialog loaddingDialog;
     //type 0 文件类 1，在线压缩包
@@ -33,7 +32,7 @@ public class showCloudBottomDialog {
         //1、使用Dialog、设置style
         final Dialog dialog = new Dialog(context, R.style.DialogTheme);
         //2、设置布局
-        view = View.inflate(context, R.layout.cloud_dialog, null);
+        view = View.inflate(context, R.layout.history_dialog, null);
         dialog.setContentView(view);
         Window window = dialog.getWindow();
         //设置弹出位置
@@ -90,6 +89,10 @@ public class showCloudBottomDialog {
                         loaddingDialog.dismiss();
                         if (baseResponse.getStatus() == 1) {
                             showToast(context, baseResponse.getMsg());
+//                            Intent intent = new Intent();
+//                            intent.setAction("android.intent.action.cloud");
+//                            intent.putExtra("id", position);
+//                            context.sendBroadcast(intent);
                         } else {
                             showToast(context, baseResponse.getMsg());
                         }
@@ -169,7 +172,7 @@ public class showCloudBottomDialog {
                 if (baseResponse.getStatus() == 1) {
                     showToast(context, baseResponse.getMsg());
                     Intent intent = new Intent();
-                    intent.setAction("android.intent.action.cloud");
+                    intent.setAction("android.intent.action.history");
                     intent.putExtra("id", position);
                     context.sendBroadcast(intent);
                 }

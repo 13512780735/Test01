@@ -60,7 +60,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        int color = getResources().getColor(R.color.gray_background_color);
+        int color = getResources().getColor(R.color.white);
         StatusBarUtil.setColor(this, color, 0);
         StatusBarUtil.setLightMode(this);
          AppManager.getAppManager().addActivity(this);
@@ -220,16 +220,16 @@ public abstract class BaseActivity extends SwipeBackActivity {
      */
            //
 //    public void showProgress(String message) {
-//         dialog = new CustomDialog(this);
-//        dialog = new CustomDialog(this).builder()
+//         cloud_dialog = new CustomDialog(this);
+//        cloud_dialog = new CustomDialog(this).builder()
 //                .setGravity(Gravity.CENTER)
 //                .setTitle01("", getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
 //                .setSubTitle(message);
-//        dialog.show();
+//        cloud_dialog.show();
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
-//                dialog.dismiss();
+//                cloud_dialog.dismiss();
 //            }
 //        }, 500);
 //    }

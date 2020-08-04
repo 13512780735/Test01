@@ -22,22 +22,23 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_20"
         android:text="在线解压"
-        android:visibility="gone"
         android:textColor="@android:color/background_dark"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
+
     <TextView
-        android:id="@+id/tv_look01"
+        android:id="@+id/tv_look"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/text_bg_selector"
         android:drawableLeft="@mipmap/icon_pop_look"
         android:drawablePadding="@dimen/dp_20"
-        android:visibility="gone"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_20"
         android:text="在线预览"
         android:textColor="@android:color/background_dark"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_down"
@@ -52,8 +53,6 @@
         android:textColor="@android:color/background_dark"
         android:textSize="16sp" />
 
-
-
     <TextView
         android:id="@+id/tv_share"
         android:layout_width="match_parent"
@@ -64,9 +63,9 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_20"
         android:text="分享"
+        android:visibility="gone"
         android:textColor="@android:color/background_dark"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_move"
@@ -78,9 +77,9 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_20"
         android:text="移动"
+        android:visibility="gone"
         android:textColor="@android:color/background_dark"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_cloud"
@@ -91,22 +90,10 @@
         android:drawablePadding="@dimen/dp_20"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_20"
-        android:text="推永存空间"
+        android:text="推至操作台"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp" />
-    <TextView
-        android:id="@+id/tv_look"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/text_bg_selector"
-        android:drawableLeft="@mipmap/icon_pop_look"
-        android:drawablePadding="@dimen/dp_20"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dp_20"
-        android:text="在线预览"
-        android:visibility="gone"
-        android:textColor="@android:color/background_dark"
-        android:textSize="16sp" />
+
     <TextView
         android:id="@+id/tv_rename"
         android:layout_width="match_parent"
@@ -117,9 +104,9 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_20"
         android:text="重命名"
+        android:visibility="gone"
         android:textColor="@android:color/background_dark"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_del"

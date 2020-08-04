@@ -36,6 +36,9 @@ import butterknife.OnClick;
 import cn.nzy.library.ClearEditText;
 import rx.Subscriber;
 
+/**
+ * 登录界面
+ */
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.myScrollView)
@@ -165,6 +168,8 @@ public class LoginActivity extends BaseActivity {
             drawable.setBounds(0, 0, drawable.getMinimumWidth(),
                     drawable.getMinimumHeight());
             mTvName.setCompoundDrawables(null, null, drawable, null);
+            mEtName.setText(SharedPreferencesUtils.getString(mContext,"mobile"));
+            mEtPass.setText(SharedPreferencesUtils.getString(mContext,"password"));
         }
     }
 
@@ -243,6 +248,7 @@ public class LoginActivity extends BaseActivity {
      * @param password
      */
     private void toPhoneLogin(String mobile, String password) {
+        msgid="1";
         RetrofitUtil.getInstance().phonefastlogin("+86", mobile, password, msgid, new Subscriber<BaseResponse<LoginRegisterModel>>() {
             @Override
             public void onCompleted() {
@@ -264,6 +270,8 @@ public class LoginActivity extends BaseActivity {
                     String token=baseResponse.getData().getToken();
                     SharedPreferencesUtils.put(mContext,"token",token);
                     showToast(baseResponse.getMsg());
+                    SharedPreferencesUtils.put(mContext,"mobile",mobile);
+                    SharedPreferencesUtils.put(mContext,"password",password);
                     toActivityFinish(MainActivity.class);
                 }
                 showToast(baseResponse.getMsg());

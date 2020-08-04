@@ -20,6 +20,9 @@ import com.fmapp.test01.utils.StatusBarUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * 主界面
+ */
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.main_radio)
     RadioGroup mRadioGroup;

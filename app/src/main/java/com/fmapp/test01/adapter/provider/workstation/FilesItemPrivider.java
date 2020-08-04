@@ -33,6 +33,7 @@ public class FilesItemPrivider extends BaseItemProvider<FilesModel, BaseViewHold
     @Override
     public void onClick(BaseViewHolder helper, FilesModel data, int position) {
         super.onClick(helper, data, position);
+
         showworkBottomDialog dialog = new showworkBottomDialog();
         dialog.BottomDialog(mContext, data, "0", position);
     }

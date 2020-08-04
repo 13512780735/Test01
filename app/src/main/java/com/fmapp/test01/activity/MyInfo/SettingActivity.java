@@ -17,6 +17,9 @@ import com.fmapp.test01.utils.StatusBarUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 设置
+ */
 public class SettingActivity extends BaseActivity {
     @BindView(R.id.tv_back)
     ImageView mBack;

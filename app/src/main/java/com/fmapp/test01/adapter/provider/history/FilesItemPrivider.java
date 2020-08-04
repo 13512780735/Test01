@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.adapter.BaseItemProvider;
 import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.HistoryAdapter;
+import com.fmapp.test01.fragment.cloud.showHistoryBottomDialog;
 import com.fmapp.test01.network.model.history.FilesModel;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;
@@ -28,5 +29,12 @@ public class FilesItemPrivider extends BaseItemProvider<FilesModel, BaseViewHold
         helper.setText(R.id.tvName, data.getName());
         helper.setText(R.id.tvContent, data.getSize() + "  " + data.getIntime());
 
+    }
+
+    @Override
+    public void onClick(BaseViewHolder helper, FilesModel data, int position) {
+        super.onClick(helper, data, position);
+        showHistoryBottomDialog dialog = new showHistoryBottomDialog();
+        dialog.BottomDialog(mContext, data, "0", position);
     }
 }

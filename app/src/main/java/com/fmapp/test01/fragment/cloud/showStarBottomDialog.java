@@ -12,7 +12,7 @@ import android.view.Window;
 import com.fmapp.test01.R;
 import com.fmapp.test01.activity.cloud.DownLoadActivity;
 import com.fmapp.test01.network.model.BaseResponse;
-import com.fmapp.test01.network.model.cloud.FilesModel;
+import com.fmapp.test01.network.model.star.FilesModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
 import com.fmapp.test01.utils.CustomDialog;
@@ -20,10 +20,9 @@ import com.fmapp.test01.utils.LoaddingDialog;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.ToastUtil;
 
-
 import rx.Subscriber;
 
-public class showCloudBottomDialog {
+public class showStarBottomDialog {
     private View view;
     private LoaddingDialog loaddingDialog;
     //type 0 文件类 1，在线压缩包
@@ -33,7 +32,7 @@ public class showCloudBottomDialog {
         //1、使用Dialog、设置style
         final Dialog dialog = new Dialog(context, R.style.DialogTheme);
         //2、设置布局
-        view = View.inflate(context, R.layout.cloud_dialog, null);
+        view = View.inflate(context, R.layout.star_dialog, null);
         dialog.setContentView(view);
         Window window = dialog.getWindow();
         //设置弹出位置
@@ -122,7 +121,7 @@ public class showCloudBottomDialog {
                         .setPositiveButton("确定", R.color.button_confirm, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                del(context, data.getId(), position);
+                                del(context, data.getFid(), position);
 //                                Intent intent = new Intent();
 //                                intent.setAction("android.intent.action.cloud");
 //                                intent.putExtra("id", position);
@@ -145,10 +144,8 @@ public class showCloudBottomDialog {
      * @param position
      */
     private void del(Context context, String id, int position) {
-
         loaddingDialog.show();
-
-        RetrofitUtil.getInstance().delfile(SharedPreferencesUtils.getString(context, "token"), Integer.valueOf(id), new Subscriber<BaseResponse<String>>() {
+        RetrofitUtil.getInstance().delcltfile(SharedPreferencesUtils.getString(context, "token"), Integer.valueOf(id), new Subscriber<BaseResponse<String>>() {
             @Override
             public void onCompleted() {
 
@@ -165,11 +162,13 @@ public class showCloudBottomDialog {
 
             @Override
             public void onNext(BaseResponse<String> baseResponse) {
+
+
                 loaddingDialog.dismiss();
                 if (baseResponse.getStatus() == 1) {
                     showToast(context, baseResponse.getMsg());
                     Intent intent = new Intent();
-                    intent.setAction("android.intent.action.cloud");
+                    intent.setAction("android.intent.action.star");
                     intent.putExtra("id", position);
                     context.sendBroadcast(intent);
                 }

@@ -10,8 +10,10 @@ import com.fmapp.test01.network.model.ImageModel;
 import com.fmapp.test01.network.model.LoginRegisterModel;
 import com.fmapp.test01.network.model.LoginCodeModel;
 import com.fmapp.test01.network.model.MemberModel;
+import com.fmapp.test01.network.model.SvipDownModel;
 import com.fmapp.test01.network.model.history.HistoryListModel;
 import com.fmapp.test01.network.model.star.StarListModel;
+import com.fmapp.test01.network.model.workStation.OnlineFilesModel;
 import com.fmapp.test01.network.model.workStation.WorkStationListModel;
 
 import okhttp3.MultipartBody;
@@ -192,6 +194,19 @@ public interface ApiService {
     );
 
     /**
+     * 删除操作台文件
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/delprofile")
+    Observable<BaseResponse<String>> delprofile(@Header("token") String token,
+                                                @Field("id") int id
+    );
+
+    /**
      * 下载过渡页
      *
      * @param token
@@ -231,6 +246,19 @@ public interface ApiService {
     );
 
     /**
+     * 删除星标文件
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/delcltfile")
+    Observable<BaseResponse<String>> delcltfile(@Header("token") String token,
+                                                @Field("id") int id
+    );
+
+    /**
      * 操作台文件列表数据（包括永久空间）
      *
      * @param token
@@ -248,6 +276,24 @@ public interface ApiService {
                                                                @Field("keywords") String keywords,
                                                                @Field("pg") int pg
     );
+
+    /**
+     * 预览/在线解压-压缩包文件-步骤1
+     *
+     * @param token
+     * @param id
+     * @param isview
+     * @param password
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/zip")
+    Observable<BaseResponse<OnlineFilesModel>> getzip(@Header("token") String token,
+                                                      @Field("id") int id,
+                                                      @Field("isview") int isview,
+                                                      @Field("password") String password
+    );
+
 
     /**
      * 星标文件列表数据
@@ -285,6 +331,19 @@ public interface ApiService {
     @POST("center/base")
     Observable<BaseResponse<MemberModel>> getMemberInfo(@Header("token") String token
 
+
+    );
+
+    /**
+     * 下载文件
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/svipdown")
+    Observable<BaseResponse<SvipDownModel>> svipdown(@Header("token") String token,
+                                                     @Field("id") int id
 
     );
 
