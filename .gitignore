@@ -1,21 +1,43 @@
+#Default
 *.iml
 .gradle
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
 /.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+/.idea/libraries
+/.idea/kotlinc.xml
+/.idea/inspectionProfiles
+/.idea/markdown-navigator/
+/.idea/markdown-navigator.xml
+/.idea/caches/
+
 .DS_Store
 /build
 /captures
-.externalNativ	git config --global user.email "you@example.com"
-              			git config --global user.name "Your Name"
+.externalNativeBuild
+javadocs/
 
-              			to set your account's default identity.
-              			Omit --global to set the identity only in this repository.eBuild
-.cxx
+# Intellij
+*.ipr
+*.iml
+*.iws
+**/.idea/.name
+**/.idea/compiler.xml
+**/.idea/copyright/profiles_settings.xml
+**/.idea/encodings.xml
+**/.idea/misc.xml
+**/.idea/modules.xml
+**/.idea/scopes/scope_settings.xml
+**/.idea/vcs.xml
+**/.idea/libraries
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/.idea/gradle.xml
+**/.idea/dictionaries
+**/.idea/dataSources.ids
+**/.idea/datasources.xml
+**/.idea/uiDesigner.xml
+**/.idea/runConfigurations.xml
+
 [user]
     name = name
     email = email

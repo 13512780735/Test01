@@ -27,3 +27,4 @@
     **[] $VALUES;
     public *;
 }
+-keep public class * implements com.ixuea.android.downloader.db.DownloadDBController

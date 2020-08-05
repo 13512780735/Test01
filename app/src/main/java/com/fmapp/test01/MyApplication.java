@@ -3,9 +3,12 @@ package com.fmapp.test01;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 
+import com.fmapp.test01.download.filedownloader.download.DownLoadService;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
+import com.liulishuo.filedownloader.FileDownloader;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,6 +52,10 @@ public class MyApplication extends Application {
         instance = this;
         getToken(mContext);
         serviceRun=false;
+        //Hawk存储初始化
+        //Hawk.init(this).build();
+        // 不耗时，做一些简单初始化准备工作，不会启动下载进程
+        this.startService(new Intent(this, DownLoadService.class));
     }
 
 
