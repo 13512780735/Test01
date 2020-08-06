@@ -28,3 +28,4 @@
     public *;
 }
 -keep public class * implements com.ixuea.android.downloader.db.DownloadDBController
+-keep class com.ixuea.android.downloader.domain.** { *; }

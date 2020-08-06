@@ -50,7 +50,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public" />
         </provider>
-        <service android:name=".download.filedownloader.download.DownLoadService" />
+        <service android:name=".download.service.DownloadService" />
     </application>
 
 </manifest>

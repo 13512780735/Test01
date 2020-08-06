@@ -3,20 +3,30 @@ package com.fmapp.test01.activity.cloud;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.arialyy.annotations.Download;
+import com.arialyy.annotations.DownloadGroup;
+import com.arialyy.aria.core.Aria;
+import com.arialyy.aria.core.common.AbsEntity;
+import com.arialyy.aria.core.task.DownloadGroupTask;
+import com.arialyy.aria.core.task.DownloadTask;
+import com.arialyy.aria.util.ALog;
 import com.fmapp.test01.R;
 import com.fmapp.test01.base.BaseActivity;
-import com.fmapp.test01.download.ListAdapter;
-import com.fmapp.test01.download.filedownloader.download.DownLoadManager;
-import com.fmapp.test01.download.filedownloader.download.DownLoadService;
-import com.fmapp.test01.download.filedownloader.download.TaskInfo;
+import com.fmapp.test01.download.DownloadAdapter;
 
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -26,34 +36,30 @@ public class DownLoadListActivity extends BaseActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
     };
 
-    private ListView listview;
+    private RecyclerView mRecycleView;
+
     @BindView(R.id.tv_back)
     ImageView mBack;
-    private String link, ext, name, size, id;
-    /*使用DownLoadManager时只能通过DownLoadService.getDownLoadManager()的方式来获取下载管理器，不能通过new DownLoadManager()的方式创建下载管理器*/
-    private DownLoadManager manager;
-    private ListAdapter adapter;
+   // private String link, ext, name, size, id;
+
+    private DownloadAdapter mAdapter;
+    private List<AbsEntity> mData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_down_load_list);
-        Bundle bundle = getIntent().getExtras();
-        id = bundle.getString("id");
-        link = bundle.getString("link");
-        ext = bundle.getString("ext");
-        name = bundle.getString("name");
-        size = bundle.getString("size");
-
-        listview = (ListView) this.findViewById(R.id.listView);
-        //  handler.sendEmptyMessageDelayed(1, 500);
-        manager = DownLoadService.getDownLoadManager();
-        Log.d("链接",link);
-        /*设置用户ID，客户端切换用户时可以显示相应用户的下载任务*/
-        /*断点续传需要服务器的支持，设置该项时要先确保服务器支持断点续传功能*/
-        manager.setSupportBreakpoint(true);
-        adapter = new ListAdapter(DownLoadListActivity.this, manager);
-        listview.setAdapter(adapter);
+//        Bundle bundle = getIntent().getExtras();
+//        id = bundle.getString("id");
+//        link = bundle.getString("link");
+//        ext = bundle.getString("ext");
+//        name = bundle.getString("name");
+//        size = bundle.getString("size");
+//        Log.d("id:->", id);
+//        Log.d("link:->", link);
+//        Log.d("ext:->", ext);
+//        Log.d("name:->", name);
+        Aria.download(this).register();
         initUI();
 
     }
@@ -63,29 +69,117 @@ public class DownLoadListActivity extends BaseActivity {
         setBackView();
         mBack.setImageDrawable(getResources().getDrawable(R.mipmap.icon_back));
         setTitle("下载列表");
-//        TaskInfo info = new TaskInfo();
-//        info.setFileName(name);
-//        /*服务器一般会有个区分不同文件的唯一ID，用以处理文件重名的情况*/
-//        info.setTaskID(name);
-//        info.setOnDownloading(true);
-//        /*将任务添加到下载队列，下载器会自动开始下载*/
-//        manager.addTask("AZNQ0825.mp4.zip", "http://s.d28.ihuolong.net/dlios.php?MDIwNFVvQjRhVVV3TFZMQWZVNkxlSUZpOFZUc3ZHVHl0WktwTzVRSEgwbnUrWU9LemNJRFVXSXF1aHd4bi9DR2RtVk5aekFhUzFNTUdaN242cDQrQ2RiUUUybnYvNU1kN1RJVFFZR1Y4a05MSTEzRDFiTitEOG0yenBNM2FldzVBSnluRFJLZm40Y25HMDBtQW9ZeXhxcWtWQ3pFSGFjR3YyYjA0MEg1dkJ3a0FoMW9vZHR1dnBLdmNybURPOXU3Rnh0YVZJQmJqbnZMek5IWlJjWDdiUGdVd2FHZDRqSWV3TEZicThGWkN2MVR6VithZHA4TCtjV2JiUzlMWlIyM1BsYlE%3D", "AZNQ0825.mp4.zip");
-//        adapter.addItem(info);
+        mRecycleView = findView(R.id.mRecycleView);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(mContext));
+        List<AbsEntity> temps = Aria.download(this).getTotalTaskList();
+        if (temps != null && !temps.isEmpty()) {
 
-        TaskInfo info = new TaskInfo();
-        info.setFileName(name);
-        /*服务器一般会有个区分不同文件的唯一ID，用以处理文件重名的情况*/
-        info.setTaskID(id);
-        info.setOnDownloading(true);
-        adapter.addItem(info);
+            for (AbsEntity temp : temps) {
+            }
+            mData.addAll(temps);
+        }
+        mAdapter = new DownloadAdapter(this, mData);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        mRecycleView.setAdapter(mAdapter);
     }
 
-  /*  Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            *//*获取下载管理器*//*
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+    @Download.onPre
+    void onPre(DownloadTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
 
+    @Download.onWait
+    void onWait(DownloadTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @Download.onTaskStart
+    void taskStart(DownloadTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @Download.onTaskResume
+    void taskResume(DownloadTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @Download.onTaskStop
+    void taskStop(DownloadTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @Download.onTaskCancel
+    void taskCancel(DownloadTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @Download.onTaskFail
+    void taskFail(DownloadTask task) {
+        if (task == null || task.getEntity() == null){
+            return;
         }
-    };*/
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @Download.onTaskComplete
+    void taskComplete(DownloadTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @Download.onTaskRunning void taskRunning(DownloadTask task) {
+        mAdapter.setProgress(task.getEntity());
+    }
+
+    //////////////////////////////////// 下面为任务组的处理 /////////////////////////////////////////
+
+    @DownloadGroup.onPre
+    void onGroupPre(DownloadGroupTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @DownloadGroup.onTaskStart
+    void groupTaskStart(DownloadGroupTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @DownloadGroup.onWait
+    void groupTaskWait(DownloadGroupTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @DownloadGroup.onTaskResume
+    void groupTaskResume(DownloadGroupTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @DownloadGroup.onTaskStop
+    void groupTaskStop(DownloadGroupTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @DownloadGroup.onTaskCancel
+    void groupTaskCancel(DownloadGroupTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @DownloadGroup.onTaskFail
+    void groupTaskFail(DownloadGroupTask task) {
+        if (task != null) {
+            mAdapter.updateState(task.getEntity());
+        }
+    }
+
+    @DownloadGroup.onTaskComplete
+    void groupTaskComplete(DownloadGroupTask task) {
+        mAdapter.updateState(task.getEntity());
+    }
+
+    @DownloadGroup.onTaskRunning()
+    void groupTaskRunning(DownloadGroupTask task) {
+        mAdapter.setProgress(task.getEntity());
+    }
 }

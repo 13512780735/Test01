@@ -7,10 +7,9 @@
     tools:context="com.fmapp.test01.activity.cloud.DownLoadListActivity">
 
     <include layout="@layout/topbar_nor"></include>
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/listView"
-        android:layout_alignParentTop="true"
-        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

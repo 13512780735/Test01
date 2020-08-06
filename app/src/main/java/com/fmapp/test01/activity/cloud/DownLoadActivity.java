@@ -2,22 +2,24 @@ package com.fmapp.test01.activity.cloud;
 
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.arialyy.aria.core.Aria;
 import com.fmapp.test01.R;
 import com.fmapp.test01.base.BaseActivity;
-import com.fmapp.test01.download.filedownloader.download.DownLoadManager;
-import com.fmapp.test01.download.filedownloader.download.DownLoadService;
-import com.fmapp.test01.download.filedownloader.download.TaskInfo;
 import com.fmapp.test01.network.model.BaseResponse;
 import com.fmapp.test01.network.model.DownLoadModel;
 import com.fmapp.test01.network.model.SvipDownModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
 import com.fmapp.test01.utils.StatusBarUtil;
+
+import java.io.File;
+import java.sql.SQLException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,7 +43,6 @@ public class DownLoadActivity extends BaseActivity {
     TextView tvContent;
     private int id;
     private DownLoadModel downLoadModel;
-    private DownLoadManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +53,6 @@ public class DownLoadActivity extends BaseActivity {
         StatusBarUtil.setLightMode(this);
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("id");
-
-        manager = DownLoadService.getDownLoadManager();
-        manager.setSupportBreakpoint(true);
         initUI();
         getData();
     }
@@ -145,14 +143,20 @@ public class DownLoadActivity extends BaseActivity {
                     bundle.putString("id", downLoadModel.getId());
                     bundle.putString("name", downLoadModel.getName());
                     bundle.putString("size", downLoadModel.getSize());
-
                     /*将任务添加到下载队列，下载器会自动开始下载*/
-                    manager.addTask(downLoadModel.getId(), link, downLoadModel.getName());
+                    addTask(link);
                     toActivity(DownLoadListActivity.class, bundle);
 
                 }
             }
+
         });
+    }
+
+    private void addTask(String link) {
+        Aria.download(this).load(link).setFilePath(Environment.getExternalStorageDirectory() + "/Download/" + downLoadModel.getName())
+                .create();
+
     }
 
     /**

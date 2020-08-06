@@ -7,7 +7,8 @@
     <color name="primary_dark">#FF0288D1</color>
     <color name="status_bar_color">@color/colorAccent</color>
     <color name="bottom_nav_bg">#999999</color>
-
+    <color name="icon_color">#FF4081</color>
+    <color name="bg_grey">#efefef</color>
     //分割线
     <color name="line">#e7e7e7</color>
     //图标颜色
