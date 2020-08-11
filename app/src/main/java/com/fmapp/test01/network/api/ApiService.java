@@ -347,6 +347,16 @@ public interface ApiService {
 
     );
 
+    /**
+     * 鲸选首页-顶部默认展示一级分类
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("choice/getjxnav")
+    Observable<BaseResponse<SvipDownModel>> getjxnav(@Header("token") String token
+
+    );
     @Multipart
     @POST("https://ucgimg.fmapp.com/img_server/kind/php/img_up.php")
     Observable<ImageModel> uploadImage(@Part MultipartBody.Part filePart, @Header("token") String token);

@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
@@ -82,14 +80,13 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.j256.ormlite:ormlite-android:5.0'
     implementation 'com.j256.ormlite:ormlite-core:5.0'
-    implementation 'com.liulishuo.filedownloader:library:1.7.7'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.41"
+//    implementation 'com.liulishuo.filedownloader:library:1.7.7'
+   // implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.41"
     implementation project(path: ':Aria')
-    implementation project(':AppFrame')
+    // implementation project(':AppFrame')
     implementation 'com.arialyy.aria:core:3.8.10'
     annotationProcessor 'com.arialyy.aria:compiler:3.8.10'
-    implementation 'com.fanjun:keeplive:1.1.22'
-    // implementation project(path: ':downloader')
+//    implementation 'com.fanjun:keeplive:1.1.22'
     //RecyclerView的适配器 ***
     // implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
     //implementation 'com.github.chaychan:MultipleItemRvAdapter:1.0.2'

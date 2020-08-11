@@ -4,7 +4,10 @@ package com.fmapp.test01.activity.cloud;
 import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,14 +19,10 @@ import com.arialyy.aria.core.Aria;
 import com.arialyy.aria.core.common.AbsEntity;
 import com.arialyy.aria.core.task.DownloadGroupTask;
 import com.arialyy.aria.core.task.DownloadTask;
-import com.arialyy.aria.util.ALog;
 import com.fmapp.test01.R;
 import com.fmapp.test01.base.BaseActivity;
 import com.fmapp.test01.download.DownloadAdapter;
 
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,18 +36,26 @@ public class DownLoadListActivity extends BaseActivity {
     };
 
     private RecyclerView mRecycleView;
-
+    private List<AbsEntity> mData = new ArrayList<>();
     @BindView(R.id.tv_back)
     ImageView mBack;
-   // private String link, ext, name, size, id;
-
     private DownloadAdapter mAdapter;
-    private List<AbsEntity> mData = new ArrayList<>();
+    // private String link, ext, name, size, id;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        if(!EventBus.getDefault().isRegistered(this)){//加上判断
+//            EventBus.getDefault().register(this);
+//        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_down_load_list);
+        Aria.download(this).register();
 //        Bundle bundle = getIntent().getExtras();
 //        id = bundle.getString("id");
 //        link = bundle.getString("link");
@@ -59,9 +66,20 @@ public class DownLoadListActivity extends BaseActivity {
 //        Log.d("link:->", link);
 //        Log.d("ext:->", ext);
 //        Log.d("name:->", name);
-        Aria.download(this).register();
         initUI();
+        initData();
+    }
 
+    private void initData() {
+        List<AbsEntity> temps = Aria.download(this).getTotalTaskList();
+        if (temps != null && !temps.isEmpty()) {
+
+            for (AbsEntity temp : temps) {
+            }
+            mData.addAll(temps);
+        }
+        mAdapter = new DownloadAdapter(this, mData);
+        mRecycleView.setAdapter(mAdapter);
     }
 
 
@@ -71,22 +89,9 @@ public class DownLoadListActivity extends BaseActivity {
         setTitle("下载列表");
         mRecycleView = findView(R.id.mRecycleView);
         mRecycleView.setLayoutManager(new LinearLayoutManager(mContext));
-        List<AbsEntity> temps = Aria.download(this).getTotalTaskList();
-        if (temps != null && !temps.isEmpty()) {
 
-            for (AbsEntity temp : temps) {
-            }
-            mData.addAll(temps);
-        }
-        mAdapter = new DownloadAdapter(this, mData);
-        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        mRecycleView.setAdapter(mAdapter);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
     @Download.onPre
     void onPre(DownloadTask task) {
         mAdapter.updateState(task.getEntity());
@@ -119,7 +124,7 @@ public class DownLoadListActivity extends BaseActivity {
 
     @Download.onTaskFail
     void taskFail(DownloadTask task) {
-        if (task == null || task.getEntity() == null){
+        if (task == null || task.getEntity() == null) {
             return;
         }
         mAdapter.updateState(task.getEntity());
@@ -130,7 +135,8 @@ public class DownLoadListActivity extends BaseActivity {
         mAdapter.updateState(task.getEntity());
     }
 
-    @Download.onTaskRunning void taskRunning(DownloadTask task) {
+    @Download.onTaskRunning
+    void taskRunning(DownloadTask task) {
         mAdapter.setProgress(task.getEntity());
     }
 
@@ -182,4 +188,12 @@ public class DownLoadListActivity extends BaseActivity {
     void groupTaskRunning(DownloadGroupTask task) {
         mAdapter.setProgress(task.getEntity());
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Aria.download(this).unRegister();
+    }
+
+
 }

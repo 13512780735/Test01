@@ -35,7 +35,6 @@ public abstract class AbsRVAdapter<T, Holder extends AbsHolder>
   protected List<T> mData = new ArrayList<>();
   protected Context mContext;
   Holder holder;
-
   public AbsRVAdapter(Context context, List<T> data) {
     mData = data;
     mContext = context;
@@ -46,13 +45,9 @@ public abstract class AbsRVAdapter<T, Holder extends AbsHolder>
   @Override public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view =
         LayoutInflater.from(parent.getContext()).inflate(setLayoutId(viewType), parent, false);
-    //LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-    //VD binding = DataBindingUtil.inflate(inflater, setLayoutId(viewType), parent, false);
-    //;
     holder = getViewHolder(view, viewType);
     return holder;
   }
-
   protected abstract Holder getViewHolder(View convertView, int viewType);
 
   @Override public void onBindViewHolder(Holder holder, int position) {

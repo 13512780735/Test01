@@ -16,7 +16,6 @@
 package com.arialyy.aria.http.download;
 
 import android.os.Handler;
-import com.arialyy.aria.core.download.DTaskWrapper;
 import com.arialyy.aria.core.group.AbsSubDLoadUtil;
 import com.arialyy.aria.core.group.SubRecordHandler;
 import com.arialyy.aria.core.loader.GroupSubThreadStateManager;

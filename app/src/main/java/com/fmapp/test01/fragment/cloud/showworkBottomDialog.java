@@ -3,6 +3,8 @@ package com.fmapp.test01.fragment.cloud;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,9 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.fmapp.test01.R;
+import com.fmapp.test01.activity.cloud.DownLoadListActivity;
 import com.fmapp.test01.network.model.BaseResponse;
+import com.fmapp.test01.network.model.SvipDownModel;
 import com.fmapp.test01.network.model.workStation.FilesModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
@@ -18,6 +22,9 @@ import com.fmapp.test01.utils.CustomDialog;
 import com.fmapp.test01.utils.LoaddingDialog;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.ToastUtil;
+
+import java.io.File;
+import java.sql.SQLException;
 
 import rx.Subscriber;
 
@@ -60,6 +67,7 @@ public class showworkBottomDialog {
 //                bundle.putInt("id", Integer.parseInt(data.getId()));
 //                intent.putExtras(bundle);
 //                context.startActivity(intent);
+                toDownLoad(context, data);
                 dialog.dismiss();
             }
         });
@@ -130,7 +138,73 @@ public class showworkBottomDialog {
 
     }
 
+    /**
+     * 下载
+     *
+     * @param context
+     */
+    private void toDownLoad(Context context, FilesModel data) {
+        loaddingDialog.show();
+        RetrofitUtil.getInstance().svipdown(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data.getId()), new Subscriber<BaseResponse<SvipDownModel>>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                loaddingDialog.dismiss();
+                if (e instanceof DataResultException) {
+                    DataResultException resultException = (DataResultException) e;
+                    showToast(context, resultException.getMsg());
+                }
+            }
+
+            @Override
+            public void onNext(BaseResponse<SvipDownModel> baseResponse) {
+                loaddingDialog.dismiss();
+                if (baseResponse.getStatus() == 1) {
+                    String link = baseResponse.getData().getLink();
+                    String ext = baseResponse.getData().getExtension();
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("link", link);
+//                    bundle.putString("ext", ext);
+//                    bundle.putString("id", downLoadModel.getId());
+//                    bundle.putString("name", downLoadModel.getName());
+//                    bundle.putString("size", downLoadModel.getSize());
+                    /*将任务添加到下载队列，下载器会自动开始下载*/
+                    addTask(context, link, data);
+                    Intent intent = new Intent(context, DownLoadListActivity.class);
+                    context.startActivity(intent);
+
+                }
+            }
+
+        });
+    }
+
+    private void addTask(Context context, String link, FilesModel data) {
+//        downloadManager = DownloadService.getDownloadManager(context.getApplicationContext());
+//        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "file");
+//        if (!file.exists()) {
+//            file.mkdirs();
+//        }
+//        String path = file.getAbsolutePath().concat("/").concat(data.getName());
+//        downloadInfo = new DownloadInfo.Builder().setUrl(link)
+//                .setPath(path)
+//                .build();
+//        downloadManager.download(downloadInfo);
+//        downloadManager.resume(downloadInfo);
+//        String icon = "https://android-artworks.25pp.com/fs08/2018/11/28/9/110_5eb0ac0aebf3abcf91590b8a0a320630_con_130x130.png";
+//        MyBusinessInfLocal myBusinessInfLocal = new MyBusinessInfLocal(
+//                data.getId(), data.getName(), icon, link);
+//        try {
+//            DBController.getInstance(context.getApplicationContext()).createOrUpdateMyDownloadInfo(myBusinessInfLocal);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+    }
 
     /**
      * 推至永存空间

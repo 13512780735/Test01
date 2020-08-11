@@ -411,7 +411,18 @@ public class RetrofitUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-
+    /**
+     * 鲸选首页-顶部默认展示一级分类
+     * @param token
+     * @return
+     */
+    public void getjxnav(String token, Subscriber<BaseResponse<SvipDownModel>> subscriber) {
+        mApiService.getjxnav(token)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
     /**
      * 获取个人消息
      *

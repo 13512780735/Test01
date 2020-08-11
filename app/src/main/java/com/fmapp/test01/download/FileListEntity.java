@@ -21,7 +21,7 @@ package com.fmapp.test01.download;
  */
 
 public class FileListEntity {
-  public String name, key, downloadPath;
+  public String name, key, downloadPath,id,ext;
 
   /**
    * 0：普通任务

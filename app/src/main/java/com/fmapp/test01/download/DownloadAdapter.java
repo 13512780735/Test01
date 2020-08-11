@@ -219,6 +219,14 @@ public class DownloadAdapter extends AbsRVAdapter<AbsEntity, DownloadAdapter.Sim
         //stop(entity);
       }
     });
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mData.remove(entity);
+        notifyDataSetChanged();
+        cancel(entity);
+      }
+    });
     //if (holder instanceof GroupHolder){
     //  handleSubChild((GroupHolder) holder, entity);
     //}
@@ -388,4 +396,18 @@ public class DownloadAdapter extends AbsRVAdapter<AbsEntity, DownloadAdapter.Sim
       childList = itemView.findViewById(R.id.child_list);
     }
   }
+
+//  @Override
+//  public void onBindViewHolder(SimpleHolder holder, final int position) {
+//    super.onBindViewHolder(holder, position);
+//
+//    holder.itemView.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        if (onItemClickListener != null) {
+//          onItemClickListener.onItemClick(position);
+//        }
+//      }
+//    });
+//  }
 }

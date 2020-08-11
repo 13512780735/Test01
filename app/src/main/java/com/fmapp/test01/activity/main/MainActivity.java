@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioGroup;
@@ -16,6 +18,8 @@ import com.fmapp.test01.utils.AppManager;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.StatusBarUtil;
 
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,5 +82,50 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public boolean isForeground = false;
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (isForeground == false) {
+//            T.show(MainActivity.this, "运行", 1);
+//            isForeground = true;
+//        }
+//    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (!isAppOnForeground()) {
+//            isForeground = false;
+//            T.show(MainActivity.this, "暂停", 1);
+//            Log.d("已经退出","1111");
+//        }
+//    }
+
+    /**
+     * 程序是否在前台运行
+     *
+     * @return
+     */
+    public boolean isAppOnForeground() {
+        ActivityManager activityManager = (ActivityManager) getApplicationContext()
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        String packageName = getApplicationContext().getPackageName();
+/**
+ * 获取Android设备中所有正在运行的App
+ */
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+                .getRunningAppProcesses();
+        if (appProcesses == null)
+            return false;
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+// The name of the process that this object is associated with.
+            if (appProcess.processName.equals(packageName)
+                    && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
