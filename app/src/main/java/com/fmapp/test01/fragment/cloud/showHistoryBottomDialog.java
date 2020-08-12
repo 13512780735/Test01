@@ -87,7 +87,7 @@ public class showHistoryBottomDialog {
                     @Override
                     public void onNext(BaseResponse<String> baseResponse) {
                         loaddingDialog.dismiss();
-                        if (baseResponse.getStatus() == 1) {
+                        if ("1".equals(baseResponse.getStatus()) ) {
                             showToast(context, baseResponse.getMsg());
 //                            Intent intent = new Intent();
 //                            intent.setAction("android.intent.action.cloud");
@@ -169,7 +169,7 @@ public class showHistoryBottomDialog {
             @Override
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     showToast(context, baseResponse.getMsg());
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.history");

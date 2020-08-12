@@ -22,7 +22,7 @@ public class MyGsonResponseBodyConverter <T> implements Converter<ResponseBody,T
         String response = value.string();
         try {
             BaseBean baseBean = gson.fromJson(response,BaseBean.class);
-            if (baseBean.getStatus()==1) {
+            if ("1".equals(baseBean.getStatus())) {
                 return gson.fromJson(response,type);
             }
             throw new DataResultException(baseBean.getMsg(),baseBean.getStatus());

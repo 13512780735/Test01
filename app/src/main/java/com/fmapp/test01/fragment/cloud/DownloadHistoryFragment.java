@@ -79,7 +79,7 @@ public class DownloadHistoryFragment extends BaseFragment implements SwipeRefres
             @Override
             public void onNext(BaseResponse<HistoryListModel> baseResponse) {
                 LoaddingDismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     HistoryListModel historyListModel = baseResponse.getData();
                     if (historyListModel.getFiles().size() > 0) {
                         List<HistoryListModel.FilesBean> filesBeans = historyListModel.getFiles();

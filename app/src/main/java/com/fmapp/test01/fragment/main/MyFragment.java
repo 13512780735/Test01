@@ -71,7 +71,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onNext(BaseResponse<MemberModel> baseResponse) {
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     refreshUI(baseResponse.getData());
                 } else {
                     showToast(baseResponse.getMsg());

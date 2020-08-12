@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 
 public class BaseResponse<T> implements Serializable {
-    public int status;
+    public String status;
     public String msg;
     public T data;
     public boolean isFalg;
@@ -26,11 +26,11 @@ public class BaseResponse<T> implements Serializable {
         isFalg = falg;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

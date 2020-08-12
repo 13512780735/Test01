@@ -99,7 +99,7 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
             public void onNext(BaseResponse<WorkStationListModel> baseResponse) {
                 LoaddingDismiss();
                 Log.d("数据Work", baseResponse.getMsg());
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     WorkStationListModel workStationListModel = baseResponse.getData();
 
                     if (workStationListModel.getSpace().toString().length() > 0) {

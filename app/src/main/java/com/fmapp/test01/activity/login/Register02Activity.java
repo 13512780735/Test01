@@ -312,7 +312,7 @@ public class Register02Activity extends BaseActivity {
            @Override
            public void onNext(BaseResponse<LoginRegisterModel> baseResponse) {
                LoaddingDismiss();
-               if(baseResponse.getStatus()==1){
+               if("1".equals(baseResponse.getStatus()) ){
                    String token=baseResponse.getData().getToken();
                    SharedPreferencesUtils.put(mContext,"token",token);
                    showToast(baseResponse.getMsg());
@@ -351,7 +351,7 @@ public class Register02Activity extends BaseActivity {
             @Override
             public void onNext(BaseResponse<LoginRegisterModel> baseResponse) {
                 LoaddingDismiss();
-                if(baseResponse.getStatus()==1){
+                if("1".equals(baseResponse.getStatus()) ){
                     String token=baseResponse.getData().getToken();
                     SharedPreferencesUtils.put(mContext,"token",token);
                     showToast(baseResponse.getMsg());

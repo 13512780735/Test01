@@ -75,7 +75,7 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
             @Override
             public void onNext(BaseResponse<WorkStationListModel> baseResponse) {
                 LoaddingDismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     WorkStationListModel workStationListModel = baseResponse.getData();
                     if (workStationListModel.getFolder().size() > 0) {
                         List<WorkStationListModel.FolderBean> folderBeans = workStationListModel.getFolder();

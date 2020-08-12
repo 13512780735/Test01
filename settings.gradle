@@ -1,2 +1,2 @@
-include ':app', ':SwipeBackLayout', ':PhoneAreaCodeLibray', ':AdapterLibrary', ':commonrefreshlayout', ':PublicComponent', ':Aria', ':AriaAnnotations', ':HttpComponent'
+include ':app', ':SwipeBackLayout', ':PhoneAreaCodeLibray', ':AdapterLibrary', ':commonrefreshlayout', ':AriaAnnotations', ':download'
 rootProject.name='Test01'

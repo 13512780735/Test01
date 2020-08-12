@@ -252,7 +252,7 @@ public class RegisterActivity extends BaseActivity {
             public void onNext(BaseResponse<LoginCodeModel> baseResponse) {
                 Log.d("数据", baseResponse.getData().toString());
                 LoaddingDismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     msgid = baseResponse.getData().getMsgid();
                     Log.d("msgid", msgid);
                     // ToastCustom.showToast(mContext, baseResponse.getMsg());

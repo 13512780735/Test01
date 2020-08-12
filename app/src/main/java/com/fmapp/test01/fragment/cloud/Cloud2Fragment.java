@@ -94,7 +94,7 @@ public class Cloud2Fragment extends BaseFragment implements SwipeRefreshAdapterV
             public void onNext(BaseResponse<FilesListModel> baseResponse) {
                 LoaddingDismiss();
                 Log.d("数据Cloud",baseResponse.getMsg());
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     FilesListModel filesListModel = baseResponse.getData();
                     if (filesListModel.getFolder().size() > 0) {
                         List<FilesListModel.FolderBean> folderBeans = filesListModel.getFolder();

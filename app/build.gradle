@@ -78,14 +78,14 @@ dependencies {
     //权限
     implementation 'com.karumi:dexter:4.2.0'
     implementation 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.j256.ormlite:ormlite-android:5.0'
-    implementation 'com.j256.ormlite:ormlite-core:5.0'
+    implementation project(path: ':download')
+    implementation 'org.greenrobot:greendao:3.2.2'
 //    implementation 'com.liulishuo.filedownloader:library:1.7.7'
-   // implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.41"
-    implementation project(path: ':Aria')
+    // implementation "org.jetbrains.kotlin:kotlin-stdlib:1.3.41"
+//    implementation project(path: ':Aria')
     // implementation project(':AppFrame')
-    implementation 'com.arialyy.aria:core:3.8.10'
-    annotationProcessor 'com.arialyy.aria:compiler:3.8.10'
+//    implementation 'com.arialyy.aria:core:3.8.10'
+//    annotationProcessor 'com.arialyy.aria:compiler:3.8.10'
 //    implementation 'com.fanjun:keeplive:1.1.22'
     //RecyclerView的适配器 ***
     // implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'

@@ -92,7 +92,7 @@ public class StarFragment extends BaseFragment implements SwipeRefreshAdapterVie
             @Override
             public void onNext(BaseResponse<StarListModel> baseResponse) {
                 LoaddingDismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     StarListModel starListModel = baseResponse.getData();
                     if (starListModel.getFiles().size() > 0) {
                         List<StarListModel.FilesBean> filesBeans = starListModel.getFiles();

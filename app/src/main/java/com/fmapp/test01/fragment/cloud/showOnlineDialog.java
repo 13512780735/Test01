@@ -86,7 +86,7 @@ public class showOnlineDialog {
             @Override
             public void onNext(BaseResponse<OnlineFilesModel> baseResponse) {
                 loaddingDialog.dismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     Log.d("url", baseResponse.getData().getUrl());
                 } else {
                     showToast(context, baseResponse.getMsg());

@@ -7,11 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.arialyy.aria.core.Aria;
+import com.androidev.download.DownloadManager;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 
 import java.util.LinkedList;
@@ -57,8 +56,7 @@ public class MyApplication extends Application {
         instance = this;
         getToken(mContext);
         serviceRun = false;
-        Aria.init(this);
-        Aria.get(this).getDownloadConfig().setMaxTaskNum(3);
+        DownloadManager.getInstance().initialize(this, 3);
         // startService(new Intent(this, KeepLifeService.class));
         //Hawk存储初始化
         //Hawk.init(this).build();
@@ -114,7 +112,7 @@ public class MyApplication extends Application {
                 if (isRunInBackground) {
                     // 后台到前台，在此进行相应操作
                     isRunInBackground = false;
-                    Toast.makeText(mContext, "推至前台了", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(mContext, "推至前台了", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -134,8 +132,8 @@ public class MyApplication extends Application {
                 if (account == 0) {
                     // 前台到后台，在此进行相应操作
                     isRunInBackground = true;
-                    Toast.makeText(mContext, "推至后台了", Toast.LENGTH_SHORT).show();
-                    Log.d("推至后台了", "");
+                 //   Toast.makeText(mContext, "推至后台了", Toast.LENGTH_SHORT).show();
+                //    Log.d("推至后台了", "");
                 }
             }
 

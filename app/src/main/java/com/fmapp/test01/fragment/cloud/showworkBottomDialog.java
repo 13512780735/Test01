@@ -163,7 +163,7 @@ public class showworkBottomDialog {
             @Override
             public void onNext(BaseResponse<SvipDownModel> baseResponse) {
                 loaddingDialog.dismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     String link = baseResponse.getData().getLink();
                     String ext = baseResponse.getData().getExtension();
 //                    Bundle bundle = new Bundle();
@@ -233,7 +233,7 @@ public class showworkBottomDialog {
             @Override
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     showToast(context, baseResponse.getMsg());
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.work");
@@ -274,7 +274,7 @@ public class showworkBottomDialog {
             @Override
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     showToast(context, baseResponse.getMsg());
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.work");

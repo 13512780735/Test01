@@ -6,4 +6,14 @@
     <string name="complete" translatable="false">完成</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="open_failed" translatable="false">未找到打开此类型文件的应用</string>
+    <string name="download_unknown" translatable="false">未知</string>
+    <string name="download_retry" translatable="false">重试</string>
+    <string name="download_pause" translatable="false">暂停</string>
+    <string name="download_resume" translatable="false">继续</string>
+    <string name="download_finish" translatable="false">完成</string>
+    <string name="download_wait" translatable="false">等待</string>
+    <string name="label_download" translatable="false">下载</string>
+    <string name="download_date_format" translatable="false">M月d日</string>
+    <string name="download_delete_waring" translatable="false">确认删除已下载资源?</string>
 </resources>

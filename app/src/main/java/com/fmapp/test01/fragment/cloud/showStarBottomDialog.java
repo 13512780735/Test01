@@ -87,7 +87,7 @@ public class showStarBottomDialog {
                     @Override
                     public void onNext(BaseResponse<String> baseResponse) {
                         loaddingDialog.dismiss();
-                        if (baseResponse.getStatus() == 1) {
+                        if ("1".equals(baseResponse.getStatus()) ) {
                             showToast(context, baseResponse.getMsg());
                         } else {
                             showToast(context, baseResponse.getMsg());
@@ -165,7 +165,7 @@ public class showStarBottomDialog {
 
 
                 loaddingDialog.dismiss();
-                if (baseResponse.getStatus() == 1) {
+                if ("1".equals(baseResponse.getStatus()) ) {
                     showToast(context, baseResponse.getMsg());
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.star");

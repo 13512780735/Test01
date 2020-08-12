@@ -8,8 +8,44 @@
 
     <include layout="@layout/topbar_nor"></include>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mRecycleView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvContinue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/dp_10"
+                android:text="进行中(0)"></TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/download_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"></androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/tvFinish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/dp_10"
+                android:text="已完成(0)"></TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/downloaded_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"></androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

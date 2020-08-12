@@ -266,7 +266,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onNext(BaseResponse<LoginRegisterModel> baseResponse) {
-                if(baseResponse.getStatus()==1){
+                if("1".equals(baseResponse.getStatus()) ){
                     String token=baseResponse.getData().getToken();
                     SharedPreferencesUtils.put(mContext,"token",token);
                     showToast(baseResponse.getMsg());
@@ -304,7 +304,7 @@ public class LoginActivity extends BaseActivity {
             public void onNext(BaseResponse<LoginRegisterModel> baseResponse) {
                 Log.d("数据",baseResponse.getMsg());
                 LoaddingDismiss();
-                if(baseResponse.getStatus()==1){
+                if("1".equals(baseResponse.getStatus()) ){
                     String token=baseResponse.getData().getToken();
                     SharedPreferencesUtils.put(mContext,"token",token);
                     SharedPreferencesUtils.put(mContext,"mobile",mobile);
@@ -355,7 +355,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onNext(BaseResponse<LoginCodeModel> baseResponse) {
                 LoaddingDismiss();
-                if(baseResponse.getStatus()==1){
+                if("1".equals(baseResponse.getStatus()) ){
                     msgid=baseResponse.getData().getMsgid();
                     showToast(baseResponse.getMsg());
                 }else {
