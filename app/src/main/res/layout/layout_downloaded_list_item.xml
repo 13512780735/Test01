@@ -76,12 +76,14 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-                <TextView
+                <ImageView
                     android:id="@+id/download_status"
-                    android:layout_width="50dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/dp_5"></TextView>
+                    android:src="@mipmap/icon_download_finish"
+                    android:paddingRight="@dimen/dp_10"
+                    android:layout_margin="@dimen/dp_5"></ImageView>
             </LinearLayout>
 
             <View
