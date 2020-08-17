@@ -27,4 +27,9 @@ public class FolderItemPrivider extends BaseItemProvider<FolderModel, BaseViewHo
         helper.setText(R.id.tvName, data.getName());
         helper.setText(R.id.tvContent,  data.getIntime());
     }
+
+    @Override
+    public void onClick(BaseViewHolder helper, FolderModel data, int position) {
+        super.onClick(helper, data, position);
+    }
 }

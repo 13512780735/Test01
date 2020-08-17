@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.file.work.WorkFilePreviewActivity"></activity>
+        <activity android:name=".activity.file.work.workFilePreviewActivity"></activity>
+        <activity android:name=".activity.file.work.WorkFilePreviewActivity" />
         <activity android:name=".activity.file.ZipPreviewActivity" />
         <activity android:name=".activity.login.SplashActivity">
             <intent-filter>
