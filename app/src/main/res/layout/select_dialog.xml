@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_my_bg"
+    android:paddingBottom="@dimen/dp_30"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="5dp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@mipmap/icon_pop_top"></View>
+
+    <TextView
+        android:id="@+id/tvName01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:text="PPT"></TextView>
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/id_flowlayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        zhy:max_select="1"></com.zhy.view.flowlayout.TagFlowLayout>
+
+    <TextView
+        android:id="@+id/tvName02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:text="PPT"></TextView>
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/id_flowlayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        zhy:max_select="1"></com.zhy.view.flowlayout.TagFlowLayout>
+</LinearLayout>

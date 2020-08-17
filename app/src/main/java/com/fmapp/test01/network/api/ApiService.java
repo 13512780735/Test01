@@ -5,13 +5,17 @@ import com.fmapp.test01.MyApplication;
 import com.fmapp.test01.network.EmptyEntity;
 import com.fmapp.test01.network.model.BaseResponse;
 import com.fmapp.test01.network.model.DownLoadModel;
+import com.fmapp.test01.network.model.FSLModel;
 import com.fmapp.test01.network.model.FilesListModel;
 import com.fmapp.test01.network.model.ImageModel;
+import com.fmapp.test01.network.model.JXNavModel;
 import com.fmapp.test01.network.model.LoginRegisterModel;
 import com.fmapp.test01.network.model.LoginCodeModel;
 import com.fmapp.test01.network.model.MemberModel;
 import com.fmapp.test01.network.model.SvipDownModel;
+import com.fmapp.test01.network.model.ZipModel;
 import com.fmapp.test01.network.model.history.HistoryListModel;
+import com.fmapp.test01.network.model.select.JXHomeModel;
 import com.fmapp.test01.network.model.star.StarListModel;
 import com.fmapp.test01.network.model.workStation.OnlineFilesModel;
 import com.fmapp.test01.network.model.workStation.WorkStationListModel;
@@ -168,7 +172,35 @@ public interface ApiService {
     );
 
     /**
-     * 删除文件
+     * 云空间获取文件的飞速链
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/getfsl")
+    Observable<BaseResponse<FSLModel>> getfsl(@Header("token") String token,
+                                              @Field("id") int id
+    );
+
+    /**
+     * 云空间修改文件名
+     *
+     * @param token
+     * @param id
+     * @param name
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/filerename")
+    Observable<BaseResponse<String>> filerename(@Header("token") String token,
+                                                @Field("name") String name,
+                                                @Field("id") int id
+    );
+
+    /**
+     * 云空间删除文件
      *
      * @param token
      * @param id
@@ -181,7 +213,7 @@ public interface ApiService {
     );
 
     /**
-     * 推至操作台
+     * 云空间推至操作台
      *
      * @param token
      * @param id
@@ -194,7 +226,7 @@ public interface ApiService {
     );
 
     /**
-     * 删除操作台文件
+     * 操作台删除操作台文件
      *
      * @param token
      * @param id
@@ -207,7 +239,7 @@ public interface ApiService {
     );
 
     /**
-     * 下载过渡页
+     * 操作台下载过渡页
      *
      * @param token
      * @param id
@@ -220,7 +252,7 @@ public interface ApiService {
     );
 
     /**
-     * 转存至永久空间
+     * 操作台转存至永久空间
      *
      * @param token
      * @param id
@@ -232,6 +264,36 @@ public interface ApiService {
                                             @Field("id") int id
     );
 
+    /**
+     *在线解压
+     * @param token
+     * @param isview
+     * @param password
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/zip")
+    Observable<BaseResponse<String>> zip(@Header("token") String token,
+                                         @Field("id") int id,
+                                           @Field("isview") int isview,
+                                           @Field("password") String password
+    );
+    /**在线预览
+     * 预览/在线解压-压缩包文件-步骤1
+     *
+     * @param token
+     * @param id
+     * @param isview
+     * @param password
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/zip")
+    Observable<BaseResponse<OnlineFilesModel>> getzip(@Header("token") String token,
+                                                      @Field("id") int id,
+                                                      @Field("isview") int isview,
+                                                      @Field("password") String password
+    );
     /**
      * 星标文件
      *
@@ -246,7 +308,7 @@ public interface ApiService {
     );
 
     /**
-     * 删除星标文件
+     * 星标删除星标文件
      *
      * @param token
      * @param id
@@ -256,6 +318,21 @@ public interface ApiService {
     @POST("file/delcltfile")
     Observable<BaseResponse<String>> delcltfile(@Header("token") String token,
                                                 @Field("id") int id
+    );
+
+    /**
+     * 修改星标文件名
+     *
+     * @param token
+     * @param name
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/cltrename")
+    Observable<BaseResponse<String>> cltrename(@Header("token") String token,
+                                               @Field("name") String name,
+                                               @Field("id") int id
     );
 
     /**
@@ -277,22 +354,7 @@ public interface ApiService {
                                                                @Field("pg") int pg
     );
 
-    /**
-     * 预览/在线解压-压缩包文件-步骤1
-     *
-     * @param token
-     * @param id
-     * @param isview
-     * @param password
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("file/zip")
-    Observable<BaseResponse<OnlineFilesModel>> getzip(@Header("token") String token,
-                                                      @Field("id") int id,
-                                                      @Field("isview") int isview,
-                                                      @Field("password") String password
-    );
+
 
 
     /**
@@ -336,6 +398,7 @@ public interface ApiService {
 
     /**
      * 下载文件
+     *
      * @param token
      * @param id
      * @return
@@ -348,15 +411,42 @@ public interface ApiService {
     );
 
     /**
-     * 鲸选首页-顶部默认展示一级分类
+     * 操作台下载文件
+     *
      * @param token
+     * @param id
      * @return
      */
     @FormUrlEncoded
-    @POST("choice/getjxnav")
-    Observable<BaseResponse<SvipDownModel>> getjxnav(@Header("token") String token
+    @POST("file/prodown")
+    Observable<BaseResponse<SvipDownModel>> prodown(@Header("token") String token,
+                                                    @Field("id") int id,
+                                                    @Field("isview") int isview
 
     );
+
+    /**
+     * 鲸选首页-顶部默认展示一级分类
+     *
+     * @param token
+     * @return
+     */
+    @POST("choice/getjxnav")
+    Observable<BaseResponse<JXNavModel>> getjxnav(@Header("token") String token
+
+    );
+
+    /**
+     * 鲸选首页-进入首页后展示的鲸选数据
+     *
+     * @param token
+     * @return
+     */
+    @POST("choice/getjxtopfile")
+    Observable<BaseResponse<JXHomeModel>> getjxtopfile(@Header("token") String token
+
+    );
+
     @Multipart
     @POST("https://ucgimg.fmapp.com/img_server/kind/php/img_up.php")
     Observable<ImageModel> uploadImage(@Part MultipartBody.Part filePart, @Header("token") String token);

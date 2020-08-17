@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.adapter.BaseItemProvider;
 import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.CloudAdapter;
-import com.fmapp.test01.fragment.cloud.showCloudBottomDialog;
+import com.fmapp.test01.fragment.cloud.cloud2.showCloudBottomDialog;
 import com.fmapp.test01.network.model.cloud.FilesModel;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;

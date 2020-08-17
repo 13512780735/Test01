@@ -1,12 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:crl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.main.SelectFragment">
-    <include layout="@layout/main_header_item"
-        android:id="@+id/include"></include>
-    <!-- TODO: Update blank fragment layout -->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <include
+            android:id="@+id/include"
+            layout="@layout/main_header_item"></include>
+        <!-- TODO: Update blank fragment layout -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <RadioGroup
+                android:id="@+id/mRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_background_color"
+                android:orientation="horizontal"></RadioGroup>
+        </HorizontalScrollView>
+
+        <com.mylhyl.crlayout.SwipeRefreshRecyclerView
+            android:id="@+id/recycler_view"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            crl:load_animator="true"></com.mylhyl.crlayout.SwipeRefreshRecyclerView>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

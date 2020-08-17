@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/cloud_online_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_20">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:gravity="center"
+        android:text="重命名"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16"></TextView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/default_window_background"></View>
+
+    <EditText
+        android:id="@+id/edPass"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@null"
+        android:hint="请输入新名称"></EditText>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/default_window_background"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="horizontal">
+
+
+        <com.fmapp.test01.widght.BorderTextView
+            android:id="@+id/tvCancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/button_confirm"
+            app:contentBackColor="@color/white"
+            app:cornerRadius="@dimen/dp_5"
+            app:strokeColor01="@color/button_confirm"
+            app:strokeWidth01="1dp"></com.fmapp.test01.widght.BorderTextView>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"></View>
+
+        <com.fmapp.test01.widght.BorderTextView
+            android:id="@+id/tvConfirm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/white"
+            app:contentBackColor="@color/button_confirm"
+            app:cornerRadius="@dimen/dp_5"></com.fmapp.test01.widght.BorderTextView>
+    </LinearLayout>
+</LinearLayout>

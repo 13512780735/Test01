@@ -7,8 +7,9 @@ public class com {
 
         if ("zip".equals(ext)) {
             return R.mipmap.icon_zip;
-        }
-        else if ("png".equals(ext)) {
+        } else if ("png".equals(ext)) {
+            return R.mipmap.icon_photo;
+        } else if ("jpg".equals(ext)) {
             return R.mipmap.icon_photo;
         } else if ("ipa".equals(ext)) {
             return R.mipmap.icon_mac;
@@ -20,9 +21,15 @@ public class com {
             return R.mipmap.icon_txt;
         } else if ("doc".equals(ext)) {
             return R.mipmap.icon_word;
+        } else if ("docx".equals(ext)) {
+            return R.mipmap.icon_word;
         } else if ("ppt".equals(ext)) {
             return R.mipmap.icon_ppt;
+        } else if ("pptx".equals(ext)) {
+            return R.mipmap.icon_ppt;
         } else if ("xls".equals(ext)) {
+            return R.mipmap.icon_excelicon;
+        } else if ("xlsx".equals(ext)) {
             return R.mipmap.icon_excelicon;
         } else if ("mp4".equals(ext)) {
             return R.mipmap.icon_video;
@@ -31,6 +38,6 @@ public class com {
         } else if ("apk".equals(ext)) {
             return R.mipmap.icon_apki;
         } else
-            return R.mipmap.icon_folder;
+            return R.mipmap.icon_general;
     }
 }

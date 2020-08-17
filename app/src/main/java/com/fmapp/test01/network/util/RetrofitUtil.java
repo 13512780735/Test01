@@ -7,12 +7,15 @@ import com.fmapp.test01.network.EmptyEntity;
 import com.fmapp.test01.network.api.ApiService;
 import com.fmapp.test01.network.model.BaseResponse;
 import com.fmapp.test01.network.model.DownLoadModel;
+import com.fmapp.test01.network.model.FSLModel;
 import com.fmapp.test01.network.model.FilesListModel;
+import com.fmapp.test01.network.model.JXNavModel;
 import com.fmapp.test01.network.model.LoginRegisterModel;
 import com.fmapp.test01.network.model.LoginCodeModel;
 import com.fmapp.test01.network.model.MemberModel;
 import com.fmapp.test01.network.model.SvipDownModel;
 import com.fmapp.test01.network.model.history.HistoryListModel;
+import com.fmapp.test01.network.model.select.JXHomeModel;
 import com.fmapp.test01.network.model.star.StarListModel;
 import com.fmapp.test01.network.model.workStation.OnlineFilesModel;
 import com.fmapp.test01.network.model.workStation.WorkStationListModel;
@@ -224,6 +227,59 @@ public class RetrofitUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+    /**
+     * 预览/在线解压-压缩包文件-步骤1
+     *在线预览
+     * @param token
+     * @param id
+     * @param isview
+     * @param password
+     * @param subscriber
+     */
+    public void getzip(String token, int id, int isview, String password, Subscriber<BaseResponse<OnlineFilesModel>> subscriber) {
+        mApiService.getzip(token, id, isview, password)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    public void zip(String token, int id, int isview, String password, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.zip(token, id, isview, password)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    /**
+     * 获取文件的飞速链
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void getfsl(String token, int id, Subscriber<BaseResponse<FSLModel>> subscriber) {
+        mApiService.getfsl(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 云空间修改文件名
+     *
+     * @param token
+     * @param id
+     * @param name
+     * @param subscriber
+     */
+    public void filerename(String token, String name, int id, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.filerename(token, name, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
 
     /**
      * 删除文件
@@ -347,6 +403,22 @@ public class RetrofitUtil {
     }
 
     /**
+     * 修改星标文件名
+     *
+     * @param token
+     * @param name
+     * @param id
+     * @param subscriber
+     */
+    public void cltrename(String token, String name, int id, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.cltrename(token, name, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
      * 操作台文件列表数据（包括永久空间）
      *
      * @param token
@@ -364,22 +436,7 @@ public class RetrofitUtil {
                 .subscribe(subscriber);
     }
 
-    /**
-     * 预览/在线解压-压缩包文件-步骤1
-     *
-     * @param token
-     * @param id
-     * @param isview
-     * @param password
-     * @param subscriber
-     */
-    public void getzip(String token, int id, int isview, String password, Subscriber<BaseResponse<OnlineFilesModel>> subscriber) {
-        mApiService.getzip(token, id, isview, password)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
-    }
+
 
     /**
      * 下载历史列表数据
@@ -411,18 +468,52 @@ public class RetrofitUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+    /**
+     * 操作台下载
+     *
+     * @param token
+     * @param id
+     * @param isview
+     * @param subscriber
+     */
+    public void prodown(String token, int id, int isview, Subscriber<BaseResponse<SvipDownModel>> subscriber) {
+        mApiService.prodown(token, id, isview)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
     /**
      * 鲸选首页-顶部默认展示一级分类
+     *
      * @param token
      * @return
      */
-    public void getjxnav(String token, Subscriber<BaseResponse<SvipDownModel>> subscriber) {
+    public void getjxnav(String token, Subscriber<BaseResponse<JXNavModel>> subscriber) {
         mApiService.getjxnav(token)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+    /**
+     * 鲸选首页-进入首页后展示的鲸选数据
+     *
+     * @param token
+     * @param subscriber
+     */
+
+    public void getjxtopfile(String token, Subscriber<BaseResponse<JXHomeModel>> subscriber) {
+        mApiService.getjxtopfile(token)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
     /**
      * 获取个人消息
      *

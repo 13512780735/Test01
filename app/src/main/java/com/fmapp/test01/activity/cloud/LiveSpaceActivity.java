@@ -50,7 +50,6 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_space);
-
         initUI();
         GetData();
     }
@@ -185,7 +184,6 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
                     mWorkStationData.clear();
                     mWorkStationAdapter.notifyDataSetChanged();
                 }
-                GetData();
                 GetData();
                 mWorkStationAdapter.notifyDataSetChanged();
                 mRecycleView.setRefreshing(false);

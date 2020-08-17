@@ -149,4 +149,11 @@
         <item name="android:windowEnterAnimation">@anim/dialog_in_anim</item>
         <item name="android:windowExitAnimation">@anim/dialog_out_anim</item>
     </style>
+    <declare-styleable name="CircleProgressBar">
+        <attr name="statue" format="integer" />
+        <attr name="cpb_width" format="dimension" />
+        <attr name="cpb_height" format="dimension" />
+        <attr name="cpb_download_progress_color" format="color" />
+        <attr name="cpb_default_progress_color" format="color" />
+    </declare-styleable>
 </resources>

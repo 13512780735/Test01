@@ -1,11 +1,18 @@
 package com.fmapp.test01.activity.cloud;
 
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 import com.androidev.download.DownloadInfo;
 import com.androidev.download.DownloadListener;
@@ -25,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.EasyPermissions;
 import rx.Subscriber;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;
@@ -33,6 +41,7 @@ import static com.fmapp.test01.utils.com.GetHeaderImgById;
  * 文件下载
  */
 public class DownLoadActivity extends BaseActivity {
+    private final int REQUEST_PERMISSION_CODE = 1;//请求码
     @BindView(R.id.tv_back)
     ImageView mBack;
     @BindView(R.id.ivPic)
@@ -115,10 +124,66 @@ public class DownLoadActivity extends BaseActivity {
                 break;
             case R.id.rlSvipDown:
             case R.id.rlQuanDown:
-                toDownLoad();
+                //checkPermission();
+
+                String[] perms = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                if (!EasyPermissions.hasPermissions(DownLoadActivity.this, perms)) {
+                    EasyPermissions.requestPermissions(DownLoadActivity.this, "请允许文件读写权限，否则无法正常使用本应用！", 10086, perms);
+                } else {
+                    toDownLoad();
+                }
+
                 break;
         }
     }
+
+//    private void checkPermission() {
+//        //判断是否6.0以上的手机
+//        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+//            //PackageManager.PERMISSION_GRANTED表示同意授权
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                //用户已经拒绝过且选择了不再提示，要给用户开通权限的提示
+//                //ActivityCompat.shouldShowRequestPermissionRationale返回false是用户选择了不再提示
+//                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission
+//                        .WRITE_EXTERNAL_STORAGE)) {
+//                    Toast.makeText(this, "请允许文件读写权限，否则无法正常使用本应用", Toast.LENGTH_LONG).show();
+//                }else {
+//                    toDownLoad();
+//                }
+//
+//                //申请权限
+//                String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+//                ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSION_CODE);//(activity,权限数组,请求码)
+//            }else {
+//                toDownLoad();
+//            }
+//        }
+//    }
+//
+//    /**
+//     * 获取权限请求结果
+//     *
+//     * @param requestCode  请求码，即REQUEST_PERMISSION_CODE
+//     * @param permissions  权限列表，即permissions数组
+//     * @param grantResults 申请结果，0为成功，-1为失败
+//     */
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == REQUEST_PERMISSION_CODE) {
+//            for (int i = 0; i < permissions.length; i++) {
+//                if (grantResults[i] == 0) {
+//                    Log.i("MainActivity", permissions[i] + "申请成功");
+//                    toDownLoad();
+//                } else {
+//                    Log.i("MainActivity", permissions[i] + "申请失败");
+//                    Toast.makeText(this, "请允许文件读写权限，否则无法正常使用本应用", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        }
+//    }
 
     private void toDownLoad() {
         LoaddingShow();
@@ -140,7 +205,7 @@ public class DownLoadActivity extends BaseActivity {
             @Override
             public void onNext(BaseResponse<SvipDownModel> baseResponse) {
                 LoaddingDismiss();
-                if ("1".equals(baseResponse.getStatus()) ) {
+                if ("1".equals(baseResponse.getStatus())) {
                     String link = baseResponse.getData().getLink();
                     String ext = baseResponse.getData().getExtension();
                     addTask(link, ext);
@@ -198,7 +263,7 @@ public class DownLoadActivity extends BaseActivity {
             @Override
             public void onNext(BaseResponse<String> baseResponse) {
                 LoaddingDismiss();
-                if ("1".equals(baseResponse.getStatus()) ) {
+                if ("1".equals(baseResponse.getStatus())) {
                     showToast(baseResponse.getMsg());
                 } else {
                     showToast(baseResponse.getMsg());
@@ -228,7 +293,7 @@ public class DownLoadActivity extends BaseActivity {
             @Override
             public void onNext(BaseResponse<String> baseResponse) {
                 LoaddingDismiss();
-                if ("1".equals(baseResponse.getStatus()) ) {
+                if ("1".equals(baseResponse.getStatus())) {
                     showToast(baseResponse.getMsg());
                 } else {
                     showToast(baseResponse.getMsg());

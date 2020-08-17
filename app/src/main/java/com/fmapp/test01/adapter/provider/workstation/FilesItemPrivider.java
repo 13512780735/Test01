@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.adapter.BaseItemProvider;
 import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.WorkStationAdapter;
-import com.fmapp.test01.fragment.cloud.showworkBottomDialog;
+import com.fmapp.test01.fragment.cloud.work.showworkBottomDialog;
 import com.fmapp.test01.network.model.workStation.FilesModel;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;

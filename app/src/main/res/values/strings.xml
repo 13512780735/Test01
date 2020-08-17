@@ -16,4 +16,16 @@
     <string name="label_download" translatable="false">下载</string>
     <string name="download_date_format" translatable="false">M月d日</string>
     <string name="download_delete_waring" translatable="false">确认删除已下载资源?</string>
+
+    <string name="decompression" translatable="false">解压</string>
+    <string name="please_input_password" translatable="false">请输入密码</string>
+    <string name="password_is_empty" translatable="false">密码不能为空!!</string>
+    <string name="passowrd_error" translatable="false">密码错误，请输入正确的密码</string>
+    <string name="ok" translatable="false">确定</string>
+    <string name="cancel" translatable="false">取消</string>
+    <string name="add_file" translatable="false">新建</string>
+    <string name="add_file_no_open" translatable="false">新建文件功能暂未开放，后期更新</string>
+    <string name="file_copy_error" translatable="false">文件复制失败</string>
+    <string name="un_file_success" translatable="false">解压成功</string>
+    <string name="operation_failed" translatable="false">操作失败</string>
 </resources>

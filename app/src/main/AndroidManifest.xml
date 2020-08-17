@@ -8,23 +8,48 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许程序访问WiFi网络信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许程序读写手机状态和身份 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES"
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.INSTALL_PACKAGES"
         tools:ignore="ProtectedPermissions" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:usesCleartextTraffic="true"
         android:resizeableActivity="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyAppTheme">
-        <activity android:name=".activity.cloud.DownLoadListActivity"
+        android:theme="@style/MyAppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activity.file.work.WorkFilePreviewActivity"></activity>
+        <activity android:name=".activity.file.ZipPreviewActivity" />
+        <activity android:name=".activity.login.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.file.zip.PathSelectedActivity" />
+        <activity android:name=".activity.file.zip.ZipRarFileActivity" />
+        <activity android:name=".activity.file.OfficeActivity" />
+        <activity android:name=".activity.file.PictureActivity" />
+        <activity android:name=".activity.file.cloud.FilePreviewActivity">
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.cloud.DownLoadListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.androidev.download" />
 
@@ -46,31 +71,24 @@
             android:name="android.max_aspect"
             android:value="2.4" />
 
-        <activity android:name=".activity.login.LoginActivity"
-
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.login.LoginActivity" />
         <activity android:name=".activity.main.MainActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.fmapp.test01.fileprovider"
+            android:authorities="com.fmapp.test01.android7.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:ignore="WrongManifestParent"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths_public" />
+                android:resource="@xml/file_paths" />
         </provider>
-
 
         <service
             android:name=".service.KeepLifeService"
-            android:process=":keepLife"></service>
+            android:process=":keepLife" />
     </application>
 
 </manifest>

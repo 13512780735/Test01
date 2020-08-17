@@ -167,7 +167,7 @@ public class HttpUtil {
             // ToastUtil.showL(getApplicationContext(), );
             Log.d("TAG", "当前有可用网络！");
         } else {
-            ToastUtil toastUtil = new ToastUtil(MyApplication.getInstance(), R.layout.toast_center,  "当前没有可用网络！");
+            ToastUtil toastUtil = new ToastUtil(MyApplication.getInstance(), R.layout.toast_center, "当前没有可用网络！");
             toastUtil.show();
         }
     }
@@ -215,6 +215,7 @@ public class HttpUtil {
     public static void post(String url, final RequestListener res) {
         Log.i("HttpUtil", url);
         isNetwork();
+        client.addHeader("token", SharedPreferencesUtils.getString(MyApplication.getInstance(), "token"));
         client.post(url, new JsonHttpResponseHandler() {
 
             @Override

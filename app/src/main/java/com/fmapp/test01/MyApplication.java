@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.androidev.download.DownloadManager;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
+import com.tencent.smtt.sdk.QbSdk;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -57,6 +58,7 @@ public class MyApplication extends Application {
         getToken(mContext);
         serviceRun = false;
         DownloadManager.getInstance().initialize(this, 3);
+        initTX5();
         // startService(new Intent(this, KeepLifeService.class));
         //Hawk存储初始化
         //Hawk.init(this).build();
@@ -94,6 +96,22 @@ public class MyApplication extends Application {
 //        );
         initBackgroundCallBack();
 
+    }
+
+    private void initTX5() {
+        QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                //x5内核初始化完成回调接口，此接口回调并表示已经加载起来了x5，有可能特殊情况下x5内核加载失败，切换到系统内核。
+                Log.e("@@","加载内核是否onCoreInitFinished成功:");
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                Log.e("@@","加载内核是否成功:"+b);
+            }
+        });
     }
 
     int account = 0;

@@ -17,10 +17,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.fmapp.test01.R;
 import com.fmapp.test01.activity.cloud.DownLoadListActivity;
 import com.fmapp.test01.base.BaseFragment;
-import com.fmapp.test01.fragment.cloud.Cloud2Fragment;
-import com.fmapp.test01.fragment.cloud.DownloadHistoryFragment;
-import com.fmapp.test01.fragment.cloud.StarFragment;
-import com.fmapp.test01.fragment.cloud.WorkStationFragment;
+import com.fmapp.test01.fragment.cloud.cloud2.Cloud2Fragment;
+import com.fmapp.test01.fragment.cloud.history.DownloadHistoryFragment;
+import com.fmapp.test01.fragment.cloud.star.StarFragment;
+import com.fmapp.test01.fragment.cloud.work.WorkStationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +36,6 @@ public class CloudFragment extends BaseFragment implements View.OnClickListener 
     private RadioGroup mRadioGroup;
 
     private boolean isGetData = false;
-    private FragmentManager mSupportFragmentManager;
-    private FragmentTransaction mTran1saction;
     private Cloud2Fragment cloud2Fragment;
     private WorkStationFragment workStationFragment;
     private StarFragment starFragment;

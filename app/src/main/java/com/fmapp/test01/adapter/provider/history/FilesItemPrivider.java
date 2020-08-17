@@ -6,7 +6,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.adapter.BaseItemProvider;
 import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.HistoryAdapter;
-import com.fmapp.test01.fragment.cloud.showHistoryBottomDialog;
+import com.fmapp.test01.fragment.cloud.history.showHistoryBottomDialog;
 import com.fmapp.test01.network.model.history.FilesModel;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;

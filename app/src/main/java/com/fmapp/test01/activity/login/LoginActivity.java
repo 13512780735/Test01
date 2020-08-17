@@ -273,8 +273,8 @@ public class LoginActivity extends BaseActivity {
                     SharedPreferencesUtils.put(mContext,"mobile",mobile);
                     SharedPreferencesUtils.put(mContext,"password",password);
                     toActivityFinish(MainActivity.class);
-                }
-                showToast(baseResponse.getMsg());
+                }else {
+                showToast(baseResponse.getMsg());}
             }
         });
     }

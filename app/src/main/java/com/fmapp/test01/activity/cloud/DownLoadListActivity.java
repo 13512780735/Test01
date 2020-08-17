@@ -1,20 +1,14 @@
 package com.fmapp.test01.activity.cloud;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,18 +20,17 @@ import com.androidev.download.DownloadListener;
 import com.androidev.download.DownloadManager;
 import com.androidev.download.DownloadTask;
 import com.fmapp.test01.R;
-import com.fmapp.test01.activity.login.LoginActivity;
+import com.fmapp.test01.activity.file.showOnlineDialog;
 import com.fmapp.test01.base.BaseActivity;
 import com.fmapp.test01.download.util.FileManager;
-import com.fmapp.test01.utils.AppManager;
 import com.fmapp.test01.utils.CustomDialog;
-import com.fmapp.test01.utils.SharedPreferencesUtils;
+import com.fmapp.test01.widght.CircleProgressBar;
 import com.fmapp.test01.widght.SwipeItemLayout;
 
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -94,6 +87,7 @@ public class DownLoadListActivity extends BaseActivity {
     };
     private CustomDialog dialog02;
     private CustomDialog dialog01;
+    private List<DownloadInfo> infos;
 
 
     @Override
@@ -104,10 +98,14 @@ public class DownLoadListActivity extends BaseActivity {
         manager = DownloadManager.getInstance();
         manager.addDownloadJobListener(jobListener);
         tasks = manager.getAllTasks();
-        Collections.sort(tasks);
-
+        infos = manager.getAllInfo();
         downloads = new ArrayList<>();
-        List<DownloadInfo> infos = manager.getAllInfo();
+        for (DownloadInfo info : infos) {
+            if (!info.isFinished()) continue;
+            downloads.add(info);
+        }
+        downloads = new ArrayList<>();
+
         for (DownloadInfo info : infos) {
             if (!info.isFinished()) continue;
             downloads.add(info);
@@ -175,6 +173,7 @@ public class DownLoadListActivity extends BaseActivity {
     private class DownloadAdapter01 extends RecyclerView.Adapter<DownloadViewHolder01> {
 
         private LayoutInflater inflater = LayoutInflater.from(mContext);
+        long finishedLength;
 
         @Override
         public DownloadViewHolder01 onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -188,10 +187,17 @@ public class DownLoadListActivity extends BaseActivity {
             holder.setKey(task.key);
             task.setListener(holder);
             holder.name.setText(task.name);
+            if (infos.size() > 0) {
+                for (int i = 0; i < infos.size(); i++) {
+                    if (task.key.equals(infos.get(i).key)) {
+                        finishedLength = infos.get(i).finishedLength;
+                    }
+                }
+            }
             if (task.size == 0) {
                 holder.size.setText(R.string.download_unknown);
             } else {
-                holder.size.setText(String.format(Locale.US, "%.1fMB", task.size / 1048576.0f));
+                holder.size.setText(String.format(Locale.US, "%.1fMB", task.size / 1048576.0f) + " / " + (String.format(Locale.US, "%.1fMB", finishedLength / 1048576.0f)));
             }
             String extension = fileManager.getExtension(task.name);
             holder.icon.setImageResource(GetHeaderImgById(extension));
@@ -210,7 +216,7 @@ public class DownLoadListActivity extends BaseActivity {
         ImageView icon;
         TextView name;
         TextView size;
-        TextView status;
+        CircleProgressBar status;
         TextView mDel;
 
         private DownloadViewHolder01(View itemView) {
@@ -223,6 +229,7 @@ public class DownLoadListActivity extends BaseActivity {
             itemView.setOnClickListener(this);
             mDel.setOnClickListener(this);
             status.setOnClickListener(this);
+            // size.setText(String.format(Locale.US, "%.1fMB", tasks.get(getAdapterPosition()).size / 1048576.0f) + " / " + (String.format(Locale.US, "%.1fMB", finishedLength / 1048576.0f)));
         }
 
         void setKey(String key) {
@@ -283,18 +290,17 @@ public class DownLoadListActivity extends BaseActivity {
             this.state = state;
             switch (state) {
                 case STATE_PREPARED:
-                    status.setText(R.string.label_download);
+                    status.setStatue(CircleProgressBar.DOWNLOAD_STATUE);
                     break;
                 case STATE_FAILED:
-                    status.setText(R.string.download_retry);
-                    break;
                 case STATE_PAUSED:
-                    status.setText(R.string.download_resume);
+                    status.setStatue(CircleProgressBar.DOWNLOAD_PAUSE);
                     break;
                 case STATE_WAITING:
-                    status.setText(R.string.download_wait);
+                    status.setStatue(CircleProgressBar.DOWNLOAD_DEF);
                     break;
                 case STATE_FINISHED:
+                    status.setStatue(CircleProgressBar.DOWNLOAD_FINISH);
                     if (tasks == null) return;
                     int position = getAdapterPosition();
                     if (position < 0) return;
@@ -309,13 +315,17 @@ public class DownLoadListActivity extends BaseActivity {
 
         @Override
         public void onProgressChanged(String key, long finishedLength, long contentLength) {
-            if (!key.equals(this.key)) return;
-            status.setText(String.format(Locale.US, "%.1f%%", finishedLength * 100.f / Math.max(contentLength, 1)));
 
+            if (!key.equals(this.key)) return;
+            // status.setText(String.format(Locale.US, "%.1f%%", finishedLength * 100.f / Math.max(contentLength, 1)));
+            status.setProgress(finishedLength * 100.f / Math.max(contentLength, 1));
+            status.setStatue(CircleProgressBar.DOWNLOAD_STATUE);
 
             if (contentLength == 0) {
                 size.setText(R.string.download_unknown);
             } else {
+                status.setProgress(finishedLength * 100.f / Math.max(contentLength, 1));
+                status.setStatue(CircleProgressBar.DOWNLOAD_STATUE);
                 size.setText(String.format(Locale.US, "%.1fMB", contentLength / 1048576.0f) + " / " + (String.format(Locale.US, "%.1fMB", finishedLength / 1048576.0f)));
             }
         }
@@ -379,14 +389,24 @@ public class DownLoadListActivity extends BaseActivity {
             llItem.setOnClickListener(this);
         }
 
+
         @Override
         public void onClick(View v) {
             final int position = getAdapterPosition();
             if (R.id.llItem == v.getId()) {
                 DownloadInfo info = downloads.get(position);
-                fileManager.open(info.name, info.path);
-                // Log.d("点击了",info.name+position);
-                showToast(info.name + position);
+
+                File file = new File(info.path);
+                if (!file.exists()) return;
+                /* 取得扩展名 */
+                String end = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase();
+                if (end.equals("zip")) {
+                    showOnlineDialog dialog01 = new showOnlineDialog();
+                    dialog01.CenterDialog(mContext, String.valueOf(info.id), info.path, info.name, position);
+
+                } else {
+                    fileManager.openFile(mContext, info.path, info.name);
+                }
             } else if (R.id.delete == v.getId()) {
                 dialog02 = new CustomDialog(mContext).builder()
                         .setGravity(Gravity.CENTER)
