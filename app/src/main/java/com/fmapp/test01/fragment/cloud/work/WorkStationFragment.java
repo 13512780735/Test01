@@ -235,7 +235,7 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
             String flag = data.getString("flag");
             int position = data.getInt("id");
             if ("0".equals(flag)) {
-                mWorkStationAdapter.remove(position);
+                onRefresh();
             } else {
                 onRefresh();
             }

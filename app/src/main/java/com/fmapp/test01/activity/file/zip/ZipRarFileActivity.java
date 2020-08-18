@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import com.fmapp.test01.base.BaseActivity;
 import com.fmapp.test01.download.FileModel;
 import com.fmapp.test01.download.manager.ThreadManager;
 import com.fmapp.test01.download.manager.UnZipManager;
+import com.fmapp.test01.download.util.FileManager;
 import com.fmapp.test01.download.util.FileUtils;
 
 import java.io.File;
@@ -116,11 +118,13 @@ public class ZipRarFileActivity extends BaseActivity {
         }
     };
     private String name;
+    private FileManager fileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zip_rar_file);
+        fileManager = new FileManager(this);
         initView();
         setAdapter();
         initListener();
@@ -160,7 +164,7 @@ public class ZipRarFileActivity extends BaseActivity {
             @Override
             public void run() {
                 if (zipRarFile.getName().endsWith(".zip")) {
-                   // zipOrRarFileModelList = UnRarManager.getInstance().getRarFileAllList(zipRarFile);
+                    // zipOrRarFileModelList = UnRarManager.getInstance().getRarFileAllList(zipRarFile);
                     zipOrRarFileModelList = UnZipManager.getInstance().getZipFileAllList(zipRarFile);
                 } else {
                     zipOrRarFileModelList = UnZipManager.getInstance().getZipFileAllList(zipRarFile);
@@ -240,13 +244,13 @@ public class ZipRarFileActivity extends BaseActivity {
                 goBack();
             }
         });
-        btnUnRar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ZipRarFileActivity.this, PathSelectedActivity.class);
-                startActivityForResult(intent, 100);
-            }
-        });
+//        btnUnRar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ZipRarFileActivity.this, PathSelectedActivity.class);
+//                startActivityForResult(intent, 100);
+//            }
+//        });
         fileListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -262,26 +266,32 @@ public class ZipRarFileActivity extends BaseActivity {
                     else {
                         //缓存路径
                         final String outPath = FileUtils.getAppTempPath();
-                        String rarOutFilePath = "";
-                        //如果预览的是zip的内容,判断是否有密码
-                        if (zipRarFilePath.endsWith(".zip")) {
-                            boolean hasPassword = UnZipManager.getInstance().checkZipFileHasPassword(zipRarFilePath);
-                            if (hasPassword) {
-                                getUnZipPassword(outPath, fileModel.getFilePath());
-                            } else {
-                                rarOutFilePath = UnZipManager.getInstance().unZipFileSingle(zipRarFilePath, outPath, fileModel.getFilePath(), "");
-                            }
-                        }
-                        //如果预览的是rar的内容,判断是否有密码
-                        else {
-                           // boolean hasPassword = UnRarManager.getInstance().checkRarFileHasPassword(new File(zipRarFilePath));
+                        Log.d("路径：", outPath);
+                        Log.d("路径2：", FileUtils.getSDCardFilesPath());
+                        Log.d("路径3：", FileUtils.getFileNameNoExtension(outPath));
+                        Log.d("路径3：", FileUtils.getFileNameNoExtension(outPath));
+                        // fileManager.
+
+//                        String rarOutFilePath = "";
+//                        //如果预览的是zip的内容,判断是否有密码
+//                        if (zipRarFilePath.endsWith(".zip")) {
+//                            boolean hasPassword = UnZipManager.getInstance().checkZipFileHasPassword(zipRarFilePath);
 //                            if (hasPassword) {
-//                                getUnZipPassword(outPath, fileModel.getFileName());
+//                                getUnZipPassword(outPath, fileModel.getFilePath());
 //                            } else {
-//                                rarOutFilePath = UnRarManager.getInstance().unRarFileSingle(new File(zipRarFilePath), outPath, fileModel.getFileName(), "");
+//                                rarOutFilePath = UnZipManager.getInstance().unZipFileSingle(zipRarFilePath, outPath, fileModel.getFilePath(), "");
 //                            }
-                        }
-                        FileUtils.openFileByApp(ZipRarFileActivity.this, rarOutFilePath);
+//                        }
+//                        //如果预览的是rar的内容,判断是否有密码
+//                        else {
+//                           // boolean hasPassword = UnRarManager.getInstance().checkRarFileHasPassword(new File(zipRarFilePath));
+////                            if (hasPassword) {
+////                                getUnZipPassword(outPath, fileModel.getFileName());
+////                            } else {
+////                                rarOutFilePath = UnRarManager.getInstance().unRarFileSingle(new File(zipRarFilePath), outPath, fileModel.getFileName(), "");
+////                            }
+                        //   }
+                        //FileUtils.openFileByApp(ZipRarFileActivity.this, rarOutFilePath);
                     }
                 }
             }
@@ -409,7 +419,7 @@ public class ZipRarFileActivity extends BaseActivity {
             if (zipRarFilePath.endsWith(".zip")) {
                 hasPassword = UnZipManager.getInstance().checkZipFileHasPassword(zipRarFilePath);
             } else {
-             //   hasPassword = UnRarManager.getInstance().checkRarFileHasPassword(new File(zipRarFilePath));
+                //   hasPassword = UnRarManager.getInstance().checkRarFileHasPassword(new File(zipRarFilePath));
             }
             if (hasPassword) {
                 getUnZipPassword(selectedPath, "");

@@ -12,6 +12,7 @@ import com.fmapp.test01.network.model.JXNavModel;
 import com.fmapp.test01.network.model.LoginRegisterModel;
 import com.fmapp.test01.network.model.LoginCodeModel;
 import com.fmapp.test01.network.model.MemberModel;
+import com.fmapp.test01.network.model.MoveFoldModel;
 import com.fmapp.test01.network.model.SvipDownModel;
 import com.fmapp.test01.network.model.ZipModel;
 import com.fmapp.test01.network.model.history.HistoryListModel;
@@ -213,6 +214,34 @@ public interface ApiService {
     );
 
     /**
+     * 云空间获取用户文件夹-用于移动文件
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/getfolders")
+    Observable<BaseResponse<MoveFoldModel>> getfolders(@Header("token") String token,
+                                                       @Field("id") int id
+    );
+
+    /**
+     * 云空间移动文件
+     *
+     * @param token
+     * @param fileid
+     * @param folderid
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/movefile")
+    Observable<BaseResponse<String>> movefile(@Header("token") String token,
+                                              @Field("fileid") String fileid,
+                                              @Field("folderid") String folderid
+    );
+
+    /**
      * 云空间推至操作台
      *
      * @param token
@@ -265,7 +294,8 @@ public interface ApiService {
     );
 
     /**
-     *在线解压
+     * 在线解压
+     *
      * @param token
      * @param isview
      * @param password
@@ -275,10 +305,12 @@ public interface ApiService {
     @POST("file/zip")
     Observable<BaseResponse<String>> zip(@Header("token") String token,
                                          @Field("id") int id,
-                                           @Field("isview") int isview,
-                                           @Field("password") String password
+                                         @Field("isview") int isview,
+                                         @Field("password") String password
     );
-    /**在线预览
+
+    /**
+     * 在线预览
      * 预览/在线解压-压缩包文件-步骤1
      *
      * @param token
@@ -294,6 +326,7 @@ public interface ApiService {
                                                       @Field("isview") int isview,
                                                       @Field("password") String password
     );
+
     /**
      * 星标文件
      *
@@ -353,8 +386,6 @@ public interface ApiService {
                                                                @Field("keywords") String keywords,
                                                                @Field("pg") int pg
     );
-
-
 
 
     /**

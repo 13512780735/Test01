@@ -8,6 +8,7 @@ import com.fmapp.test01.R;
 import com.fmapp.test01.activity.file.cloud.FilePreviewActivity;
 import com.fmapp.test01.adapter.CloudAdapter;
 import com.fmapp.test01.network.model.cloud.FolderModel;
+import com.fmapp.test01.utils.Utils;
 
 public class FolderItemPrivider extends BaseItemProvider<FolderModel, BaseViewHolder> {
 
@@ -31,10 +32,11 @@ public class FolderItemPrivider extends BaseItemProvider<FolderModel, BaseViewHo
 
     @Override
     public void onClick(BaseViewHolder baseViewHolder, FolderModel folderModel, int position) {
+        if (Utils.isFastClick()) {
         Intent intent=new Intent(mContext, FilePreviewActivity.class);
         intent.putExtra("name",folderModel.getName());
         intent.putExtra("id",folderModel.getId());
-        mContext.startActivity(intent);
+        mContext.startActivity(intent);}
 
     }
 

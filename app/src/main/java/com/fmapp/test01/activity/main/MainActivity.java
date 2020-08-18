@@ -12,9 +12,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.fmapp.test01.MyApplication;
 import com.fmapp.test01.R;
 import com.fmapp.test01.fragment.main.CloudFragment;
 import com.fmapp.test01.fragment.main.MyFragment;
@@ -53,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         StatusBarUtil.setLightMode(this);
         ButterKnife.bind(this);
         AppManager.getAppManager().addActivity(this);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int width=display.getWidth();
+        int height=display.getHeight();
+        SharedPreferencesUtils.put(this,"width",width);
+        SharedPreferencesUtils.put(this,"height",height);
         initFragment();
         checkPermission();
     }

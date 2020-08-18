@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fmapp.test01.R;
 import com.fmapp.test01.activity.login.Register02Activity;
@@ -34,7 +35,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class ZipPreviewActivity extends BaseActivity {
-    private SwipeRefreshRecyclerView mRecycleView;
+    private RecyclerView mRecycleView;
     private List<OnlineZipModel> mOnlineDatas = new ArrayList<>();
     private OnlineZipAdapter mOnlineZipAdapter;
     private int pg = 1;
@@ -111,9 +112,6 @@ public class ZipPreviewActivity extends BaseActivity {
         mRecycleView = findView(R.id.recycler_view);
         mRecycleView.setLayoutManager(new LinearLayoutManager(mContext,
                 LinearLayoutManager.VERTICAL, false));
-        View EmptyView = LayoutInflater.from(mContext).inflate(R.layout.view_cloud_recycler_empty, null, false);
-        mRecycleView.setEmptyView(EmptyView);
-        mRecycleView.setRefreshing(false);
         mOnlineZipAdapter = new OnlineZipAdapter(R.layout.zip_online_item, mOnlineDatas);
         mRecycleView.setAdapter(mOnlineZipAdapter);
         mOnlineZipAdapter.notifyDataSetChanged();

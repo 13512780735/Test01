@@ -14,6 +14,7 @@ import com.SuperKotlin.pictureviewer.PictureConfig;
 import com.fmapp.test01.MyApplication;
 import com.fmapp.test01.activity.file.OfficeActivity;
 import com.fmapp.test01.activity.file.PictureActivity;
+import com.fmapp.test01.activity.file.VideoActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,8 +50,8 @@ public class FileManager {
             //return getAudioFileIntent(mContext, filePath);
             return getWordx1FileIntent(mContext, filePath,name);
         } else if (end.equals("3gp") || end.equals("mp4") || end.equals("mov") || end.equals("rmvb") || end.equals("AVI")) {
-           // return getVideoFileIntent(mContext, filePath);
-            return getWordx1FileIntent(mContext, filePath,name);
+            return getVideoFileIntent(mContext, filePath,name);
+           // return getWordx1FileIntent(mContext, filePath,name);
         } else if (end.equals("jpg") || end.equals("gif") || end.equals("png") ||
                 end.equals("jpeg") || end.equals("bmp")) {
             return getImageFileIntent(mContext, filePath, name);
@@ -186,24 +187,28 @@ public class FileManager {
     }
 
     //Android获取一个用于打开VIDEO文件的intent
-    public static Intent getVideoFileIntent(Context mContext, String param) {
+    public static Intent getVideoFileIntent(Context mContext, String param, String name) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent = new Intent("android.intent.action.VIEW");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.putExtra("oneshot", 0);
-            intent.putExtra("configchange", 0);
-            Uri uri = FileProvider.getUriForFile(mContext, "com.fmapp.test01.fileprovider", new File(param));
-            intent.setDataAndType(uri, "video/*");
+            intent = new Intent(mContext, VideoActivity.class);
+            intent.putExtra("uri", param);
+            intent.putExtra("name", name);
+           // Uri uri = FileProvider.getUriForFile(mContext, "com.fmapp.test01.fileprovider", new File(param));
+           // intent.setDataAndType(uri, "video/*");
             mContext.startActivity(intent);
         } else {
-            intent = new Intent("android.intent.action.VIEW");
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.putExtra("oneshot", 0);
-            intent.putExtra("configchange", 0);
-            Uri uri = Uri.fromFile(new File(param));
-            intent.setDataAndType(uri, "video/*");
+//            intent = new Intent("android.intent.action.VIEW");
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            intent.putExtra("oneshot", 0);
+//            intent.putExtra("configchange", 0);
+//            Uri uri = Uri.fromFile(new File(param));
+//            intent.setDataAndType(uri, "video/*");
+//            mContext.startActivity(intent);
+            intent = new Intent(mContext, VideoActivity.class);
+            intent.putExtra("uri", param);
+            intent.putExtra("name", name);
+            // Uri uri = FileProvider.getUriForFile(mContext, "com.fmapp.test01.fileprovider", new File(param));
+            // intent.setDataAndType(uri, "video/*");
             mContext.startActivity(intent);
         }
         return intent;

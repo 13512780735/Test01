@@ -24,6 +24,7 @@ import com.fmapp.test01.network.util.RetrofitUtil;
 import com.fmapp.test01.utils.DensityUtil;
 import com.fmapp.test01.utils.StatusBarUtil;
 import com.fmapp.test01.utils.StringUtil;
+import com.fmapp.test01.utils.Utils;
 import com.fmapp.test01.widght.BorderTextView;
 import com.fmapp.test01.widght.CircleImageView;
 
@@ -125,34 +126,36 @@ public class RegisterActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.send_code_btn:
-                sendCode();
+                if (Utils.isFastClick()) {
+                sendCode();}
                 break;
             case R.id.mTvCode:
                 //  ToastCustom.showToast(mContext, "请检查您输入的手机号是否有效");
                 showToast("请检查您输入的手机号是否有效");
                 break;
             case R.id.mTvNext:
-                mobile = mEtName.getText().toString().trim();
-                code = mEtPass.getText().toString().trim();
-                if (StringUtil.isBlank(mobile)) {
-                    //ToastCustom.showToast(mContext,"手机号不能为空");
-                    showToast("手机号不能为空");
-                    return;
-                }
-                if (StringUtil.isBlank(code)) {
-                    // ToastCustom.showToast(mContext,"验证码不能为空");
-                    showToast("验证码不能为空");
-                    return;
-                }
-                Log.d("msgid222", msgid);
-                if (StringUtil.isBlank(msgid)) {
-                    // ToastCustom.showToast(mContext,"验证码不能为空");
-                    showToast("账号或验证码不正确，长度请在6-20之间");
-                    return;
-                }
-                toGet(mobile, code);
+                if (Utils.isFastClick()) {
+                    mobile = mEtName.getText().toString().trim();
+                    code = mEtPass.getText().toString().trim();
+                    if (StringUtil.isBlank(mobile)) {
+                        //ToastCustom.showToast(mContext,"手机号不能为空");
+                        showToast("手机号不能为空");
+                        return;
+                    }
+                    if (StringUtil.isBlank(code)) {
+                        // ToastCustom.showToast(mContext,"验证码不能为空");
+                        showToast("验证码不能为空");
+                        return;
+                    }
+                    Log.d("msgid222", msgid);
+                    if (StringUtil.isBlank(msgid)) {
+                        // ToastCustom.showToast(mContext,"验证码不能为空");
+                        showToast("账号或验证码不正确，长度请在6-20之间");
+                        return;
+                    }
+                    toGet(mobile, code);
 
-
+                }
                 break;
         }
     }

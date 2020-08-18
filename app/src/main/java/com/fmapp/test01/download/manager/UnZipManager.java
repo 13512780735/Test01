@@ -9,12 +9,16 @@ import com.fmapp.test01.download.util.FileUtils;
 import com.unzip.andy.library.MyZipFile;
 
 import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.model.ExtraDataRecord;
 import net.lingala.zip4j.model.FileHeader;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 import net.lingala.zip4j.util.Zip4jUtil;
 
 import java.io.File;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,7 +84,7 @@ public class UnZipManager {
         }
         try {
             MyZipFile zipFile = new MyZipFile(scrFile);
-            zipFile.setFileNameCharset("GBK");
+            zipFile.setFileNameCharset(StandardCharsets.UTF_8.name());
             if (zipFile.isEncrypted()) {
                 // 在这里输入密码，如果写错了，会报异常
                 zipFile.setPassword(password);
@@ -108,7 +112,7 @@ public class UnZipManager {
         List<FileModel> listFiles = new ArrayList<>();
         try {
             MyZipFile zipFile = new MyZipFile(srcFile);
-            zipFile.setFileNameCharset("GBK");
+            zipFile.setFileNameCharset(StandardCharsets.UTF_8.name());
             List<FileHeader> list = zipFile.getFileHeaders();
             FileModel fileModel;
             for (FileHeader fileHeader : list) {
@@ -182,7 +186,7 @@ public class UnZipManager {
         String outPath = "";
         try {
             MyZipFile zipFile = new MyZipFile(scrFile);
-            zipFile.setFileNameCharset("GBK");
+            zipFile.setFileNameCharset(StandardCharsets.UTF_8.name());
             if (zipFile.isEncrypted()) {
                 // 在这里输入密码，如果写错了，会报异常
                 zipFile.setPassword(password);
@@ -208,7 +212,7 @@ public class UnZipManager {
         if (!TextUtils.isEmpty(zipFilePath)) {
             try {
                 MyZipFile zipFile = new MyZipFile(zipFilePath);
-                zipFile.setFileNameCharset("GBK");
+                zipFile.setFileNameCharset(StandardCharsets.UTF_8.name());
                 isHasPasword = zipFile.isEncrypted();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -217,4 +221,5 @@ public class UnZipManager {
         }
         return isHasPasword;
     }
+
 }

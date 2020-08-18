@@ -27,6 +27,7 @@ import com.fmapp.test01.network.model.workStation.WorkStationListModel;
 import com.fmapp.test01.network.model.workStation.workStationModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
+import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.mylhyl.crlayout.SwipeRefreshAdapterView;
 import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
@@ -43,12 +44,18 @@ public class workFilePreviewActivity extends BaseActivity implements SwipeRefres
     private MBroadcastReceiver receiver;
     private int pg = 1;
     boolean flag = false;
+    String id;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_file_preview);
+        id = getIntent().getStringExtra("id");
+        name = getIntent().getStringExtra("name");
+        register();
         initView();
+        GetData();
     }
 
     /**
@@ -56,7 +63,7 @@ public class workFilePreviewActivity extends BaseActivity implements SwipeRefres
      */
     private void GetData() {
         LoaddingShow();
-        RetrofitUtil.getInstance().getprofiles(token, 0, 0, "", pg, new Subscriber<BaseResponse<WorkStationListModel>>() {
+        RetrofitUtil.getInstance().getprofiles(token, 0, Integer.parseInt(id), "", pg, new Subscriber<BaseResponse<WorkStationListModel>>() {
             @Override
             public void onCompleted() {
 
@@ -78,7 +85,7 @@ public class workFilePreviewActivity extends BaseActivity implements SwipeRefres
                 if ("1".equals(baseResponse.getStatus())) {
                     WorkStationListModel workStationListModel = baseResponse.getData();
 
-                    if (workStationListModel.getSpace().toString().length() > 0) {
+                  /*  if (workStationListModel.getSpace().toString().length() > 0) {
                         WorkStationListModel.SpaceBean spaceBeans = workStationListModel.getSpace();
                         SpaceModel spaceModel = new SpaceModel();
                         spaceModel.setTotal(spaceBeans.getTotal());
@@ -86,7 +93,7 @@ public class workFilePreviewActivity extends BaseActivity implements SwipeRefres
                         if (flag == false) {
                             mWorkStationData.add(spaceModel);
                         }
-                    }
+                    }*/
                     if (workStationListModel.getFolder().size() > 0) {
                         List<WorkStationListModel.FolderBean> folderBeans = workStationListModel.getFolder();
                         for (WorkStationListModel.FolderBean bean : folderBeans) {
@@ -122,8 +129,11 @@ public class workFilePreviewActivity extends BaseActivity implements SwipeRefres
     }
 
     public void initView() {
-        register();
-        mRecycleView = findView(R.id.mRecycleView);
+        SharedPreferencesUtils.put(mContext,"work","2");
+        setBackView();
+        setTitle(name);
+
+        mRecycleView = findView(R.id.recycler_view);
         mRecycleView.setLayoutManager(new LinearLayoutManager(mContext,
                 LinearLayoutManager.VERTICAL, false));
         mRecycleView.setOnListLoadListener(this);
@@ -142,7 +152,7 @@ public class workFilePreviewActivity extends BaseActivity implements SwipeRefres
 
         receiver = new MBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("android.intent.action.work");
+        filter.addAction("android.intent.action.workFile");
         registerReceiver(receiver, filter);
     }
 
@@ -198,10 +208,19 @@ public class workFilePreviewActivity extends BaseActivity implements SwipeRefres
             String flag = data.getString("flag");
             int position = data.getInt("id");
             if ("0".equals(flag)) {
-                mWorkStationAdapter.remove(position);
+                onRefresh();
             } else {
                 onRefresh();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(receiver!=null){
+            unregisterReceiver(receiver);
+        }
+        SharedPreferencesUtils.put(mContext,"work","");
     }
 }

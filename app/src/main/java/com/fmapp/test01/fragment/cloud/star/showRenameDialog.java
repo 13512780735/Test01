@@ -19,6 +19,7 @@ import com.fmapp.test01.network.util.RetrofitUtil;
 import com.fmapp.test01.utils.LoaddingDialog;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.ToastUtil;
+import com.fmapp.test01.utils.Utils;
 
 import rx.Subscriber;
 
@@ -27,7 +28,7 @@ public class showRenameDialog {
     private View view;
     private EditText mEtPass;
 
-    public void CenterDialog(Context context, String data,String name,  int position) {
+    public void CenterDialog(Context context, String data, String name, int position) {
         loaddingDialog = new LoaddingDialog(context);
         //1、使用Dialog、设置style
         final Dialog dialog = new Dialog(context, R.style.DialogTheme);
@@ -55,7 +56,9 @@ public class showRenameDialog {
         dialog.findViewById(R.id.tvConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rename(context, data,mEtPass.getText().toString(),position);
+                if (Utils.isFastClick()) {
+                    rename(context, data, mEtPass.getText().toString(), position);
+                }
                 dialog.dismiss();
             }
         });
@@ -68,9 +71,9 @@ public class showRenameDialog {
      * @param data
      * @param position
      */
-    private void rename(Context context, String  data,String name,int position) {
+    private void rename(Context context, String data, String name, int position) {
         loaddingDialog.show();
-        RetrofitUtil.getInstance().cltrename(SharedPreferencesUtils.getString(context, "token"),name, Integer.parseInt(data), new Subscriber<BaseResponse<String>>() {
+        RetrofitUtil.getInstance().cltrename(SharedPreferencesUtils.getString(context, "token"), name, Integer.parseInt(data), new Subscriber<BaseResponse<String>>() {
             @Override
             public void onCompleted() {
 

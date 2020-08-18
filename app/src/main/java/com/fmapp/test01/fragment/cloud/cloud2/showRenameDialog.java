@@ -17,6 +17,7 @@ import com.fmapp.test01.network.util.RetrofitUtil;
 import com.fmapp.test01.utils.LoaddingDialog;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.ToastUtil;
+import com.fmapp.test01.utils.Utils;
 
 import rx.Subscriber;
 
@@ -53,7 +54,8 @@ public class showRenameDialog {
         dialog.findViewById(R.id.tvConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rename(context, data, mEtPass.getText().toString(), position);
+                if (Utils.isFastClick()) {
+                rename(context, data, mEtPass.getText().toString(), position);}
                 dialog.dismiss();
             }
         });

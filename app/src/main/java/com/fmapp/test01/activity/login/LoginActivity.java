@@ -28,6 +28,7 @@ import com.fmapp.test01.utils.DensityUtil;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.StatusBarUtil;
 import com.fmapp.test01.utils.StringUtil;
+import com.fmapp.test01.utils.Utils;
 import com.fmapp.test01.widght.BorderTextView;
 import com.fmapp.test01.widght.CircleImageView;
 
@@ -177,9 +178,11 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.send_code_btn:
-                sendCode();
+                if (Utils.isFastClick()) {
+                sendCode();}
                 break;
             case R.id.mTvLogin:
+                if (Utils.isFastClick()) {
                 if (flag == 0) {
                     mobile = mEtName.getText().toString().trim();
                     password = mEtPass.getText().toString().trim();
@@ -212,17 +215,21 @@ public class LoginActivity extends BaseActivity {
                         return;
                     }
                     toPhoneLogin(mobile, password);
-                }
+                }}
                 break;
             case R.id.mTvRegister:
-                toActivity(RegisterActivity.class);
+                if (Utils.isFastClick()) {
+                toActivity(RegisterActivity.class);}
                 break;
             case R.id.checkbox01:
+
                 break;
             case R.id.protocol_tv01:
-                toActivity(RegisterProtocolActivity.class);
+                if (Utils.isFastClick()) {
+                toActivity(RegisterProtocolActivity.class);}
                 break;
             case R.id.mTvCode:
+
                 showToast( "请检查您输入的手机号是否有效");
                 break;
             case R.id.mTvSelect:

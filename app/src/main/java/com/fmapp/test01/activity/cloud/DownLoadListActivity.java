@@ -24,6 +24,7 @@ import com.fmapp.test01.activity.file.showOnlineDialog;
 import com.fmapp.test01.base.BaseActivity;
 import com.fmapp.test01.download.util.FileManager;
 import com.fmapp.test01.utils.CustomDialog;
+import com.fmapp.test01.utils.Utils;
 import com.fmapp.test01.widght.CircleProgressBar;
 import com.fmapp.test01.widght.SwipeItemLayout;
 
@@ -394,19 +395,21 @@ public class DownLoadListActivity extends BaseActivity {
         public void onClick(View v) {
             final int position = getAdapterPosition();
             if (R.id.llItem == v.getId()) {
-                DownloadInfo info = downloads.get(position);
+                if (Utils.isFastClick()) {
+                    DownloadInfo info = downloads.get(position);
+                    File file = new File(info.path);
+                    if (!file.exists()) return;
+                    /* 取得扩展名 */
+                    String end = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase();
+                    if (end.equals("zip")) {
+                        showOnlineDialog dialog01 = new showOnlineDialog();
+                        dialog01.CenterDialog(mContext, String.valueOf(info.id), info.path, info.name, position);
 
-                File file = new File(info.path);
-                if (!file.exists()) return;
-                /* 取得扩展名 */
-                String end = file.getName().substring(file.getName().lastIndexOf(".") + 1, file.getName().length()).toLowerCase();
-                if (end.equals("zip")) {
-                    showOnlineDialog dialog01 = new showOnlineDialog();
-                    dialog01.CenterDialog(mContext, String.valueOf(info.id), info.path, info.name, position);
-
-                } else {
-                    fileManager.openFile(mContext, info.path, info.name);
+                    } else {
+                        fileManager.openFile(mContext, info.path, info.name);
+                    }
                 }
+
             } else if (R.id.delete == v.getId()) {
                 dialog02 = new CustomDialog(mContext).builder()
                         .setGravity(Gravity.CENTER)

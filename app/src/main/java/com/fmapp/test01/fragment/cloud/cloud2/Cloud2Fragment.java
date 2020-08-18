@@ -27,6 +27,7 @@ import com.fmapp.test01.network.model.cloud.FilesModel;
 import com.fmapp.test01.network.model.cloud.FolderModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
+import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.mylhyl.crlayout.SwipeRefreshAdapterView;
 import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
@@ -146,6 +147,7 @@ public class Cloud2Fragment extends BaseFragment implements SwipeRefreshAdapterV
 
     @Override
     protected void initView(View view) {
+        SharedPreferencesUtils.put(getContext(),"cloud","");
         register();
         mRecycleView = findViewById(R.id.recycler_view);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -250,5 +252,6 @@ public class Cloud2Fragment extends BaseFragment implements SwipeRefreshAdapterV
         if (receiver != null) {
             getActivity().unregisterReceiver(receiver);
         }
+        SharedPreferencesUtils.put(getContext(),"cloud","");
     }
 }

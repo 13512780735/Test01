@@ -21,6 +21,7 @@ import com.fmapp.test01.network.model.cloud.FilesModel;
 import com.fmapp.test01.network.model.cloud.FolderModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
+import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.mylhyl.crlayout.SwipeRefreshAdapterView;
 import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
@@ -44,6 +45,7 @@ public class FilePreviewActivity extends BaseActivity implements SwipeRefreshAda
         setContentView(R.layout.activity_file_preview);
         name = getIntent().getStringExtra("name");
         id = getIntent().getStringExtra("id");
+        SharedPreferencesUtils.put(mContext, "cloud", "1");
         initView();
         GetData();
     }
@@ -171,16 +173,17 @@ public class FilePreviewActivity extends BaseActivity implements SwipeRefreshAda
 
         receiver = new MBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("android.intent.action.cloud");
+        filter.addAction("android.intent.action.cloudFile");
         registerReceiver(receiver, filter);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(receiver!=null){
+        if (receiver != null) {
             unregisterReceiver(receiver);
         }
+        SharedPreferencesUtils.put(mContext, "cloud", "");
     }
 
     /**
@@ -192,7 +195,12 @@ public class FilePreviewActivity extends BaseActivity implements SwipeRefreshAda
         public void onReceive(Context context, Intent intent) {
             Bundle data = intent.getExtras();
             int position = data.getInt("id");
-            mCloudAdapter.remove(position);
+            String flag = data.getString("flag");
+            if ("1".equals(flag)) {
+                mCloudAdapter.remove(position);
+            } else {
+                onRefresh();
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ import com.fmapp.test01.network.util.RetrofitUtil;
 import com.fmapp.test01.utils.LoaddingDialog;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.ToastUtil;
+import com.fmapp.test01.utils.Utils;
 
 import rx.Subscriber;
 
@@ -29,13 +30,13 @@ public class showOnlineDialog {
     /**
      * type为0是在线解压
      * 为1是在线预览
-     *  @param context
-     * @param id
+     *
+     * @param context
      * @param data
      * @param type
      * @param position
      */
-    public void CenterDialog(Context context,  String data,String name, String type, int position) {
+    public void CenterDialog(Context context, String data, String name, String type, int position) {
         loaddingDialog = new LoaddingDialog(context);
         //1、使用Dialog、设置style
         final Dialog dialog = new Dialog(context, R.style.DialogTheme);
@@ -62,20 +63,21 @@ public class showOnlineDialog {
         dialog.findViewById(R.id.tvConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if ("0".equals(type)) {
-                    toOnline(context, data, type);
-                } else {
-                    toOnline1(context, data, type,name);
+                if (Utils.isFastClick()) {
+                    if ("0".equals(type)) {
+                        toOnline(context, data, type);
+                    } else {
+                        toOnline1(context, data, type, name);
+                    }
                 }
-
                 dialog.dismiss();
             }
         });
     }
 
-    private void toOnline1(Context context, String data, String type,String name) {
+    private void toOnline1(Context context, String data, String type, String name) {
         loaddingDialog.show();
-        RetrofitUtil.getInstance().getzip(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data), Integer.parseInt(type), mEtPass.getText().toString(), new Subscriber<BaseResponse<OnlineFilesModel>>() {
+        RetrofitUtil.getInstance().getzip(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data), 1, mEtPass.getText().toString(), new Subscriber<BaseResponse<OnlineFilesModel>>() {
             @Override
             public void onCompleted() {
 
@@ -94,9 +96,9 @@ public class showOnlineDialog {
             public void onNext(BaseResponse<OnlineFilesModel> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Intent intent=new Intent(context, ZipPreviewActivity.class);
-                    intent.putExtra("url",baseResponse.getData().getUrl());
-                    intent.putExtra("name",name);
+                    Intent intent = new Intent(context, ZipPreviewActivity.class);
+                    intent.putExtra("url", baseResponse.getData().getUrl());
+                    intent.putExtra("name", name);
                     context.startActivity(intent);
                 } else {
                     showToast(context, baseResponse.getMsg());
@@ -115,7 +117,7 @@ public class showOnlineDialog {
      */
     private void toOnline(Context context, String data, String type) {
         loaddingDialog.show();
-        RetrofitUtil.getInstance().zip(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data), Integer.parseInt(type), mEtPass.getText().toString(), new Subscriber<BaseResponse<String>>() {
+        RetrofitUtil.getInstance().zip(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data), 0, mEtPass.getText().toString(), new Subscriber<BaseResponse<String>>() {
             @Override
             public void onCompleted() {
 

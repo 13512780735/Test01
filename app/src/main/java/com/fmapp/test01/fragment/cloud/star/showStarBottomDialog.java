@@ -19,6 +19,7 @@ import com.fmapp.test01.utils.CustomDialog;
 import com.fmapp.test01.utils.LoaddingDialog;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.ToastUtil;
+import com.fmapp.test01.utils.Utils;
 
 import rx.Subscriber;
 
@@ -46,11 +47,13 @@ public class showStarBottomDialog {
         dialog.findViewById(R.id.tv_down).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, DownLoadActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", Integer.parseInt(data.getId()));
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                if (Utils.isFastClick()) {
+                    Intent intent = new Intent(context, DownLoadActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", Integer.parseInt(data.getId()));
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
                 dialog.dismiss();
             }
         });
@@ -69,41 +72,42 @@ public class showStarBottomDialog {
         dialog.findViewById(R.id.tv_cloud).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loaddingDialog.show();
-                RetrofitUtil.getInstance().tospro(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data.getId()), new Subscriber<BaseResponse<String>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        loaddingDialog.dismiss();
-                        if (e instanceof DataResultException) {
-                            DataResultException resultException = (DataResultException) e;
-                            showToast(context, resultException.getMsg());
+                if (Utils.isFastClick()) {
+                    loaddingDialog.show();
+                    RetrofitUtil.getInstance().tospro(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data.getId()), new Subscriber<BaseResponse<String>>() {
+                        @Override
+                        public void onCompleted() {
                         }
-                    }
 
-                    @Override
-                    public void onNext(BaseResponse<String> baseResponse) {
-                        loaddingDialog.dismiss();
-                        if ("1".equals(baseResponse.getStatus())) {
-                            showToast(context, baseResponse.getMsg());
-                        } else {
-                            showToast(context, baseResponse.getMsg());
+                        @Override
+                        public void onError(Throwable e) {
+                            loaddingDialog.dismiss();
+                            if (e instanceof DataResultException) {
+                                DataResultException resultException = (DataResultException) e;
+                                showToast(context, resultException.getMsg());
+                            }
                         }
-                    }
-                });
 
+                        @Override
+                        public void onNext(BaseResponse<String> baseResponse) {
+                            loaddingDialog.dismiss();
+                            if ("1".equals(baseResponse.getStatus())) {
+                                showToast(context, baseResponse.getMsg());
+                            } else {
+                                showToast(context, baseResponse.getMsg());
+                            }
+                        }
+                    });
+                }
                 dialog.dismiss();
             }
         });
         dialog.findViewById(R.id.tv_rename).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (Utils.isFastClick()) {
                 showRenameDialog dialog01 = new showRenameDialog();
-                dialog01.CenterDialog(context, data.getFid(),data.getBasename(), position);
+                dialog01.CenterDialog(context, data.getFid(), data.getBasename(), position);}
                 dialog.dismiss();
             }
 
@@ -111,6 +115,7 @@ public class showStarBottomDialog {
         dialog.findViewById(R.id.tv_del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (Utils.isFastClick()) {
                 CustomDialog dialog1 = new CustomDialog(context).builder()
                         .setGravity(Gravity.CENTER)
                         .setTitle("提示", context.getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
@@ -131,7 +136,7 @@ public class showStarBottomDialog {
 //                                context.sendBroadcast(intent);
                             }
                         });
-                dialog1.show();
+                dialog1.show();}
                 dialog.dismiss();
             }
         });

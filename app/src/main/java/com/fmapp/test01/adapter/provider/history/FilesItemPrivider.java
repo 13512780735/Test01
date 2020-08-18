@@ -8,6 +8,7 @@ import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.HistoryAdapter;
 import com.fmapp.test01.fragment.cloud.history.showHistoryBottomDialog;
 import com.fmapp.test01.network.model.history.FilesModel;
+import com.fmapp.test01.utils.Utils;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;
 
@@ -34,7 +35,8 @@ public class FilesItemPrivider extends BaseItemProvider<FilesModel, BaseViewHold
     @Override
     public void onClick(BaseViewHolder helper, FilesModel data, int position) {
         super.onClick(helper, data, position);
+        if (Utils.isFastClick()) {
         showHistoryBottomDialog dialog = new showHistoryBottomDialog();
-        dialog.BottomDialog(mContext, data, "0", position);
+        dialog.BottomDialog(mContext, data, "0", position);}
     }
 }

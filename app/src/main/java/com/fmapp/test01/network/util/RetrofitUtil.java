@@ -13,6 +13,7 @@ import com.fmapp.test01.network.model.JXNavModel;
 import com.fmapp.test01.network.model.LoginRegisterModel;
 import com.fmapp.test01.network.model.LoginCodeModel;
 import com.fmapp.test01.network.model.MemberModel;
+import com.fmapp.test01.network.model.MoveFoldModel;
 import com.fmapp.test01.network.model.SvipDownModel;
 import com.fmapp.test01.network.model.history.HistoryListModel;
 import com.fmapp.test01.network.model.select.JXHomeModel;
@@ -227,9 +228,11 @@ public class RetrofitUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
     /**
      * 预览/在线解压-压缩包文件-步骤1
-     *在线预览
+     * 在线预览
+     *
      * @param token
      * @param id
      * @param isview
@@ -243,6 +246,7 @@ public class RetrofitUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
     public void zip(String token, int id, int isview, String password, Subscriber<BaseResponse<String>> subscriber) {
         mApiService.zip(token, id, isview, password)
                 .subscribeOn(Schedulers.io())
@@ -250,6 +254,7 @@ public class RetrofitUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
     /**
      * 获取文件的飞速链
      *
@@ -290,6 +295,37 @@ public class RetrofitUtil {
      */
     public void delfile(String token, int id, Subscriber<BaseResponse<String>> subscriber) {
         mApiService.delfile(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 云空间获取用户文件夹-用于移动文件
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void getfolders(String token, int id, Subscriber<BaseResponse<MoveFoldModel>> subscriber) {
+        mApiService.getfolders(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 云空间移动文件
+     *
+     * @param token
+     * @param fileid
+     * @param folderid
+     * @param subscriber
+     */
+    public void movefile(String token, String fileid, String folderid, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.movefile(token, fileid, folderid)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -435,7 +471,6 @@ public class RetrofitUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
-
 
 
     /**

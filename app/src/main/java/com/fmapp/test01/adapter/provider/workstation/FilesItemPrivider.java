@@ -8,6 +8,7 @@ import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.WorkStationAdapter;
 import com.fmapp.test01.fragment.cloud.work.showworkBottomDialog;
 import com.fmapp.test01.network.model.workStation.FilesModel;
+import com.fmapp.test01.utils.Utils;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;
 
@@ -33,8 +34,8 @@ public class FilesItemPrivider extends BaseItemProvider<FilesModel, BaseViewHold
     @Override
     public void onClick(BaseViewHolder helper, FilesModel data, int position) {
         super.onClick(helper, data, position);
-
+        if (Utils.isFastClick()) {
         showworkBottomDialog dialog = new showworkBottomDialog();
-        dialog.BottomDialog(mContext, data, "0", position);
+        dialog.BottomDialog(mContext, data, "0", position);}
     }
 }

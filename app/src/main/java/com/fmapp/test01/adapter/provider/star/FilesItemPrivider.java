@@ -8,6 +8,7 @@ import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.StarAdapter;
 import com.fmapp.test01.fragment.cloud.star.showStarBottomDialog;
 import com.fmapp.test01.network.model.star.FilesModel;
+import com.fmapp.test01.utils.Utils;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;
 
@@ -34,7 +35,8 @@ public class FilesItemPrivider extends BaseItemProvider<FilesModel, BaseViewHold
     @Override
     public void onClick(BaseViewHolder helper, FilesModel data, int position) {
         super.onClick(helper, data, position);
+        if (Utils.isFastClick()) {
         showStarBottomDialog dialog = new showStarBottomDialog();
-        dialog.BottomDialog(mContext, data, "0", position);
+        dialog.BottomDialog(mContext, data, "0", position);}
     }
 }

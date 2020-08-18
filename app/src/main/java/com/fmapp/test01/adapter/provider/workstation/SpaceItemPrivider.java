@@ -9,6 +9,7 @@ import com.fmapp.test01.R;
 import com.fmapp.test01.activity.cloud.LiveSpaceActivity;
 import com.fmapp.test01.adapter.WorkStationAdapter;
 import com.fmapp.test01.network.model.workStation.SpaceModel;
+import com.fmapp.test01.utils.Utils;
 
 public class SpaceItemPrivider extends BaseItemProvider<SpaceModel, BaseViewHolder> {
     @Override
@@ -32,7 +33,8 @@ public class SpaceItemPrivider extends BaseItemProvider<SpaceModel, BaseViewHold
     @Override
     public void onClick(BaseViewHolder helper, SpaceModel data, int position) {
         super.onClick(helper, data, position);
+        if (Utils.isFastClick()) {
         Intent intent = new Intent(mContext, LiveSpaceActivity.class);
-        mContext.startActivity(intent);
+        mContext.startActivity(intent);}
     }
 }

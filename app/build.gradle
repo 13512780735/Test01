@@ -101,6 +101,7 @@ dependencies {
     implementation project(':UnZipLibrary')
     implementation 'com.zhy.base:fileprovider:1.0.0'
     implementation 'com.google.guava:guava:27.0.1-android'
+    implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
     // api 'org.gnu:gnu-crypto:2.0.1'
     //新版本office打开
     implementation files('libs/tbs_sdk_thirdapp_v4.3.0.39_43939_sharewithdownloadwithfile_withoutGame_obfs_20200713_223411.jar')

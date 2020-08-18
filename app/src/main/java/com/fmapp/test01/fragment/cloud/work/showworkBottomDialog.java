@@ -3,6 +3,7 @@ package com.fmapp.test01.fragment.cloud.work;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.fmapp.test01.utils.CustomDialog;
 import com.fmapp.test01.utils.LoaddingDialog;
 import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.fmapp.test01.utils.ToastUtil;
+import com.fmapp.test01.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ public class showworkBottomDialog {
     private List<DownloadTask> tasks;
     private String key;
     private List<DownloadInfo> mFinishData;
+    private String workFlag;
     //type 0 文件类 1，在线压缩包
 
     public void BottomDialog(Context context, FilesModel data, String type, int position) {
@@ -53,9 +56,12 @@ public class showworkBottomDialog {
         window.setWindowAnimations(R.style.main_menu_animStyle);
         //设置对话框大小
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        workFlag = SharedPreferencesUtils.getString(context, "work");//1是永存空间过来
+        Log.d("workFlag", workFlag);
         TextView tv_online = view.findViewById(R.id.tv_online);
         TextView tv_look01 = view.findViewById(R.id.tv_look01);
         TextView tv_look = view.findViewById(R.id.tv_look);
+        TextView tv_cloud = view.findViewById(R.id.tv_cloud);
         if ("zip".equals(data.getExt())) {
             tv_online.setVisibility(View.VISIBLE);
             tv_look.setVisibility(View.VISIBLE);
@@ -63,20 +69,28 @@ public class showworkBottomDialog {
         if ("png".equals(data.getExt())) {
             tv_look01.setVisibility(View.VISIBLE);
         }
+
+        if ("1".equals(workFlag)) {
+            tv_cloud.setVisibility(View.GONE);
+        } else tv_cloud.setVisibility(View.VISIBLE);
         dialog.show();
 
         dialog.findViewById(R.id.tv_down).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toDownLoad(context, data);
+                if (Utils.isFastClick()) {
+                    toDownLoad(context, data);
+                }
                 dialog.dismiss();
             }
         });
         dialog.findViewById(R.id.tv_online).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showOnlineDialog dialog01 = new showOnlineDialog();
-                dialog01.CenterDialog(context, data.getId(),data.getName(), "0", position);
+                if (Utils.isFastClick()) {
+                    showOnlineDialog dialog01 = new showOnlineDialog();
+                    dialog01.CenterDialog(context, data.getId(), data.getName(), "0", position);
+                }
                 dialog.dismiss();
             }
         });
@@ -84,17 +98,20 @@ public class showworkBottomDialog {
         dialog.findViewById(R.id.tv_look01).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getLookMac(context, data, position);
+                if (Utils.isFastClick()) {
+
+                    getLookMac(context, data, position);
+                }
                 dialog.dismiss();
             }
         });
         //压缩包在线预览
         dialog.findViewById(R.id.tv_look).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {   if (Utils.isFastClick()) {
+
                 showOnlineDialog dialog01 = new showOnlineDialog();
-                dialog01.CenterDialog(context, data.getId(),data.getName(), "1", position);
-                dialog.dismiss();
+                dialog01.CenterDialog(context, data.getId(), data.getName(), "1", position);}
                 dialog.dismiss();
             }
         });
@@ -113,7 +130,8 @@ public class showworkBottomDialog {
         dialog.findViewById(R.id.tv_cloud).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toEverCloud(context, data.getId(), position);
+                if (Utils.isFastClick()) {
+                toEverCloud(context, data.getId(), position);}
                 dialog.dismiss();
             }
         });
@@ -127,7 +145,8 @@ public class showworkBottomDialog {
         });
         dialog.findViewById(R.id.tv_del).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {   if (Utils.isFastClick()) {
+
                 CustomDialog dialog1 = new CustomDialog(context).builder()
                         .setGravity(Gravity.CENTER)
                         .setTitle("提示", context.getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
@@ -144,13 +163,14 @@ public class showworkBottomDialog {
                                 del(context, data.getId(), position);
                             }
                         });
-                dialog1.show();
+                dialog1.show();}
                 dialog.dismiss();
             }
         });
 
 
     }
+
     /**
      * 在线预览图片
      *
@@ -290,11 +310,25 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
                     showToast(context, baseResponse.getMsg());
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.work");
-                    intent.putExtra("id", position);
-                    intent.putExtra("flag", "0");
-                    context.sendBroadcast(intent);
+                    if ("1".equals(workFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.liveSpace");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "0");
+                        context.sendBroadcast(intent);
+                    } else if ("2".equals(workFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.workFile");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "0");
+                        context.sendBroadcast(intent);
+                    } else {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.work");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "0");
+                        context.sendBroadcast(intent);
+                    }
                 }
             }
         });
@@ -331,10 +365,22 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
                     showToast(context, baseResponse.getMsg());
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.work");
-                    intent.putExtra("id", position);
-                    context.sendBroadcast(intent);
+                    if ("1".equals(workFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.liveSpace");
+                        intent.putExtra("id", position);
+                        context.sendBroadcast(intent);
+                    } else if ("2".equals(workFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.workFile");
+                        intent.putExtra("id", position);
+                        context.sendBroadcast(intent);
+                    } else {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.work");
+                        intent.putExtra("id", position);
+                        context.sendBroadcast(intent);
+                    }
                 }
                 showToast(context, baseResponse.getMsg());
             }

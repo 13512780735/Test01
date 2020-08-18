@@ -24,8 +24,13 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.file.work.workFilePreviewActivity"></activity>
-        <activity android:name=".activity.file.work.WorkFilePreviewActivity" />
+        <activity
+            android:name=".activity.file.VideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+
+
+        </activity>
+        <activity android:name=".activity.file.work.workFilePreviewActivity" />
         <activity android:name=".activity.file.ZipPreviewActivity" />
         <activity android:name=".activity.login.SplashActivity">
             <intent-filter>
@@ -34,7 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.file.zip.PathSelectedActivity" />
         <activity android:name=".activity.file.zip.ZipRarFileActivity" />
         <activity android:name=".activity.file.OfficeActivity" />
         <activity android:name=".activity.file.PictureActivity" />

@@ -8,6 +8,7 @@ import com.fmapp.test01.R;
 import com.fmapp.test01.adapter.CloudAdapter;
 import com.fmapp.test01.fragment.cloud.cloud2.showCloudBottomDialog;
 import com.fmapp.test01.network.model.cloud.FilesModel;
+import com.fmapp.test01.utils.Utils;
 
 import static com.fmapp.test01.utils.com.GetHeaderImgById;
 
@@ -34,7 +35,9 @@ public class FilesItemPrivider extends BaseItemProvider<FilesModel, BaseViewHold
     @Override
     public void onClick(BaseViewHolder helper, FilesModel data, int position) {
         super.onClick(helper, data, position);
-        showCloudBottomDialog dialog = new showCloudBottomDialog();
-        dialog.BottomDialog(mContext, data, "0", position);
+        if (Utils.isFastClick()) {
+            showCloudBottomDialog dialog = new showCloudBottomDialog();
+            dialog.BottomDialog(mContext, data, "0", position);
+        }
     }
 }

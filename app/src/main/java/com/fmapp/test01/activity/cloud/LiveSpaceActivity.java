@@ -23,6 +23,7 @@ import com.fmapp.test01.network.model.workStation.WorkStationListModel;
 import com.fmapp.test01.network.model.workStation.workStationModel;
 import com.fmapp.test01.network.util.DataResultException;
 import com.fmapp.test01.network.util.RetrofitUtil;
+import com.fmapp.test01.utils.SharedPreferencesUtils;
 import com.mylhyl.crlayout.SwipeRefreshAdapterView;
 import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
@@ -74,7 +75,7 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
             @Override
             public void onNext(BaseResponse<WorkStationListModel> baseResponse) {
                 LoaddingDismiss();
-                if ("1".equals(baseResponse.getStatus()) ) {
+                if ("1".equals(baseResponse.getStatus())) {
                     WorkStationListModel workStationListModel = baseResponse.getData();
                     if (workStationListModel.getFolder().size() > 0) {
                         List<WorkStationListModel.FolderBean> folderBeans = workStationListModel.getFolder();
@@ -111,6 +112,7 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
 
     private void initUI() {
         setBackView();
+        SharedPreferencesUtils.put(mContext, "work", "1");
         mBack.setImageDrawable(getResources().getDrawable(R.mipmap.icon_back01));
         setTitle("永存空间");
         register();
@@ -156,6 +158,7 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
         if (receiver != null) {
             unregisterReceiver(receiver);
         }
+        SharedPreferencesUtils.put(mContext, "work", "");
     }
 
     @Override
