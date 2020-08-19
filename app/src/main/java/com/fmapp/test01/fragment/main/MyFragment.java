@@ -27,7 +27,6 @@ import com.fmapp.test01.widght.CircleImageView;
 
 import rx.Subscriber;
 
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -255,9 +255,6 @@ public class FileManager {
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent = new Intent(mContext, PictureActivity.class);
-            //Uri uri = FileProvider.getUriForFile(mContext, "com.fmapp.test01.fileprovider", new File(param));
-            //intent.setDataAndType(uri, "image/*");
-
             intent.putExtra("uri", param);
             intent.putExtra("name", name);
             intent.putExtra("flag","0");

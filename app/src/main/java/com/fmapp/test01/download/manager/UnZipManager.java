@@ -1,28 +1,42 @@
 package com.fmapp.test01.download.manager;
 
+import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.fmapp.test01.download.FileModel;
+import com.fmapp.test01.download.util.ChineseUtill;
 import com.fmapp.test01.download.util.DateUtils;
 import com.fmapp.test01.download.util.FileUtils;
+import com.fmapp.test01.utils.StringUtil;
 import com.unzip.andy.library.MyZipFile;
 
 import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.model.ExtraDataRecord;
 import net.lingala.zip4j.model.FileHeader;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 import net.lingala.zip4j.util.Zip4jUtil;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
-import java.nio.ByteBuffer;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * @author Andy.R
@@ -84,7 +98,7 @@ public class UnZipManager {
         }
         try {
             MyZipFile zipFile = new MyZipFile(scrFile);
-            zipFile.setFileNameCharset(StandardCharsets.UTF_8.name());
+            zipFile.setFileNameCharset("GBK");
             if (zipFile.isEncrypted()) {
                 // 在这里输入密码，如果写错了，会报异常
                 zipFile.setPassword(password);
@@ -112,7 +126,7 @@ public class UnZipManager {
         List<FileModel> listFiles = new ArrayList<>();
         try {
             MyZipFile zipFile = new MyZipFile(srcFile);
-            zipFile.setFileNameCharset(StandardCharsets.UTF_8.name());
+            zipFile.setFileNameCharset("GBK");
             List<FileHeader> list = zipFile.getFileHeaders();
             FileModel fileModel;
             for (FileHeader fileHeader : list) {
@@ -120,13 +134,13 @@ public class UnZipManager {
                 if (!fileHeader.getFileName().startsWith(".")) {
                     int fileDate = fileHeader.getLastModFileTime();
                     Date date = new Date(Zip4jUtil.dosToJavaTme(fileDate));
-                    // Date date = getDateDos(fileDate);
                     String formatDate = DateUtils.getDateToString(date);
                     long fileSize = fileHeader.getUncompressedSize();
                     String formatSize = FileUtils.formatFileSize(fileSize);
                     String fileName;
+                    String fileName1;
                     String filePath;
-
+                    String fileType;
                     if (fileHeader.isDirectory()) {
                         fileName = fileHeader.getFileName().substring(0, fileHeader.getFileName().length() - 1).replace("/", "\\");
                         filePath = fileHeader.getFileName().substring(0, fileHeader.getFileName().length() - 1).replace("/", "\\");
@@ -134,8 +148,14 @@ public class UnZipManager {
                         fileName = fileHeader.getFileName().replace("/", "\\");
                         filePath = fileHeader.getFileName().replace("/", "\\");
                     }
-                    String fileType = FileUtils.getFileExtensionNoPoint(fileName);
-                    fileModel.setFileName(fileName);
+                    fileName1 = new String(fileName.getBytes("GBK"), "UTF-8");
+                    if (fileName1.length() > fileName.length()) {
+                        fileType = FileUtils.getFileExtensionNoPoint(fileName);
+                        fileModel.setFileName(fileName);
+                    } else {
+                        fileType = FileUtils.getFileExtensionNoPoint(fileName1);
+                        fileModel.setFileName(fileName1);
+                    }
                     fileModel.setFilePath(filePath);
                     fileModel.setFileDate(fileDate);
                     fileModel.setFileDateShow(formatDate);
@@ -153,6 +173,7 @@ public class UnZipManager {
         }
         return listFiles;
     }
+
 
     /**
      * 处理时间格式
@@ -180,13 +201,14 @@ public class UnZipManager {
      * @return
      */
     public String unZipFileSingle(String scrFile, String descFolder, String fileName, String password) {
+        String fileName1;
         if (TextUtils.isEmpty(descFolder)) {
             descFolder = Environment.getDownloadCacheDirectory().getAbsolutePath();
         }
         String outPath = "";
         try {
-            MyZipFile zipFile = new MyZipFile(scrFile);
-            zipFile.setFileNameCharset(StandardCharsets.UTF_8.name());
+            ZipFile zipFile = new ZipFile(scrFile);
+            zipFile.setFileNameCharset("GBK");
             if (zipFile.isEncrypted()) {
                 // 在这里输入密码，如果写错了，会报异常
                 zipFile.setPassword(password);
@@ -212,7 +234,7 @@ public class UnZipManager {
         if (!TextUtils.isEmpty(zipFilePath)) {
             try {
                 MyZipFile zipFile = new MyZipFile(zipFilePath);
-                zipFile.setFileNameCharset(StandardCharsets.UTF_8.name());
+                zipFile.setFileNameCharset("GBK");
                 isHasPasword = zipFile.isEncrypted();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -221,5 +243,4 @@ public class UnZipManager {
         }
         return isHasPasword;
     }
-
 }

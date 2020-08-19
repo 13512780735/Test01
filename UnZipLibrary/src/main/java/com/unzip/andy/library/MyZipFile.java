@@ -5,6 +5,7 @@
 
 package com.unzip.andy.library;
 
+import net.lingala.zip4j.core.HeaderReader;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.io.ZipInputStream;
 import net.lingala.zip4j.model.FileHeader;
@@ -27,11 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 自定义ZipFile，用于语言编码
- *
- * @author Andy.R
- */
+
 public class MyZipFile {
 
     private String zipFilePath;

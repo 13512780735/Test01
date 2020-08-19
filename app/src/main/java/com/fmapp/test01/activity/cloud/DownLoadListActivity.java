@@ -2,6 +2,7 @@ package com.fmapp.test01.activity.cloud;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

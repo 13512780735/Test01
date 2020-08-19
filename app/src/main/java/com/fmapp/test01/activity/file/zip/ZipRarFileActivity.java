@@ -18,10 +18,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidev.download.DownloadInfo;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.fmapp.test01.R;
+import com.fmapp.test01.activity.file.PictureActivity;
+import com.fmapp.test01.activity.file.showOnlineDialog;
 import com.fmapp.test01.activity.file.zip.adapter.FileListAdapter;
-import com.fmapp.test01.activity.file.zip.adapter.FilePathAdapter;
 import com.fmapp.test01.activity.file.zip.widget.PasswordDialog;
 import com.fmapp.test01.base.BaseActivity;
 import com.fmapp.test01.download.FileModel;
@@ -29,8 +31,10 @@ import com.fmapp.test01.download.manager.ThreadManager;
 import com.fmapp.test01.download.manager.UnZipManager;
 import com.fmapp.test01.download.util.FileManager;
 import com.fmapp.test01.download.util.FileUtils;
+import com.fmapp.test01.utils.Utils;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -81,7 +85,7 @@ public class ZipRarFileActivity extends BaseActivity {
     /**
      * 文件路径适配器
      **/
-    private FilePathAdapter filePathAdapter;
+    // private FilePathAdapter filePathAdapter;
 
 
     @SuppressLint("HandlerLeak")
@@ -125,25 +129,28 @@ public class ZipRarFileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zip_rar_file);
         fileManager = new FileManager(this);
+        zipRarFilePath = getIntent().getStringExtra("zipRarFilePath");
+        name = getIntent().getStringExtra("zipRarFileName");
         initView();
         setAdapter();
         initListener();
         getZipOrRarFile();
+
+
     }
 
     private void setAdapter() {
         fileListAdapter = new FileListAdapter(R.layout.file_list_item, showZipRarFileList);
         rvFileList.setAdapter(fileListAdapter);
-        filePathAdapter = new FilePathAdapter(R.layout.file_path_item, filePathList);
-        rvFilePath.setAdapter(filePathAdapter);
+//        filePathAdapter = new FilePathAdapter(R.layout.file_path_item, filePathList);
+//        rvFilePath.setAdapter(filePathAdapter);
     }
 
     /**
      * 获取zip/rar文件
      */
     private void getZipOrRarFile() {
-        zipRarFilePath = getIntent().getStringExtra("zipRarFilePath");
-        name = getIntent().getStringExtra("zipRarFileName");
+
         tvPath.setText(name);
         if (!TextUtils.isEmpty(zipRarFilePath)) {
             strCurrectPath = zipRarFilePath;
@@ -236,7 +243,8 @@ public class ZipRarFileActivity extends BaseActivity {
         }
     }
 
-
+    String rarOutFilePath = "";
+    String names;
     private void initListener() {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,13 +252,6 @@ public class ZipRarFileActivity extends BaseActivity {
                 goBack();
             }
         });
-//        btnUnRar.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ZipRarFileActivity.this, PathSelectedActivity.class);
-//                startActivityForResult(intent, 100);
-//            }
-//        });
         fileListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -266,57 +267,57 @@ public class ZipRarFileActivity extends BaseActivity {
                     else {
                         //缓存路径
                         final String outPath = FileUtils.getAppTempPath();
-                        Log.d("路径：", outPath);
-                        Log.d("路径2：", FileUtils.getSDCardFilesPath());
-                        Log.d("路径3：", FileUtils.getFileNameNoExtension(outPath));
-                        Log.d("路径3：", FileUtils.getFileNameNoExtension(outPath));
-                        // fileManager.
+                        Log.d("zipRarFilePath:", zipRarFilePath);
 
-//                        String rarOutFilePath = "";
-//                        //如果预览的是zip的内容,判断是否有密码
-//                        if (zipRarFilePath.endsWith(".zip")) {
-//                            boolean hasPassword = UnZipManager.getInstance().checkZipFileHasPassword(zipRarFilePath);
-//                            if (hasPassword) {
-//                                getUnZipPassword(outPath, fileModel.getFilePath());
-//                            } else {
-//                                rarOutFilePath = UnZipManager.getInstance().unZipFileSingle(zipRarFilePath, outPath, fileModel.getFilePath(), "");
-//                            }
-//                        }
-//                        //如果预览的是rar的内容,判断是否有密码
-//                        else {
-//                           // boolean hasPassword = UnRarManager.getInstance().checkRarFileHasPassword(new File(zipRarFilePath));
-////                            if (hasPassword) {
-////                                getUnZipPassword(outPath, fileModel.getFileName());
-////                            } else {
-////                                rarOutFilePath = UnRarManager.getInstance().unRarFileSingle(new File(zipRarFilePath), outPath, fileModel.getFileName(), "");
-////                            }
-                        //   }
-                        //FileUtils.openFileByApp(ZipRarFileActivity.this, rarOutFilePath);
-                    }
-                }
-            }
-        });
-        filePathAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (filePathList != null && filePathList.size() > 0 && filePathList.size() > position) {
-                    if (position == filePathList.size() - 1) {
-                        return;
-                    }
-                    String rarFileInnerPath;
-                    // 修改路径判断多层路径
-                    if (position > 0) {
-                        StringBuilder strBuilderPath = new StringBuilder();
-                        for (int i = 0; i < position + 1; i++) {
-                            strBuilderPath.append(filePathList.get(i)).append("\\");
+
+                        try {
+                            String fileName = fileModel.getFilePath();
+                            String fileName1 = null;
+                            fileName1 = new String(fileModel.getFilePath().getBytes("GBK"), "UTF-8");
+                            if (fileName1.length() > fileName.length()) {
+                                names = fileName;
+                            } else {
+                                names = fileName1;
+                            }
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
                         }
-                        rarFileInnerPath = strBuilderPath.substring(0, strBuilderPath.length() - 1);
-                    } else {
-                        rarFileInnerPath = filePathList.get(position);
+
+                        Log.d("zipRarFilePath222:",names);
+                        Log.d("zipRarFilePath333:", outPath);
+                        rarOutFilePath = UnZipManager.getInstance().unZipFileSingle(zipRarFilePath, outPath, names, "");
+                        Log.d("路径：", rarOutFilePath);
+//                        Log.d("路径5：", showZipRarFileList.get(position).getFilePath());
+//                        Log.d("路径2：", FileUtils.getSDCardFilesPath());
+//                        Log.d("路径3：", FileUtils.getFileNameNoExtension(outPath));
+//                        Log.d("路径3：", FileUtils.getFileNameNoExtension(outPath));
+                          FileUtils.openFileByApp(ZipRarFileActivity.this, rarOutFilePath);
+//                        if (Utils.isFastClick()) {
+//                            Log.d("点记录", "");
+//                            String names = null;
+//                            try {
+//                                String fileName = showZipRarFileList.get(position).getFilePath();
+//                                String fileName1 = null;
+//                                fileName1 = new String(showZipRarFileList.get(position).getFilePath().getBytes("GBK"), "UTF-8");
+//                                if (fileName1.length() > fileName.length()) {
+//                                    names = fileName;
+//                                } else {
+//                                    names = fileName1;
+//                                }
+//                            } catch (UnsupportedEncodingException e) {
+//                                e.printStackTrace();
+//                            }
+//
+//                            String uri = FileUtils.getSDCardFilesPath() + "/Download/" + name;
+//                            Intent intent = new Intent(mContext, PictureActivity.class);
+//                            intent.putExtra("uri", uri);
+//                            intent.putExtra("name", names);
+//                            intent.putExtra("flag", "0");
+//                            //intent .setType("image/*");
+//                            mContext.startActivity(intent);
+//                            // fileManager.openFile(mContext, FileUtils.getSDCardFilesPath()+showZipRarFileList.get(position).getFilePath(), showZipRarFileList.get(position).getFilePath());
+//                        }
                     }
-                    //用于区分选择的层级
-                    splitIndex = position + 3;
-                    layeredShowByPath(zipOrRarFileModelList, rarFileInnerPath);
                 }
             }
         });
@@ -338,7 +339,7 @@ public class ZipRarFileActivity extends BaseActivity {
             layeredShowByPath(zipOrRarFileModelList, strCurrectPath);
         } else if (splitIndex == 2) {
             strCurrectPath = zipRarFilePath;
-            tvPath.setText(strCurrectPath);
+            tvPath.setText(name);
             layeredShowByPath(zipOrRarFileModelList, "");
         } else {
             finish();
@@ -366,8 +367,6 @@ public class ZipRarFileActivity extends BaseActivity {
         fileListAdapter.replaceData(showZipRarFileList);
         fileListAdapter.notifyDataSetChanged();
         //路径刷新
-        filePathAdapter.replaceData(filePathList);
-        filePathAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -386,8 +385,12 @@ public class ZipRarFileActivity extends BaseActivity {
 //                    unAllFilePath = UnRarManager.getInstance().unRarAllFile(zipRarFilePath,
 //                            selectedPath, password);
                 } else {
-                    unAllFilePath = UnZipManager.getInstance().unZipAllFile(zipRarFilePath,
-                            selectedPath, password);
+                    try {
+                        unAllFilePath = UnZipManager.getInstance().unZipAllFile(zipRarFilePath,
+                                selectedPath, password);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 Message msg = mHandler.obtainMessage();
                 msg.what = HANDLER_UN_ALL_FILE;

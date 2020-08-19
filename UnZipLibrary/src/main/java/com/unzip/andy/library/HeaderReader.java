@@ -1,3 +1,4 @@
+/*
 //
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
@@ -12,26 +13,24 @@ import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.AESExtraDataRecord;
 import net.lingala.zip4j.model.CentralDirectory;
 import net.lingala.zip4j.model.DigitalSignature;
-import net.lingala.zip4j.model.EndCentralDirRecord;
 import net.lingala.zip4j.model.ExtraDataRecord;
 import net.lingala.zip4j.model.FileHeader;
 import net.lingala.zip4j.model.LocalFileHeader;
-import net.lingala.zip4j.model.Zip64EndCentralDirLocator;
-import net.lingala.zip4j.model.Zip64EndCentralDirRecord;
 import net.lingala.zip4j.model.Zip64ExtendedInfo;
 import net.lingala.zip4j.model.ZipModel;
-import net.lingala.zip4j.util.Raw;
 import net.lingala.zip4j.util.Zip4jUtil;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
+*/
 /**
  * 自定义HeaderReader
  *
  * @author Andy.R
- */
+ *//*
+
 public class HeaderReader {
 
     private RandomAccessFile zip4jRaf;
@@ -738,3 +737,4 @@ public class HeaderReader {
         }
     }
 }
+*/
