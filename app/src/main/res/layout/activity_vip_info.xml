@@ -83,6 +83,7 @@
                     android:text="立即开通"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_16"
+
                     app:contentBackColor="@color/button_confirm"
                     app:cornerRadius="@dimen/dp_10"></com.feemoo.fmapp.widght.BorderTextView>
 
