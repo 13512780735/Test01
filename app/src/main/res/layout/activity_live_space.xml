@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.fmapp.test01.activity.cloud.LiveSpaceActivity">
+    tools:context="com.feemoo.fmapp.activity.cloud.LiveSpaceActivity">
 
     <include layout="@layout/topbar_nor"></include>
 

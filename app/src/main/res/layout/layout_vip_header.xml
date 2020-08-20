@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_header"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/fl01"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true">
+
+            <com.feemoo.fmapp.widght.CircleImageView
+                android:id="@+id/iv01"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_100"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/icon_logo"></com.feemoo.fmapp.widght.CircleImageView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.feemoo.fmapp.widght.BorderTextView
+                    android:id="@+id/tvVip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="@dimen/dp_5"
+                    android:paddingRight="@dimen/dp_5"
+                    android:text=""
+                    app:contentBackColor="@color/yellow_button_bg_pressed_color"
+                    app:cornerRadius="2dp"></com.feemoo.fmapp.widght.BorderTextView>
+            </RelativeLayout>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fl01"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/dp_10"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_16"></TextView>
+
+        <TextView
+            android:id="@+id/tvIsVip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_centerHorizontal="true"
+            android:text=""
+            android:textSize="@dimen/sp_16"></TextView>
+    </RelativeLayout>
+</merge>

@@ -10,7 +10,7 @@
       />
 
 
-  <com.fmapp.test01.download.SubStateLinearLayout
+  <com.feemoo.fmapp.download.SubStateLinearLayout
       android:visibility="gone"
       android:id="@+id/child_list"
       android:layout_width="match_parent"

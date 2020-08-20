@@ -3,7 +3,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.1"
     defaultConfig {
-        applicationId "com.example.test01"
+        applicationId "com.feemoo.fmapp"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
@@ -105,7 +105,7 @@ dependencies {
     implementation 'com.zhy.base:fileprovider:1.0.0'
     implementation 'com.google.guava:guava:27.0.1-android'
     implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
-    // api 'org.gnu:gnu-crypto:2.0.1'
+// api 'org.gnu:gnu-crypto:2.0.1'
     //新版本office打开
     implementation files('libs/tbs_sdk_thirdapp_v4.3.0.39_43939_sharewithdownloadwithfile_withoutGame_obfs_20200713_223411.jar')
 }

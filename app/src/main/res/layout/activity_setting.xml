@@ -137,7 +137,7 @@
             android:background="@color/line"></View>
 
 
-        <com.fmapp.test01.widght.BorderTextView
+        <com.feemoo.fmapp.widght.BorderTextView
             android:id="@+id/tvLogout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
@@ -146,6 +146,6 @@
             android:text="退出"
             android:textSize="@dimen/sp_16"
             app:contentBackColor="@color/gray_background_color"
-            app:cornerRadius="@dimen/dp_20"></com.fmapp.test01.widght.BorderTextView>
+            app:cornerRadius="@dimen/dp_20"></com.feemoo.fmapp.widght.BorderTextView>
     </LinearLayout>
 </LinearLayout>

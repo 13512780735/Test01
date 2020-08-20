@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.fmapp.test01">
+    package="com.feemoo.fmapp">
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许程序设置内置sd卡的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许程序获取网络状态 -->
@@ -24,12 +24,13 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.MyInfo.VipInfoActivity"></activity>
+        <activity android:name=".activity.MyInfo.MessageActivity" />
+        <activity android:name=".activity.MyInfo.BindPhoneActivity" />
+        <activity android:name=".activity.MyInfo.CustomerServiceActivity" />
         <activity
             android:name=".activity.file.VideoActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
-
-
-        </activity>
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".activity.file.work.workFilePreviewActivity" />
         <activity android:name=".activity.file.ZipPreviewActivity" />
         <activity android:name=".activity.login.SplashActivity">
@@ -81,7 +82,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.fmapp.test01.android7.fileprovider"
+            android:authorities="com.feemoo.fmapp.android7.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:ignore="WrongManifestParent"
