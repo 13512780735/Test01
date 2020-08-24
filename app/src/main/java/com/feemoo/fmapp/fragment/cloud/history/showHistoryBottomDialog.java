@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,9 @@ public class showHistoryBottomDialog {
                             loaddingDialog.dismiss();
                             if (e instanceof DataResultException) {
                                 DataResultException resultException = (DataResultException) e;
+                                Looper.prepare();
                                 showToast(context, resultException.getMsg());
+                                Looper.loop();
                             }
                         }
 
@@ -88,13 +91,17 @@ public class showHistoryBottomDialog {
                         public void onNext(BaseResponse<String> baseResponse) {
                             loaddingDialog.dismiss();
                             if ("1".equals(baseResponse.getStatus())) {
+                                Looper.prepare();
                                 showToast(context, baseResponse.getMsg());
+                                Looper.loop();
 //                            Intent intent = new Intent();
 //                            intent.setAction("android.intent.action.cloud");
 //                            intent.putExtra("id", position);
 //                            context.sendBroadcast(intent);
                             } else {
+                                Looper.prepare();
                                 showToast(context, baseResponse.getMsg());
+                                Looper.loop();
                             }
                         }
                     });
@@ -161,7 +168,9 @@ public class showHistoryBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(context, resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -169,13 +178,17 @@ public class showHistoryBottomDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
+                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
+                    Looper.loop();
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.history");
                     intent.putExtra("id", position);
                     context.sendBroadcast(intent);
                 }
+                Looper.prepare();
                 showToast(context, baseResponse.getMsg());
+                Looper.loop();
             }
         });
     }

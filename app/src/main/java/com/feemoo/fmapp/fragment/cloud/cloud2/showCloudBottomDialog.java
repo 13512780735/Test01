@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -90,7 +91,9 @@ public class showCloudBottomDialog {
                         loaddingDialog.dismiss();
                         if (e instanceof DataResultException) {
                             DataResultException resultException = (DataResultException) e;
-                            showToast(context, resultException.getMsg());
+                            Looper.prepare();
+                            showToast(context,resultException.getMsg());
+                            Looper.loop();
                         }
                     }
 
@@ -98,9 +101,14 @@ public class showCloudBottomDialog {
                     public void onNext(BaseResponse<String> baseResponse) {
                         loaddingDialog.dismiss();
                         if ("1".equals(baseResponse.getStatus())) {
+                            Looper.prepare();
                             showToast(context, baseResponse.getMsg());
+                            Looper.loop();
+
                         } else {
+                            Looper.prepare();
                             showToast(context, baseResponse.getMsg());
+                            Looper.loop();
                         }
                     }
                 });
@@ -163,7 +171,9 @@ public class showCloudBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    showToast(context, resultException.getMsg());
+                    Looper.prepare();
+                    showToast(context,resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -174,9 +184,13 @@ public class showCloudBottomDialog {
                     ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                     // 将文本内容放到系统剪贴板里。
                     cm.setText(baseResponse.getData().getLink());
+                    Looper.prepare();
                     showToast(context, "本文件分享地址已复制剪切板，请前往粘贴使用");
+                    Looper.loop();
                 } else {
-                    showToast(context, baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast(context,baseResponse.getMsg());
+                    Looper.loop();
                 }
             }
         });
@@ -206,7 +220,9 @@ public class showCloudBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(context, resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -214,7 +230,9 @@ public class showCloudBottomDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
+                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
+                    Looper.loop();
                     if ("1".equals(cloudFlag)) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.cloudFile");
@@ -229,7 +247,9 @@ public class showCloudBottomDialog {
                         context.sendBroadcast(intent);
                     }
                 }
+                Looper.prepare();
                 showToast(context, baseResponse.getMsg());
+                Looper.loop();
             }
         });
     }

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -123,7 +124,9 @@ public class FilePreviewActivity extends BaseActivity implements SwipeRefreshAda
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    showToast(resultException.getMsg());
+                    Looper.prepare();
+                    showToast( resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -159,7 +162,9 @@ public class FilePreviewActivity extends BaseActivity implements SwipeRefreshAda
                     mCloudAdapter.setNewData(mCloudData);
                     mCloudAdapter.notifyDataSetChanged();
                 } else {
-                    showToast(baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast( baseResponse.getMsg());
+                    Looper.loop();
                 }
 
             }

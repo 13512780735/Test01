@@ -3,9 +3,12 @@ package com.feemoo.fmapp.activity.cloud;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.androidev.download.DownloadInfo;
 import com.androidev.download.DownloadManager;
@@ -18,6 +21,7 @@ import com.feemoo.fmapp.network.model.SvipDownModel;
 import com.feemoo.fmapp.network.util.DataResultException;
 import com.feemoo.fmapp.network.util.RetrofitUtil;
 import com.feemoo.fmapp.utils.StatusBarUtil;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +38,10 @@ import static com.feemoo.fmapp.utils.com.GetHeaderImgById;
  */
 public class DownLoadActivity extends BaseActivity {
     private final int REQUEST_PERMISSION_CODE = 1;//请求码
-    @BindView(R.id.tv_back)
-    ImageView mBack;
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
     @BindView(R.id.ivPic)
     ImageView ivPic;
     @BindView(R.id.tvName)
@@ -55,9 +61,8 @@ public class DownLoadActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_down_load);
-        int color = getResources().getColor(R.color.white);
-        StatusBarUtil.setColor(this, color, 0);
-        StatusBarUtil.setLightMode(this);
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("id");
         initUI();
@@ -78,7 +83,9 @@ public class DownLoadActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -91,15 +98,23 @@ public class DownLoadActivity extends BaseActivity {
                     tvName.setText(baseResponse.getData().getName());
                     tvSize.setText("文件大小：" + baseResponse.getData().getSize());
                     tvContent.setText("本文件内容由" + baseResponse.getData().getUname() + "自行上传，并不代表本站立场");
-                } else showToast(baseResponse.getMsg());
+                } else {
+                    Looper.prepare();
+                    showToast(baseResponse.getMsg());
+                    Looper.loop();
+                }
             }
         });
     }
 
     private void initUI() {
-        setBackView();
-        mBack.setImageDrawable(getResources().getDrawable(R.mipmap.icon_back));
-        setTitle("文件下载");
+        //  setBackView();
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     @OnClick({R.id.llVip, R.id.rlCloud, R.id.rlStar, R.id.rlSvipDown, R.id.rlQuanDown})
@@ -109,7 +124,6 @@ public class DownLoadActivity extends BaseActivity {
                 break;
             case R.id.rlCloud:
                 toCloud();
-
                 break;
             case R.id.rlStar:
                 toStar();
@@ -143,7 +157,9 @@ public class DownLoadActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -201,7 +217,9 @@ public class DownLoadActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -209,9 +227,13 @@ public class DownLoadActivity extends BaseActivity {
             public void onNext(BaseResponse<String> baseResponse) {
                 LoaddingDismiss();
                 if ("1".equals(baseResponse.getStatus())) {
+                    Looper.prepare();
                     showToast(baseResponse.getMsg());
+                    Looper.loop();
                 } else {
+                    Looper.prepare();
                     showToast(baseResponse.getMsg());
+                    Looper.loop();
                 }
             }
         });
@@ -231,7 +253,9 @@ public class DownLoadActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -239,9 +263,13 @@ public class DownLoadActivity extends BaseActivity {
             public void onNext(BaseResponse<String> baseResponse) {
                 LoaddingDismiss();
                 if ("1".equals(baseResponse.getStatus())) {
+                    Looper.prepare();
                     showToast(baseResponse.getMsg());
+                    Looper.loop();
                 } else {
+                    Looper.prepare();
                     showToast(baseResponse.getMsg());
+                    Looper.loop();
                 }
 
             }

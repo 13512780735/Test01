@@ -8,8 +8,6 @@
     android:paddingTop="@dimen/dp_20">
 
 
-
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/myScrollView"
         android:layout_width="match_parent"
@@ -239,49 +237,12 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <RelativeLayout
-        android:id="@+id/titleBgRl"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@color/gray_background_color">
 
-        <TextView
-            android:id="@+id/btn_title_left"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            android:textStyle="bold" />
-        <!--标题-->
-        <TextView
-            android:id="@+id/tv_title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text=""
-            android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:visibility="gone" />
-        <!--详情-->
-        <TextView
-            android:id="@+id/btn_title_right"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="详情"
-            android:textColor="#ffffff"
-            android:visibility="gone" />
-    </RelativeLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="登录"
+        app:titleTextAppearance="@style/toolbar_login_textStyle" />
 
 </FrameLayout>

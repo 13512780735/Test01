@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 
 import com.feemoo.fmapp.R;
@@ -27,6 +28,7 @@ import com.feemoo.fmapp.utils.StringUtil;
 import com.feemoo.fmapp.utils.Utils;
 import com.feemoo.fmapp.widght.BorderTextView;
 import com.feemoo.fmapp.widght.CircleImageView;
+import com.gyf.immersionbar.ImmersionBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,12 +51,10 @@ import rx.Subscriber;
 public class RegisterActivity extends BaseActivity {
     @BindView(R.id.myScrollView)
     NestedScrollView myScrollView;
-    @BindView(R.id.titleBgRl)
-    RelativeLayout titleBgRl;
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
     @BindView(R.id.rl_header)
     RelativeLayout mRlHeader;
-    @BindView(R.id.btn_title_left)
-    TextView mTitle;
     @BindView(R.id.iv01)
     CircleImageView iv01;
     @BindView(R.id.ll01)
@@ -75,15 +75,17 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        int color = getResources().getColor(R.color.gray_background_color);
-        StatusBarUtil.setColor(this, color, 0);
-        StatusBarUtil.setLightMode(this);
+        if (ImmersionBar.isSupportStatusBarDarkFont()) {
+            ImmersionBar.with(this).statusBarDarkFont(true).init();
+        } else {
+
+            Log.d("RegisterActivity", "当前设备不支持状态栏字体变色");
+        }
         initUI();
     }
 
     private void initUI() {
-        Drawable drawable = getResources().getDrawable(
-                R.mipmap.icon_back);
+        mToolbar.setAlpha(0);
         WindowManager wm = this.getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();//屏幕宽度
         int height01 = width;//屏幕高度
@@ -98,36 +100,38 @@ public class RegisterActivity extends BaseActivity {
         myScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
             int height = DensityUtil.dip2px(mContext, 50);
             if (i1 <= 0) {
-                mTitle.setText("注册");
-                mTitle.setAlpha(0);
+                mToolbar.setTitle("注册");
+                mToolbar.setAlpha(0);
                 iv01.setVisibility(View.VISIBLE);
             } else if (i1 > 0 && i1 < height) {
-                mTitle.setText("注册");
+                mToolbar.setTitle("注册");
                 //获取渐变率
                 float scale = (float) i1 / height;
                 //获取渐变数值
                 float alpha = (1.0f * scale);
-                mTitle.setAlpha(alpha);
+                mToolbar.setAlpha(alpha);
                 iv01.setVisibility(View.INVISIBLE);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(),
-                        drawable.getMinimumHeight());
-                mTitle.setCompoundDrawables(drawable, null, null, null);
             } else {
-                mTitle.setAlpha(1f);
+                mToolbar.setAlpha(1f);
             }
 
         });
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
-    @OnClick({R.id.send_code_btn, R.id.mTvCode, R.id.mTvNext, R.id.btn_title_left})
+    @OnClick({R.id.send_code_btn, R.id.mTvCode, R.id.mTvNext})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_title_left:
-                onBackPressed();
-                break;
             case R.id.send_code_btn:
                 if (Utils.isFastClick()) {
-                sendCode();}
+                    sendCode();
+                }
                 break;
             case R.id.mTvCode:
                 //  ToastCustom.showToast(mContext, "请检查您输入的手机号是否有效");
@@ -153,6 +157,7 @@ public class RegisterActivity extends BaseActivity {
                         showToast("账号或验证码不正确，长度请在6-20之间");
                         return;
                     }
+
                     toGet(mobile, code);
 
                 }
@@ -190,7 +195,6 @@ public class RegisterActivity extends BaseActivity {
                     JSONObject object = new JSONObject(response.body().string());
                     int status = object.optInt("status");
                     String msg = object.optString("msg");
-
                     if (status == 1) {
                         Bundle bundle = new Bundle();
                         bundle.putString("msgid", msgid);
@@ -198,14 +202,10 @@ public class RegisterActivity extends BaseActivity {
                         bundle.putString("code", code);
                         bundle.putString("phone", mobile);
                         toActivity(Register02Activity.class, bundle);
-                        Looper.prepare();
                         showToast(msg);
-                        Looper.loop();
 
                     } else {
-                        Looper.prepare();
                         showToast(msg);
-                        Looper.loop();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -246,7 +246,9 @@ public class RegisterActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -254,13 +256,18 @@ public class RegisterActivity extends BaseActivity {
             public void onNext(BaseResponse<LoginCodeModel> baseResponse) {
                 Log.d("数据", baseResponse.getData().toString());
                 LoaddingDismiss();
-                if ("1".equals(baseResponse.getStatus()) ) {
+                if ("1".equals(baseResponse.getStatus())) {
                     msgid = baseResponse.getData().getMsgid();
                     Log.d("msgid", msgid);
                     // ToastCustom.showToast(mContext, baseResponse.getMsg());
                     showToast(baseResponse.getMsg());
-                } else {
+                    Looper.prepare();
                     showToast(baseResponse.getMsg());
+                    Looper.loop();
+                } else {
+                    Looper.prepare();
+                    showToast(baseResponse.getMsg());
+                    Looper.loop();
                     //  ToastCustom.showToast(mContext, baseResponse.getMsg());
                 }
             }

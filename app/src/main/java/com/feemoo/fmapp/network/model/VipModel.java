@@ -126,7 +126,7 @@ public class VipModel {
         }
     }
 
-    public static class SvipsBean {
+    public static class SvipsBean implements Comparable<SvipsBean> {
         /**
          * vipid : 1000
          * price : 18
@@ -136,6 +136,33 @@ public class VipModel {
         private int vipid;
         private String price;
         private String unit;
+        private String oprice;
+        private String name;
+        private int img;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getImg() {
+            return img;
+        }
+
+        public void setImg(int img) {
+            this.img = img;
+        }
+
+        public String getOprice() {
+            return oprice;
+        }
+
+        public void setOprice(String oprice) {
+            this.oprice = oprice;
+        }
 
         public int getVipid() {
             return vipid;
@@ -159,6 +186,12 @@ public class VipModel {
 
         public void setUnit(String unit) {
             this.unit = unit;
+        }
+
+        @Override
+        public int compareTo(SvipsBean svipsBean) {
+            int i =  svipsBean.getVipid()-this.getVipid() ;//先按照年龄排序
+            return i;
         }
     }
 }

@@ -4,6 +4,7 @@ package com.feemoo.fmapp.activity.login;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Looper;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,7 +14,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 
 import com.feemoo.fmapp.R;
@@ -31,6 +34,7 @@ import com.feemoo.fmapp.utils.StringUtil;
 import com.feemoo.fmapp.utils.Utils;
 import com.feemoo.fmapp.widght.BorderTextView;
 import com.feemoo.fmapp.widght.CircleImageView;
+import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,12 +50,10 @@ public class LoginActivity extends BaseActivity {
     NestedScrollView myScrollView;
     @BindView(R.id.ll01)
     LinearLayout ll01;
-    @BindView(R.id.titleBgRl)
-    RelativeLayout titleBgRl;
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
     @BindView(R.id.rl_header)
     RelativeLayout mRlHeader;
-    @BindView(R.id.btn_title_left)
-    TextView mTitle;
     @BindView(R.id.iv01)
     CircleImageView iv01;
     @BindView(R.id.mTvSelect)
@@ -77,22 +79,25 @@ public class LoginActivity extends BaseActivity {
     private String password;
     private String msgid;
     private LoginActivity mContext;
-   // private LoaddingDialog loaddingDialog;
+    // private LoaddingDialog loaddingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mContext=this;
-        int color = getResources().getColor(R.color.gray_background_color);
-        StatusBarUtil.setColor(this, color, 0);
-        StatusBarUtil.setLightMode(this);
+        mContext = this;
+        if (ImmersionBar.isSupportStatusBarDarkFont()) {
+            ImmersionBar.with(this).statusBarDarkFont(true).init();
+        } else {
+
+            Log.d("LoginActivity","当前设备不支持状态栏字体变色");
+        }
         setSwipeBackEnable(false);
-       // loaddingDialog = new LoaddingDialog(this);
         initUI();
     }
 
     private void initUI() {
+        mToolbar.setAlpha(0);
         WindowManager wm = this.getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();//屏幕宽度
         int height01 = width;//屏幕高度
@@ -107,19 +112,19 @@ public class LoginActivity extends BaseActivity {
         myScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
             int height = DensityUtil.dip2px(mContext, 50);
             if (i1 <= 0) {
-                mTitle.setText("登录");
-                mTitle.setAlpha(0);
+                mToolbar.setTitle("登录");
+                mToolbar.setAlpha(0);
                 iv01.setVisibility(View.VISIBLE);
             } else if (i1 > 0 && i1 < height) {
-                mTitle.setText("登录");
+                mToolbar.setTitle("登录");
                 //获取渐变率
                 float scale = (float) i1 / height;
                 //获取渐变数值
                 float alpha = (1.0f * scale);
-                mTitle.setAlpha(alpha);
+                mToolbar.setAlpha(alpha);
                 iv01.setVisibility(View.INVISIBLE);
             } else {
-                mTitle.setAlpha(1f);
+                mToolbar.setAlpha(1f);
             }
 
         });
@@ -147,13 +152,13 @@ public class LoginActivity extends BaseActivity {
             mTvPass.setText("密码");
             mEtName.setHint("请输入用户名");
             mEtPass.setHint("请输入密码");
-           mEtPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            mEtPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             // 这一步必须要做，否则不会显示。
             drawable.setBounds(0, 0, drawable.getMinimumWidth(),
                     drawable.getMinimumHeight());
             mTvName.setCompoundDrawables(null, null, null, null);
-            mEtName.setText(SharedPreferencesUtils.getString(mContext,"mobile"));
-            mEtPass.setText(SharedPreferencesUtils.getString(mContext,"password"));
+            mEtName.setText(SharedPreferencesUtils.getString(mContext, "mobile"));
+            mEtPass.setText(SharedPreferencesUtils.getString(mContext, "password"));
         } else {
             mTvCode.setVisibility(View.VISIBLE);
             mTvSelect.setText("用密码登录");
@@ -169,8 +174,8 @@ public class LoginActivity extends BaseActivity {
             drawable.setBounds(0, 0, drawable.getMinimumWidth(),
                     drawable.getMinimumHeight());
             mTvName.setCompoundDrawables(null, null, drawable, null);
-            mEtName.setText(SharedPreferencesUtils.getString(mContext,"mobile"));
-            mEtPass.setText(SharedPreferencesUtils.getString(mContext,"password"));
+            mEtName.setText(SharedPreferencesUtils.getString(mContext, "mobile"));
+            mEtPass.setText(SharedPreferencesUtils.getString(mContext, "password"));
         }
     }
 
@@ -179,58 +184,61 @@ public class LoginActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.send_code_btn:
                 if (Utils.isFastClick()) {
-                sendCode();}
+                    sendCode();
+                }
                 break;
             case R.id.mTvLogin:
                 if (Utils.isFastClick()) {
-                if (flag == 0) {
-                    mobile = mEtName.getText().toString().trim();
-                    password = mEtPass.getText().toString().trim();
-                    if (StringUtil.isBlank(mobile)) {
-                        showToast( "用户名不能为空");
-                        return;
+                    if (flag == 0) {
+                        mobile = mEtName.getText().toString().trim();
+                        password = mEtPass.getText().toString().trim();
+                        if (StringUtil.isBlank(mobile)) {
+                            showToast("用户名不能为空");
+                            return;
+                        }
+                        if (StringUtil.isBlank(password)) {
+                            showToast("密码不能为空");
+                            return;
+                        }
+                        if (!checkBox.isChecked()) {
+                            showToast("请您仔细阅读并且点击同意《用户协议》方可登录");
+                            return;
+                        }
+                        toAccountLogin(mobile, password);
+                    } else {
+                        mobile = mEtName.getText().toString().trim();
+                        password = mEtPass.getText().toString().trim();
+                        if (StringUtil.isBlank(mobile)) {
+                            showToast("手机号不能为空");
+                            return;
+                        }
+                        if (StringUtil.isBlank(password)) {
+                            showToast("验证码不能为空");
+                            return;
+                        }
+                        if (!checkBox.isChecked()) {
+                            showToast("请您仔细阅读并且点击同意《用户协议》方可登录");
+                            return;
+                        }
+                        toPhoneLogin(mobile, password);
                     }
-                    if (StringUtil.isBlank(password)) {
-                        showToast( "密码不能为空");
-                        return;
-                    }
-                    if (!checkBox.isChecked()) {
-                        showToast("请您仔细阅读并且点击同意《用户协议》方可登录");
-                        return;
-                    }
-                    toAccountLogin(mobile, password);
-                } else {
-                    mobile = mEtName.getText().toString().trim();
-                    password=mEtPass.getText().toString().trim();
-                    if (StringUtil.isBlank(mobile)) {
-                        showToast( "手机号不能为空");
-                        return;
-                    }
-                    if (StringUtil.isBlank(password)) {
-                        showToast("验证码不能为空");
-                        return;
-                    }
-                    if (!checkBox.isChecked()) {
-                        showToast("请您仔细阅读并且点击同意《用户协议》方可登录");
-                        return;
-                    }
-                    toPhoneLogin(mobile, password);
-                }}
+                }
                 break;
             case R.id.mTvRegister:
                 if (Utils.isFastClick()) {
-                toActivity(RegisterActivity.class);}
+                    toActivity(RegisterActivity.class);
+                }
                 break;
             case R.id.checkbox01:
 
                 break;
             case R.id.protocol_tv01:
                 if (Utils.isFastClick()) {
-                toActivity(RegisterProtocolActivity.class);}
+                    toActivity(RegisterProtocolActivity.class);
+                }
                 break;
             case R.id.mTvCode:
-
-                showToast( "请检查您输入的手机号是否有效");
+                showToast("请检查您输入的手机号是否有效");
                 break;
             case R.id.mTvSelect:
                 if (flag == 0) {
@@ -248,14 +256,14 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-
     /**
      * 手机登录
+     *
      * @param mobile
      * @param password
      */
     private void toPhoneLogin(String mobile, String password) {
-        msgid="1";
+        msgid = "1";
         RetrofitUtil.getInstance().phonefastlogin("+86", mobile, password, msgid, new Subscriber<BaseResponse<LoginRegisterModel>>() {
             @Override
             public void onCompleted() {
@@ -273,21 +281,23 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onNext(BaseResponse<LoginRegisterModel> baseResponse) {
-                if("1".equals(baseResponse.getStatus()) ){
-                    String token=baseResponse.getData().getToken();
-                    SharedPreferencesUtils.put(mContext,"token",token);
+                if ("1".equals(baseResponse.getStatus())) {
+                    String token = baseResponse.getData().getToken();
+                    SharedPreferencesUtils.put(mContext, "token", token);
                     showToast(baseResponse.getMsg());
-                    SharedPreferencesUtils.put(mContext,"mobile",mobile);
-                    SharedPreferencesUtils.put(mContext,"password",password);
+                    SharedPreferencesUtils.put(mContext, "mobile", mobile);
+                    SharedPreferencesUtils.put(mContext, "password", password);
                     toActivityFinish(MainActivity.class);
-                }else {
-                showToast(baseResponse.getMsg());}
+                } else {
+                    showToast(baseResponse.getMsg());
+                }
             }
         });
     }
 
     /**
      * 账号密码登录
+     *
      * @param mobile
      * @param password
      */
@@ -307,18 +317,19 @@ public class LoginActivity extends BaseActivity {
                     showToast(resultException.getMsg());
                 }
             }
+
             @Override
             public void onNext(BaseResponse<LoginRegisterModel> baseResponse) {
-                Log.d("数据",baseResponse.getMsg());
+                Log.d("数据", baseResponse.getMsg());
                 LoaddingDismiss();
-                if("1".equals(baseResponse.getStatus()) ){
-                    String token=baseResponse.getData().getToken();
-                    SharedPreferencesUtils.put(mContext,"token",token);
-                    SharedPreferencesUtils.put(mContext,"mobile",mobile);
-                    SharedPreferencesUtils.put(mContext,"password",password);
+                if ("1".equals(baseResponse.getStatus())) {
+                    String token = baseResponse.getData().getToken();
+                    SharedPreferencesUtils.put(mContext, "token", token);
+                    SharedPreferencesUtils.put(mContext, "mobile", mobile);
+                    SharedPreferencesUtils.put(mContext, "password", password);
                     showToast(baseResponse.getMsg());
                     toActivityFinish(MainActivity.class);
-                }else {
+                } else {
                     showToast(baseResponse.getMsg());
                 }
             }
@@ -329,7 +340,7 @@ public class LoginActivity extends BaseActivity {
     private void sendCode() {
         mobile = mEtName.getText().toString().trim();
         if (StringUtil.isBlank(mobile)) {
-            showToast(  "手机号不能为空");
+            showToast("手机号不能为空");
             return;
         } else {
             // SMSSDK.getVerificationCode("86", mobile);
@@ -341,6 +352,7 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * 获取验证码
+     *
      * @param mobile
      */
     private void VerificationCode(String mobile) {
@@ -362,10 +374,10 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onNext(BaseResponse<LoginCodeModel> baseResponse) {
                 LoaddingDismiss();
-                if("1".equals(baseResponse.getStatus()) ){
-                    msgid=baseResponse.getData().getMsgid();
+                if ("1".equals(baseResponse.getStatus())) {
+                    msgid = baseResponse.getData().getMsgid();
                     showToast(baseResponse.getMsg());
-                }else {
+                } else {
                     showToast(baseResponse.getMsg());
                 }
             }

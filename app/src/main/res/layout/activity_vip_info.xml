@@ -2,9 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:paddingTop="@dimen/dp_20">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/myScrollView"
@@ -40,6 +38,7 @@
                     android:id="@+id/payWay_choose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
                     android:orientation="vertical">
 
                     <RadioButton
@@ -76,6 +75,7 @@
 
 
                 <com.feemoo.fmapp.widght.BorderTextView
+                    android:id="@+id/tvConfirm"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_50"
                     android:layout_marginTop="@dimen/dp_20"
@@ -83,7 +83,6 @@
                     android:text="立即开通"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_16"
-
                     app:contentBackColor="@color/button_confirm"
                     app:cornerRadius="@dimen/dp_10"></com.feemoo.fmapp.widght.BorderTextView>
 
@@ -147,49 +146,43 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <RelativeLayout
-        android:id="@+id/titleBgRl"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/btn_title_left"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            android:textStyle="bold" />
-        <!--标题-->
-        <TextView
-            android:id="@+id/tv_title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            />
-        <!--详情-->
-        <TextView
-            android:id="@+id/btn_title_right"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="详情"
-            android:textColor="#ffffff"
-            android:visibility="gone" />
-    </RelativeLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/abl_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_background_color"
+        app:elevation="0dp">
+
+        <View
+            android:id="@+id/status_bar_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"></View>
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="50dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways|snap"
+            app:navigationIcon="@mipmap/icon_back"
+            app:popupTheme="@style/ToolbarPopupTheme">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_18">
+
+            </TextView>
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
 </FrameLayout>

@@ -160,7 +160,9 @@ public class MemberActivity extends BaseActivity {
                         });
 
                     } else {
+                        Looper.prepare();
                         showToast(msg);
+                        Looper.loop();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -184,7 +186,9 @@ public class MemberActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    showToast(resultException.getMsg());
+                    Looper.prepare();
+                    showToast( resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -192,9 +196,13 @@ public class MemberActivity extends BaseActivity {
             public void onNext(BaseResponse<String> baseResponse) {
                 LoaddingDismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    showToast(baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast( baseResponse.getMsg());
+                    Looper.loop();
                 } else {
-                    showToast(baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast( baseResponse.getMsg());
+                    Looper.loop();
                 }
             }
         });

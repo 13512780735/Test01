@@ -13,18 +13,38 @@
         android:name="android.permission.INSTALL_PACKAGES"
         tools:ignore="ProtectedPermissions" />
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:resizeableActivity="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.MyInfo.VipInfoActivity"></activity>
+
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+        <!--适配华为（huawei）刘海屏-->
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+        <!--适配小米（xiaomi）刘海屏-->
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+
+        <activity android:name=".activity.select.ProjectDetailsActivity"></activity>
+        <activity android:name=".activity.MyInfo.VipInfoActivity" />
         <activity android:name=".activity.MyInfo.MessageActivity" />
         <activity android:name=".activity.MyInfo.BindPhoneActivity" />
         <activity android:name=".activity.MyInfo.CustomerServiceActivity" />
@@ -62,7 +82,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.cloud.NewFilesActivity" />
         <activity android:name=".activity.cloud.LiveSpaceActivity" />
         <activity android:name=".activity.cloud.DownLoadActivity" />
         <activity android:name=".activity.MyInfo.SettingActivity" />
@@ -70,12 +89,7 @@
         <activity android:name=".activity.login.Register02Activity" />
         <activity android:name=".activity.login.RegisterProtocolActivity" />
         <activity android:name=".activity.login.RegisterActivity" /> <!-- 竖屏绘制到耳朵区 -->
-        <meta-data
-            android:name="notch.config"
-            android:value="portrait" /> <!-- 支持屏幕高宽比 -->
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.4" />
+
 
         <activity android:name=".activity.login.LoginActivity" />
         <activity android:name=".activity.main.MainActivity" />
@@ -95,6 +109,19 @@
         <service
             android:name=".service.KeepLifeService"
             android:process=":keepLife" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity-alias
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity=".wxapi.WXPayEntryActivity" />
     </application>
 
 </manifest>

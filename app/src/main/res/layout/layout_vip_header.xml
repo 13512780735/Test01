@@ -3,29 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:background="@color/white"
-        android:layout_height="wrap_content">
+        android:gravity="center">
 
         <FrameLayout
             android:id="@+id/fl01"
             android:layout_width="@dimen/dp_100"
             android:layout_height="100dp"
+            android:layout_centerInParent="true"
             android:layout_centerHorizontal="true">
 
             <com.feemoo.fmapp.widght.CircleImageView
                 android:id="@+id/iv01"
                 android:layout_width="@dimen/dp_100"
                 android:layout_height="@dimen/dp_100"
-                android:layout_centerInParent="true"
-                android:src="@mipmap/icon_logo"></com.feemoo.fmapp.widght.CircleImageView>
+                android:layout_centerInParent="true"></com.feemoo.fmapp.widght.CircleImageView>
 
             <RelativeLayout
                 android:layout_width="match_parent"

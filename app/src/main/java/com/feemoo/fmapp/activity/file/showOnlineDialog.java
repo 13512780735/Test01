@@ -3,6 +3,7 @@ package com.feemoo.fmapp.activity.file;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -85,7 +86,9 @@ public class showOnlineDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    showToast(context, resultException.getMsg());
+                    Looper.prepare();
+                    showToast( context,resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -93,9 +96,10 @@ public class showOnlineDialog {
             public void onNext(BaseResponse<OnlineFilesModel> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus()) ) {
-                    Log.d("url", baseResponse.getData().getUrl());
                 } else {
-                    showToast(context, baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast( context,baseResponse.getMsg());
+                    Looper.loop();
                 }
             }
 

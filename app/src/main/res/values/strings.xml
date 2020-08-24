@@ -28,4 +28,8 @@
     <string name="file_copy_error" translatable="false">文件复制失败</string>
     <string name="un_file_success" translatable="false">解压成功</string>
     <string name="operation_failed" translatable="false">操作失败</string>
+
+    <string name="confirm" translatable="false">确定</string>
+    <string name="error_missing_h5_pay_url" translatable="false">必须配置需要打开的url 站点，请在PayDemoActivity类的h5Pay中配置</string>
+    <string name="error" translatable="false">错误</string>
 </resources>

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -89,7 +90,9 @@ public class StarFragment extends BaseFragment implements SwipeRefreshAdapterVie
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -117,7 +120,9 @@ public class StarFragment extends BaseFragment implements SwipeRefreshAdapterVie
                     mStarAdapter.setNewData(mStarData);
                     mStarAdapter.notifyDataSetChanged();
                 } else {
-                    showToast(baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast( baseResponse.getMsg());
+                    Looper.loop();
                 }
 
             }

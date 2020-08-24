@@ -3,6 +3,7 @@ package com.feemoo.fmapp.fragment.cloud.work;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -182,7 +183,9 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(context, resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -199,7 +202,9 @@ public class showworkBottomDialog {
                     context.startActivity(intent);
 
                 } else {
+                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
+                    Looper.loop();
                 }
 
             }
@@ -225,7 +230,9 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(context, resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -240,7 +247,9 @@ public class showworkBottomDialog {
                     context.startActivity(intent);
 
                 } else {
+                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -292,7 +301,9 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(context, resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -300,7 +311,9 @@ public class showworkBottomDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
+                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
+                    Looper.loop();
                     if ("1".equals(workFlag)) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.liveSpace");
@@ -347,7 +360,9 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(context, resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -355,7 +370,9 @@ public class showworkBottomDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
+                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
+                    Looper.loop();
                     if ("1".equals(workFlag)) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.liveSpace");
@@ -373,7 +390,9 @@ public class showworkBottomDialog {
                         context.sendBroadcast(intent);
                     }
                 }
+                Looper.prepare();
                 showToast(context, baseResponse.getMsg());
+                Looper.loop();
             }
         });
     }

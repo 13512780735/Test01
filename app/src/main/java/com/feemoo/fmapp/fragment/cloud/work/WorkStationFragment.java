@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -98,7 +99,9 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    showToast(resultException.getMsg());
+                    Looper.prepare();
+                    showToast( resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -145,7 +148,9 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
                     mWorkStationAdapter.setNewData(mWorkStationData);
                     mWorkStationAdapter.notifyDataSetChanged();
                 } else {
-                    showToast(baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast( baseResponse.getMsg());
+                    Looper.loop();
                 }
 
             }

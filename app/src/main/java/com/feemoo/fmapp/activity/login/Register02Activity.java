@@ -2,6 +2,8 @@ package com.feemoo.fmapp.activity.login;
 
 
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import com.feemoo.fmapp.utils.AppManager;
 import com.feemoo.fmapp.utils.SharedPreferencesUtils;
 import com.feemoo.fmapp.utils.StringUtil;
 import com.feemoo.fmapp.widght.BorderTextView;
+import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,6 +67,12 @@ public class Register02Activity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register02);
+
+//        if (ImmersionBar.isSupportStatusBarDarkFont()) {
+//            ImmersionBar.with(this).statusBarDarkFont(true).init();
+//        } else {
+//            Log.d("RegisterActivity", "当前设备不支持状态栏字体变色");
+//        }
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null){
             msgid=bundle.getString("msgid");
@@ -305,7 +314,9 @@ public class Register02Activity extends BaseActivity {
                LoaddingDismiss();
                if (e instanceof DataResultException) {
                    DataResultException resultException = (DataResultException) e;
+                   Looper.prepare();
                    showToast(resultException.getMsg());
+                   Looper.loop();
                }
            }
 
@@ -315,11 +326,15 @@ public class Register02Activity extends BaseActivity {
                if("1".equals(baseResponse.getStatus()) ){
                    String token=baseResponse.getData().getToken();
                    SharedPreferencesUtils.put(mContext,"token",token);
+                   Looper.prepare();
                    showToast(baseResponse.getMsg());
+                   Looper.loop();
                    toActivityFinish(MainActivity.class);
                    AppManager.getAppManager().finishAllActivity();
                }else {
+                   Looper.prepare();
                    showToast(baseResponse.getMsg());
+                   Looper.loop();
                }
            }
        });
@@ -344,7 +359,9 @@ public class Register02Activity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -354,11 +371,16 @@ public class Register02Activity extends BaseActivity {
                 if("1".equals(baseResponse.getStatus()) ){
                     String token=baseResponse.getData().getToken();
                     SharedPreferencesUtils.put(mContext,"token",token);
+                    Looper.prepare();
                     showToast(baseResponse.getMsg());
+                    Looper.loop();
+
                     toActivityFinish(MainActivity.class);
                     AppManager.getAppManager().finishAllActivity();
                 }else {
+                    Looper.prepare();
                     showToast(baseResponse.getMsg());
+                    Looper.loop();
                 }
             }
         });

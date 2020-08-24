@@ -11,10 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <View
+            android:id="@+id/status_bar_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+             />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="鲸选下载"
+            app:titleTextAppearance="@style/toolbar_login_textStyle" />
 
-        <include
+      <!--  <include
             android:id="@+id/include"
-            layout="@layout/main_header_item"></include>
+            layout="@layout/main_header_item"></include>-->
         <!-- TODO: Update blank fragment layout -->
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -24,7 +35,7 @@
             <RadioGroup
                 android:id="@+id/mRadioGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:background="@color/gray_background_color"
                 android:orientation="horizontal"></RadioGroup>
         </HorizontalScrollView>

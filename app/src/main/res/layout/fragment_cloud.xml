@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.main.CloudFragment">
 
     <LinearLayout
@@ -10,15 +11,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/include"
-            layout="@layout/main_header_item"></include>
+        <View
+            android:id="@+id/status_bar_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="飞猫云"
+            app:titleTextAppearance="@style/toolbar_login_textStyle" />
         <!-- TODO: Update blank fragment layout -->
 
         <RadioGroup
             android:id="@+id/mRadioGroup"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:background="@color/gray_background_color"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/dp_20"
@@ -28,9 +37,8 @@
             <RadioButton
                 android:id="@+id/mRb01"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/dp_5"
                 android:layout_weight="1"
                 android:background="@drawable/rb_main_background"
                 android:button="@null"
@@ -42,9 +50,8 @@
             <RadioButton
                 android:id="@+id/mRb02"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/dp_5"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/rb_main_background"
                 android:button="@null"
@@ -55,9 +62,8 @@
             <RadioButton
                 android:id="@+id/mRb03"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/dp_5"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/rb_main_background"
                 android:button="@null"
@@ -68,9 +74,8 @@
             <RadioButton
                 android:id="@+id/mRb04"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/dp_5"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/rb_main_background"
                 android:button="@null"

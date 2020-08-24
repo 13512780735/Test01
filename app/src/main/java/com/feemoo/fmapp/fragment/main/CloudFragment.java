@@ -2,6 +2,7 @@ package com.feemoo.fmapp.fragment.main;
 
 
 import android.content.Context;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -21,6 +23,7 @@ import com.feemoo.fmapp.fragment.cloud.cloud2.Cloud2Fragment;
 import com.feemoo.fmapp.fragment.cloud.history.DownloadHistoryFragment;
 import com.feemoo.fmapp.fragment.cloud.star.StarFragment;
 import com.feemoo.fmapp.fragment.cloud.work.WorkStationFragment;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +32,8 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class CloudFragment extends BaseFragment implements View.OnClickListener {
-    private TextView mTitleName;
-    private ImageView mHeader01;
-    private ImageView mHeader02;
-    private ImageView mHeader03;
     private RadioGroup mRadioGroup;
-
+    private Toolbar mToolbar;
     private boolean isGetData = false;
     private Cloud2Fragment cloud2Fragment;
     private WorkStationFragment workStationFragment;
@@ -62,20 +61,42 @@ public class CloudFragment extends BaseFragment implements View.OnClickListener 
         isGetData = false;
     }
 
-    public static CloudFragment newInstance() {
-        return new CloudFragment();
-    }
+ /*   @Override
+    public void onResume() {
+        super.onResume();
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
+    }*/
 
     @Override
     protected void initView(View view) {
-        mTitleName = findView(R.id.tv_title);
-        mHeader01 = findView(R.id.iv_main_header01);
-        mHeader02 = findView(R.id.iv_main_header02);
-        mHeader03 = findView(R.id.iv_main_header03);
-        mTitleName.setText("飞猫云");
-        mHeader01.setImageDrawable(getResources().getDrawable(R.mipmap.icon_search));
-        mHeader02.setImageDrawable(getResources().getDrawable(R.mipmap.icon_add));
-        mHeader03.setImageDrawable(getResources().getDrawable(R.mipmap.icon_down01));
+
+//        mTitleName = findView(R.id.tv_title);
+//        mHeader01 = findView(R.id.iv_main_header01);
+//        mHeader02 = findView(R.id.iv_main_header02);
+//        mHeader03 = findView(R.id.iv_main_header03);
+//        mTitleName.setText("飞猫云");
+//        mHeader01.setImageDrawable(getResources().getDrawable(R.mipmap.icon_search));
+//        mHeader02.setImageDrawable(getResources().getDrawable(R.mipmap.icon_add));
+//        mHeader03.setImageDrawable(getResources().getDrawable(R.mipmap.icon_down01));
+        mToolbar = findView(R.id.mToolbar);
+        mToolbar.inflateMenu(R.menu.home_menu);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_search:
+                        showToast("点击了");
+                        break;
+                    case R.id.action_saoyisao:
+                        showToast("点击了1");
+                        break;
+                    case R.id.action_down:
+                        toActivity(DownLoadListActivity.class);
+                        break;
+                }
+                return true;
+            }
+        });
         mRadioGroup = findView(R.id.mRadioGroup);
         mRb01 = findView(R.id.mRb01);
         mRb02 = findView(R.id.mRb02);
@@ -101,9 +122,6 @@ public class CloudFragment extends BaseFragment implements View.OnClickListener 
         mRb03.setOnClickListener(this);
         mRb04.setOnClickListener(this);
 
-        mHeader01.setOnClickListener(this);
-        mHeader02.setOnClickListener(this);
-        mHeader03.setOnClickListener(this);
     }
 
 
@@ -138,14 +156,6 @@ public class CloudFragment extends BaseFragment implements View.OnClickListener 
             case R.id.mRb04:
                 addFragment(downloadHistoryFragment);
                 titleName = "下载历史";
-                break;
-            case R.id.iv_main_header01://搜索
-                break;
-            case R.id.iv_main_header02://扫一扫
-
-                break;
-            case R.id.iv_main_header03://下载
-                toActivity(DownLoadListActivity.class);
                 break;
         }
     }

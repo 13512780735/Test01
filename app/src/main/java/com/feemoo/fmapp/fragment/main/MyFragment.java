@@ -3,6 +3,7 @@ package com.feemoo.fmapp.fragment.main;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,6 +31,7 @@ import com.feemoo.fmapp.network.util.RetrofitUtil;
 import com.feemoo.fmapp.utils.DensityUtil;
 import com.feemoo.fmapp.utils.ImageLoaderUtils;
 import com.feemoo.fmapp.widght.CircleImageView;
+import com.gyf.immersionbar.ImmersionBar;
 
 import rx.Subscriber;
 
@@ -46,6 +48,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     private boolean isGetData = false;
     private TextView mTvVip, mTvEndTime;
     private String avatar;
+    private String Isbindphone;
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
@@ -63,6 +66,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+       // ImmersionBar.with(this).statusBarDarkFont(true).init();
         GetData();
     }
 
@@ -77,7 +81,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             public void onError(Throwable e) {
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    showToast(resultException.getMsg());
+                    Looper.prepare();
+                    showToast( resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -86,7 +92,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 if ("1".equals(baseResponse.getStatus())) {
                     refreshUI(baseResponse.getData());
                 } else {
-                    showToast(baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast( baseResponse.getMsg());
+                    Looper.loop();
                 }
             }
         });
@@ -98,6 +106,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         mTitle.setText(data.getUsername());
         mTvVip.setText(data.getSlevel());
         mTvEndTime.setText(data.getEndtime());
+        Isbindphone = String.valueOf(data.getIsbindphone());
         Glide.with(getActivity()).load(data.getLogo()).into(ivHeader);
     }
 
@@ -110,6 +119,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView(View view) {
+
         ll01 = findView(R.id.ll01);
         ivHeader = findView(R.id.iv01);
         mRlHeader = findView(R.id.rl_header);
@@ -174,7 +184,12 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 toActivity(MessageActivity.class);
                 break;
             case R.id.llBindPhone:
-                toActivity(BindPhoneActivity.class);
+                if ("1".equals(Isbindphone)) {
+                    showToast("您已经绑定过手机");
+                    return;
+                } else {
+                    toActivity(BindPhoneActivity.class);
+                }
                 break;
             case R.id.llKeFu:
                 toActivity(CustomerServiceActivity.class);

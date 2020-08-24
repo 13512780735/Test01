@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import com.feemoo.fmapp.utils.LoaddingDialog;
 import com.feemoo.fmapp.utils.SharedPreferencesUtils;
 import com.feemoo.fmapp.utils.StatusBarUtil;
 import com.feemoo.fmapp.utils.ToastUtil;
+import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.ButterKnife;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
@@ -60,13 +63,21 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        int color = getResources().getColor(R.color.white);
-        StatusBarUtil.setColor(this, color, 0);
-        StatusBarUtil.setLightMode(this);
-         AppManager.getAppManager().addActivity(this);
+        AppManager.getAppManager().addActivity(this);
         loaddingDialog = new LoaddingDialog(this);
-         token = MyApplication.getToken(this);
+        token = MyApplication.getToken(this);
+        initImmersionBar();
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
 
+    }
+
+    /**
+     * 初始化沉浸式
+     * Init immersion bar.
+     */
+    protected void initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this).navigationBarColor(R.color.colorPrimary).init();
     }
 
     @Override
@@ -106,7 +117,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     @Override
     protected void onResume() {
         super.onResume();
-       // MobclickAgent.onResume(this);
+        // MobclickAgent.onResume(this);
     }
 
     /**
@@ -218,7 +229,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
      *
      * @param message
      */
-           //
+    //
 //    public void showProgress(String message) {
 //         cloud_dialog = new CustomDialog(this);
 //        cloud_dialog = new CustomDialog(this).builder()
@@ -242,6 +253,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
             progress.dismiss();
         }
     }
+
     /**
      * 提示信息
      */
@@ -414,7 +426,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     }
 
     public static String getToken(Context context) {
-       String token= SharedPreferencesUtils.getString(context,"token");
+        String token = SharedPreferencesUtils.getString(context, "token");
         return token;
     }
 }

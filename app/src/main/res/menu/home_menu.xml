@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@mipmap/icon_search"
+        android:title="Search"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_saoyisao"
+        android:icon="@mipmap/icon_saoyisao"
+        android:title="notifications"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_down"
+        android:icon="@mipmap/icon_down01"
+        android:orderInCategory="100"
+        android:title="下载"
+        app:showAsAction="ifRoom" />
+</menu>

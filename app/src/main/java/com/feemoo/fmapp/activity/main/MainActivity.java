@@ -1,67 +1,70 @@
 package com.feemoo.fmapp.activity.main;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.widget.RadioGroup;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.feemoo.fmapp.R;
+import com.feemoo.fmapp.base.BaseActivity;
 import com.feemoo.fmapp.fragment.main.CloudFragment;
 import com.feemoo.fmapp.fragment.main.MyFragment;
 import com.feemoo.fmapp.fragment.main.SelectFragment;
-import com.feemoo.fmapp.utils.AppManager;
 import com.feemoo.fmapp.utils.SharedPreferencesUtils;
-import com.feemoo.fmapp.utils.StatusBarUtil;
+import com.gyf.immersionbar.ImmersionBar;
 
-
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 主界面
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private final int REQUEST_PERMISSION_CODE = 1;//请求码
-    @BindView(R.id.main_radio)
-    RadioGroup mRadioGroup;
-
+    FrameLayout content;
+    LinearLayout ll_select;
+    LinearLayout ll_cloud;
+    LinearLayout ll_my;
     SelectFragment selectFragment;
     CloudFragment cloudFragment;
     MyFragment myFragment;
-    FragmentTransaction mTransaction;
-    FragmentManager mSupportFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        int color = getResources().getColor(R.color.gray_background_color);
-        StatusBarUtil.setColor(this, color, 0);
-        StatusBarUtil.setLightMode(this);
-        ButterKnife.bind(this);
-        AppManager.getAppManager().addActivity(this);
-
+        // ButterKnife.bind(this);
+        // AppManager.getAppManager().addActivity(this);
+        ImmersionBar.with(this).statusBarDarkFont(true).init();
+        // ImmersionBar.with(this).statusBarDarkFont(true).navigationBarColor(R.color.gray_background_color).init();
         Display display = getWindowManager().getDefaultDisplay();
-        int width=display.getWidth();
-        int height=display.getHeight();
-        SharedPreferencesUtils.put(this,"width",width);
-        SharedPreferencesUtils.put(this,"height",height);
-        initFragment();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        SharedPreferencesUtils.put(this, "width", width);
+        SharedPreferencesUtils.put(this, "height", height);
+        initUI();
         checkPermission();
+    }
+
+    private void initUI() {
+        content = findView(R.id.content);
+        ll_select = findView(R.id.ll_select);
+        ll_cloud = findView(R.id.ll_cloud);
+        ll_my = findView(R.id.ll_my);
+        ll_select.setOnClickListener(this);
+        ll_cloud.setOnClickListener(this);
+        ll_my.setOnClickListener(this);
+        selectedFragment(0);
+        tabSelected(ll_select);
+
     }
 
     private void checkPermission() {
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     /**
      * 获取权限请求结果
      *
@@ -103,83 +107,82 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    private void initFragment() {
-        Log.d("token", SharedPreferencesUtils.getString(this, "token"));
-        mSupportFragmentManager = getSupportFragmentManager();
-        mTransaction = mSupportFragmentManager.beginTransaction();
-        selectFragment = SelectFragment.newInstance();
-        cloudFragment = CloudFragment.newInstance();
-        myFragment = MyFragment.newInstance();
-        //初始化展示HomePageFragment
-        mTransaction.add(R.id.main_frag, selectFragment)
-                .add(R.id.main_frag, cloudFragment)
-                .add(R.id.main_frag, myFragment);
-        mTransaction.show(selectFragment).hide(cloudFragment).hide(myFragment);
-        mTransaction.commit();
-        mRadioGroup.check(mRadioGroup.getChildAt(0).getId());
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                FragmentTransaction transaction2 = mSupportFragmentManager.beginTransaction();
-                switch (checkedId) {
-                    case R.id.radioButton:
-                        transaction2.show(selectFragment).hide(cloudFragment).hide(myFragment).commit();
-                        break;
-                    case R.id.radioButton2:
-                        transaction2.show(cloudFragment).hide(selectFragment).hide(myFragment).commit();
-                        break;
-                    case R.id.radioButton3:
-                        transaction2.show(myFragment).hide(cloudFragment).hide(selectFragment).commit();
-                        break;
-                }
-            }
-        });
-    }
 
-    public boolean isForeground = false;
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (isForeground == false) {
-//            T.show(MainActivity.this, "运行", 1);
-//            isForeground = true;
-//        }
-//    }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        if (!isAppOnForeground()) {
-//            isForeground = false;
-//            T.show(MainActivity.this, "暂停", 1);
-//            Log.d("已经退出","1111");
-//        }
-//    }
-
-    /**
-     * 程序是否在前台运行
-     *
-     * @return
-     */
-    public boolean isAppOnForeground() {
-        ActivityManager activityManager = (ActivityManager) getApplicationContext()
-                .getSystemService(Context.ACTIVITY_SERVICE);
-        String packageName = getApplicationContext().getPackageName();
-/**
- * 获取Android设备中所有正在运行的App
- */
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
-                .getRunningAppProcesses();
-        if (appProcesses == null)
-            return false;
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-// The name of the process that this object is associated with.
-            if (appProcess.processName.equals(packageName)
-                    && appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                return true;
-            }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_select:
+                selectedFragment(0);
+                tabSelected(ll_select);
+                ImmersionBar.with(this).statusBarDarkFont(true).init();
+                break;
+            case R.id.ll_cloud:
+                selectedFragment(1);
+                tabSelected(ll_cloud);
+                ImmersionBar.with(this).statusBarDarkFont(true).init();
+                break;
+            case R.id.ll_my:
+                selectedFragment(2);
+                tabSelected(ll_my);
+                ImmersionBar.with(this).statusBarDarkFont(true).init();
+                break;
+            default:
+                break;
         }
-        return false;
     }
+
+    private void selectedFragment(int position) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        hideFragment(transaction);
+        switch (position) {
+            case 0:
+                if (selectFragment == null) {
+                    selectFragment = new SelectFragment();
+                    transaction.add(R.id.content, selectFragment);
+                } else {
+                    transaction.show(selectFragment);
+                }
+                break;
+            case 1:
+                if (cloudFragment == null) {
+                    cloudFragment = new CloudFragment();
+                    transaction.add(R.id.content, cloudFragment);
+                } else {
+                    transaction.show(cloudFragment);
+                }
+                break;
+            case 2:
+                if (myFragment == null) {
+                    myFragment = new MyFragment();
+                    transaction.add(R.id.content, myFragment);
+                } else {
+                    transaction.show(myFragment);
+                }
+                break;
+            default:
+                break;
+        }
+        transaction.commit();
+    }
+
+    private void hideFragment(FragmentTransaction transaction) {
+        if (selectFragment != null) {
+            transaction.hide(selectFragment);
+        }
+        if (cloudFragment != null) {
+            transaction.hide(cloudFragment);
+        }
+        if (myFragment != null) {
+            transaction.hide(myFragment);
+        }
+    }
+
+    private void tabSelected(LinearLayout linearLayout) {
+        ll_select.setSelected(false);
+        ll_cloud.setSelected(false);
+        ll_my.setSelected(false);
+        linearLayout.setSelected(true);
+    }
+
 }

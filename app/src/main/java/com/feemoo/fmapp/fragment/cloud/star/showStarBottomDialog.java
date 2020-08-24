@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,9 @@ public class showStarBottomDialog {
                             loaddingDialog.dismiss();
                             if (e instanceof DataResultException) {
                                 DataResultException resultException = (DataResultException) e;
-                                showToast(context, resultException.getMsg());
+                                Looper.prepare();
+                                showToast( context,resultException.getMsg());
+                                Looper.loop();
                             }
                         }
 
@@ -88,9 +91,13 @@ public class showStarBottomDialog {
                         public void onNext(BaseResponse<String> baseResponse) {
                             loaddingDialog.dismiss();
                             if ("1".equals(baseResponse.getStatus())) {
-                                showToast(context, baseResponse.getMsg());
+                                Looper.prepare();
+                                showToast( context,baseResponse.getMsg());
+                                Looper.loop();
                             } else {
-                                showToast(context, baseResponse.getMsg());
+                                Looper.prepare();
+                                showToast( context,baseResponse.getMsg());
+                                Looper.loop();
                             }
                         }
                     });
@@ -158,7 +165,9 @@ public class showStarBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(context, resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -168,14 +177,18 @@ public class showStarBottomDialog {
 
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    showToast(context, baseResponse.getMsg());
+                    Looper.prepare();
+                    showToast(context ,baseResponse.getMsg());
+                    Looper.loop();
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.star");
                     intent.putExtra("id", position);
                     intent.putExtra("flag", "1");
                     context.sendBroadcast(intent);
                 }
-                showToast(context, baseResponse.getMsg());
+                Looper.prepare();
+                showToast( context,baseResponse.getMsg());
+                Looper.loop();
             }
         });
     }

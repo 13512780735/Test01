@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.feemoo.fmapp.MyApplication;
@@ -18,6 +19,8 @@ import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.utils.LoaddingDialog;
 import com.feemoo.fmapp.utils.SharedPreferencesUtils;
 import com.feemoo.fmapp.utils.ToastUtil;
+import com.gyf.immersionbar.ImmersionBar;
+import com.gyf.immersionbar.components.SimpleImmersionFragment;
 
 public abstract class BaseFragment extends Fragment {
     protected final String TAG = this.getClass().getSimpleName();
@@ -29,6 +32,8 @@ public abstract class BaseFragment extends Fragment {
     private LoaddingDialog loaddingDialog;
     private View rootView;
     public String token;
+    private View statusBarView;
+    private Toolbar toolbar;
 
     @Override
     public void onAttach(Context ctx) {
@@ -51,6 +56,23 @@ public abstract class BaseFragment extends Fragment {
         initData(context);
         return rootView;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        statusBarView = view.findViewById(R.id.status_bar_view);
+        toolbar = view.findViewById(R.id.mToolbar);
+        fitsLayoutOverlap();
+    }
+
+    private void fitsLayoutOverlap() {
+        if (statusBarView != null) {
+            ImmersionBar.setStatusBarView(this, statusBarView);
+        } else {
+            ImmersionBar.setTitleBar(this, toolbar);
+        }
+    }
+
 
     /**
      * 初始化布局

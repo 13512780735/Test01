@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,7 +69,9 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
+                    Looper.prepare();
                     showToast(resultException.getMsg());
+                    Looper.loop();
                 }
             }
 
@@ -104,7 +107,9 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
                     mWorkStationAdapter.setNewData(mWorkStationData);
                     mWorkStationAdapter.notifyDataSetChanged();
                 } else {
+                    Looper.prepare();
                     showToast(baseResponse.getMsg());
+                    Looper.loop();
                 }
             }
         });

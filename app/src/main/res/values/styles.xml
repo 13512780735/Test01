@@ -6,16 +6,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-      <!-- <item name="android:windowSwipeToDismiss" tools:targetApi="kitkat_watch">true</item>-->
+        <!-- <item name="android:windowSwipeToDismiss" tools:targetApi="kitkat_watch">true</item>-->
     </style>
 
     <!--主题-->
-    <style name="MyAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="MyAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textAllCaps">false</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="windowActionBar">false</item>
         <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
-        <item name="windowNoTitle">true</item>
         <item name="android:textSize">14sp</item>
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
@@ -25,22 +22,23 @@
         <item name="android:windowBackground">@color/gray_background_color</item>
 
     </style>
+
     <style name="AnimationActivity" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_left</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
-<!--    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-<!--        <item name="colorPrimary">@color/primary</item>-->
-<!--        <item name="colorPrimaryDark">@color/white</item>-->
-<!--        <item name="colorAccent">#FF4081</item>-->
-<!--        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
-<!--        <item name="android:windowSwipeToDismiss" tools:targetApi="kitkat_watch">true</item>-->
-<!--    </style>-->
-<!--    <style name="AppTheme" parent="@style/BaseAppTheme">-->
+    <!--    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+    <!--        <item name="colorPrimary">@color/primary</item>-->
+    <!--        <item name="colorPrimaryDark">@color/white</item>-->
+    <!--        <item name="colorAccent">#FF4081</item>-->
+    <!--        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
+    <!--        <item name="android:windowSwipeToDismiss" tools:targetApi="kitkat_watch">true</item>-->
+    <!--    </style>-->
+    <!--    <style name="AppTheme" parent="@style/BaseAppTheme">-->
 
-<!--    </style>-->
+    <!--    </style>-->
 
     <style name="dialogStyle" parent="@android:style/Theme.Dialog">
 
@@ -53,6 +51,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
     <style name="dialog" parent="android:style/Theme.Dialog">
 
         <!-- 背景颜色及透明程度 -->
@@ -63,7 +62,7 @@
         <!-- 是否浮现在activity之上 -->
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowIsFloating">true</item>
-       <!-- <item name="android:windowContentOverlay">@null</item>-->
+        <!-- <item name="android:windowContentOverlay">@null</item>-->
     </style>
 
     <!--自定义Dialog-->
@@ -86,11 +85,13 @@
     <style name="mycheckbox1" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/register_check</item>
     </style>
+
     <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
         <item name="tabBackground">@drawable/tab_reg_background</item>
         <item name="tabIndicatorColor">#ff00ff</item>
         <item name="tabIndicatorHeight">2dp</item>
     </style>
+
     <style name="ActionSheetDialogStyle" parent="android:Theme.Dialog">
 
         <!-- 背景透明 -->
@@ -119,6 +120,7 @@
         <item name="android:textColor">@color/actionsheet_blue</item>
         <item name="android:textSize">@dimen/nav_title_text_size</item>
     </style>
+
     <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -128,6 +130,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
     <style name="DialogTheme" parent="@android:style/Theme.Dialog">
         <!-- 边框 -->
         <item name="android:windowFrame">@null</item>
@@ -145,10 +148,12 @@
         <!-- 遮罩层 -->
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
+
     <style name="main_menu_animStyle">
         <item name="android:windowEnterAnimation">@anim/dialog_in_anim</item>
         <item name="android:windowExitAnimation">@anim/dialog_out_anim</item>
     </style>
+
     <declare-styleable name="CircleProgressBar">
         <attr name="statue" format="integer" />
         <attr name="cpb_width" format="dimension" />
@@ -156,4 +161,19 @@
         <attr name="cpb_download_progress_color" format="color" />
         <attr name="cpb_default_progress_color" format="color" />
     </declare-styleable>
+
+    <style name="toolbar_login_textStyle">
+        <item name="android:textSize">@dimen/sp_20</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <!--<item name="android:colorBackground">#000000</item>--> <!--这里可以改变菜单的背景色-->
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle
+        </item> <!--新增一个item，用于控制menu-->
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>  <!--把该属性改为false即可使menu位置位于toolbar之下-->
+    </style>
 </resources>
