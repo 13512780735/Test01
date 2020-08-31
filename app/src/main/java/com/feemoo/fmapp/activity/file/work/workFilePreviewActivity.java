@@ -78,16 +78,6 @@ public class workFilePreviewActivity extends BaseActivity implements SwipeRefres
                 Log.d("数据Work", baseResponse.getMsg());
                 if ("1".equals(baseResponse.getStatus())) {
                     WorkStationListModel workStationListModel = baseResponse.getData();
-
-                  /*  if (workStationListModel.getSpace().toString().length() > 0) {
-                        WorkStationListModel.SpaceBean spaceBeans = workStationListModel.getSpace();
-                        SpaceModel spaceModel = new SpaceModel();
-                        spaceModel.setTotal(spaceBeans.getTotal());
-                        spaceModel.setUsed(spaceBeans.getUsed());
-                        if (flag == false) {
-                            mWorkStationData.add(spaceModel);
-                        }
-                    }*/
                     if (workStationListModel.getFolder().size() > 0) {
                         List<WorkStationListModel.FolderBean> folderBeans = workStationListModel.getFolder();
                         for (WorkStationListModel.FolderBean bean : folderBeans) {

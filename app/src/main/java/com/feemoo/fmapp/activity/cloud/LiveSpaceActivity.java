@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -25,6 +26,7 @@ import com.feemoo.fmapp.network.model.workStation.workStationModel;
 import com.feemoo.fmapp.network.util.DataResultException;
 import com.feemoo.fmapp.network.util.RetrofitUtil;
 import com.feemoo.fmapp.utils.SharedPreferencesUtils;
+import com.gyf.immersionbar.ImmersionBar;
 import com.mylhyl.crlayout.SwipeRefreshAdapterView;
 import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
@@ -38,8 +40,10 @@ import rx.Subscriber;
  * 永存空间
  */
 public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapterView.OnListLoadListener, SwipeRefreshLayout.OnRefreshListener {
-    @BindView(R.id.tv_back)
-    ImageView mBack;
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
     private SwipeRefreshRecyclerView mRecycleView;
     private WorkStationAdapter mWorkStationAdapter;
     private List<workStationModel> mWorkStationData = new ArrayList<>();
@@ -52,6 +56,8 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_space);
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         initUI();
         GetData();
     }
@@ -69,9 +75,7 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -107,19 +111,20 @@ public class LiveSpaceActivity extends BaseActivity implements SwipeRefreshAdapt
                     mWorkStationAdapter.setNewData(mWorkStationData);
                     mWorkStationAdapter.notifyDataSetChanged();
                 } else {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
         });
     }
 
     private void initUI() {
-        setBackView();
         SharedPreferencesUtils.put(mContext, "work", "1");
-        mBack.setImageDrawable(getResources().getDrawable(R.mipmap.icon_back01));
-        setTitle("永存空间");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         register();
         mRecycleView = findView(R.id.mRecycleView);
         mRecycleView.setLayoutManager(new LinearLayoutManager(this,

@@ -81,9 +81,7 @@ public class DownloadHistoryFragment extends BaseFragment implements SwipeRefres
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -108,9 +106,7 @@ public class DownloadHistoryFragment extends BaseFragment implements SwipeRefres
                         mHistoryAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
         });

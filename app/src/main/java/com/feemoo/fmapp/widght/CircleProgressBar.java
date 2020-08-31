@@ -11,9 +11,13 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.feemoo.fmapp.R;
+import com.feemoo.fmapp.download.util.PxUtils;
+
+import java.util.Locale;
 
 
 /**
@@ -24,8 +28,8 @@ public class CircleProgressBar extends View {
 
     private int statue;                             //  控件状态
 
-    public static final int DOWNLOAD_DEF    = 0;    //  默认状态
-    public static final int DOWNLOAD_PAUSE  = 1;    //  暂停状态
+    public static final int DOWNLOAD_DEF = 0;    //  默认状态
+    public static final int DOWNLOAD_PAUSE = 1;    //  暂停状态
     public static final int DOWNLOAD_STATUE = 2;    //  下载状态
     public static final int DOWNLOAD_FINISH = 3;    //  完成状态
 
@@ -57,6 +61,16 @@ public class CircleProgressBar extends View {
     private int progressColor;                      // 进度条颜色
 
     private onProgressListener onProgressListener;  // 进度时间监听
+    private Rect textRect = new Rect();
+    //圆的半径
+    private float mRadius;
+    //圆心坐标
+    private float x;
+    private float y;
+    //中心百分比文字大小
+    private float mCenterTextSize;
+    private float mPercent;
+    private int mCurPercent;
 
     public CircleProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -72,7 +86,7 @@ public class CircleProgressBar extends View {
         statue = typedArray.getInteger(R.styleable.CircleProgressBar_statue, 0);
         preColor = typedArray.getColor(R.styleable.CircleProgressBar_cpb_default_progress_color, Color.parseColor("#9E9E9E"));
         progressColor = typedArray.getColor(R.styleable.CircleProgressBar_cpb_download_progress_color, Color.parseColor("#326ef3"));
-
+        mCenterTextSize = typedArray.getDimensionPixelSize(R.styleable.CircleProgressBar_centerTextSize, PxUtils.spToPx(10, context));
         typedArray.recycle();
     }
 
@@ -89,18 +103,30 @@ public class CircleProgressBar extends View {
         int reWidth;
         int reHeight;
         if (widthMode == MeasureSpec.EXACTLY) {
+            mRadius = widthSize / 2;
+            x = widthSize / 2;
+            y = heightSize / 2;
+
             reWidth = widthSize;
         } else {
             int desired = getPaddingLeft() + width + getPaddingRight();
+            mRadius = widthSize / 2;
+            x = widthSize / 2;
+            y = heightSize / 2;
             reWidth = desired;
         }
         if (heightMode == MeasureSpec.EXACTLY) {
+            mRadius = widthSize / 2;
+            x = widthSize / 2;
+            y = heightSize / 2;
             reHeight = heightSize;
         } else {
             int desired = getPaddingTop() + height + getPaddingBottom();
+            mRadius = widthSize / 2;
+            x = widthSize / 2;
+            y = heightSize / 2;
             reHeight = desired;
         }
-
         width = reWidth;
         height = reHeight;
 
@@ -223,7 +249,8 @@ public class CircleProgressBar extends View {
         if (downloadBitmap != null) {
             return downloadBitmap;
         } else {
-            return BitmapFactory.decodeResource(getResources(), R.drawable.icon_download_start);
+            return BitmapFactory.decodeResource(getResources(), R.drawable.bg_pro);
+            //    return BitmapFactory.decodeResource(getResources(), R.drawable.icon_download_start);
         }
     }
 
@@ -307,14 +334,38 @@ public class CircleProgressBar extends View {
         paint.setColor(circleColor);
         // 绘制用于遮住伞形两个边的小圆
         canvas.drawCircle(width / 2, height / 2, radius - progressWidth, paint);
-        if (downloadBitmap != null) {       // 绘制中间的图片
-            int width2 = (int) (rectf.width() * scale);
-            int height2 = (int) (rectf.height() * scale);
-            rectf.set(rectf.left + width2, rectf.top + height2, rectf.right
-                    - width2, rectf.bottom - height2);
-            canvas.drawBitmap(downloadBitmap, null, rectf, null);
-        }
+//        if (downloadBitmap != null) {       // 绘制中间的图片
+//            int width2 = (int) (rectf.width() * scale);
+//            int height2 = (int) (rectf.height() * scale);
+//            rectf.set(rectf.left + width2, rectf.top + height2, rectf.right
+//                    - width2, rectf.bottom - height2);
+//           // canvas.drawBitmap(downloadBitmap, null, rectf, null);
+//           // canvas.drawText(percent + "%");
+//
+//        }
+        //绘制文本
+        Paint textPaint = new Paint();
+        Log.d("百分比22：", percent + "");
+        String text = percent + "%";
+
+        textPaint.setTextSize(mCenterTextSize);
+        //测量字符串长度
+        float textLength = textPaint.measureText(text);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
+        float top = fontMetrics.top;//为基线到字体上边框的距离,即上图中的top
+        float bottom = fontMetrics.bottom;//为基线到字体下边框的距离,即上图中的bottom
+
+        int baseLineY = (int) (rectf.centerY() - top/2 - bottom/2);//基线中间点的y轴计算公式
+
+       // canvas.drawText("小学",rectf.centerX(),baseLineY,textPaint);
+        textPaint.setColor(getResources().getColor(R.color.button_confirm));
+        //把文本画在圆心居中
+        canvas.drawText(text, rectf.centerX(),baseLineY,textPaint);
+      //  canvas.drawText("小学",rectf.centerX(),baseLineY,textPaint);
     }
+
+    private float percent;
 
     /**
      * 绘制下载完成的状态
@@ -345,6 +396,7 @@ public class CircleProgressBar extends View {
      * @param progress 进度百分比
      */
     public void setProgress(float progress) {
+        percent = progress;
         if (progress > 100)
             return;
 
@@ -360,6 +412,34 @@ public class CircleProgressBar extends View {
         invalidate();
         if (onProgressListener != null)
             onProgressListener.onProgress(progress);
+        // setCurPercent(percent);
+    }
+
+    //内部设置百分比 用于动画效果
+    private void setCurPercent(float percent) {
+
+        mPercent = percent;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int sleepTime = 1;
+                for (int i = 0; i < mPercent; i++) {
+                    if (i % 20 == 0) {
+                        sleepTime += 2;
+                    }
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mCurPercent = i;
+                    CircleProgressBar.this.postInvalidate();
+                }
+            }
+
+        }).start();
+
     }
 
     /**

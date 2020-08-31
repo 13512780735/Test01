@@ -3,16 +3,19 @@ package com.feemoo.fmapp.activity.login;
 
 import android.os.Bundle;
 import android.os.Looper;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.activity.main.MainActivity;
 import com.feemoo.fmapp.base.BaseActivity;
+import com.feemoo.fmapp.network.Appconst.AppConst;
 import com.feemoo.fmapp.network.model.BaseResponse;
 import com.feemoo.fmapp.network.model.LoginRegisterModel;
 import com.feemoo.fmapp.network.util.DataResultException;
@@ -20,6 +23,7 @@ import com.feemoo.fmapp.network.util.RetrofitUtil;
 import com.feemoo.fmapp.utils.AppManager;
 import com.feemoo.fmapp.utils.SharedPreferencesUtils;
 import com.feemoo.fmapp.utils.StringUtil;
+import com.feemoo.fmapp.utils.Utils;
 import com.feemoo.fmapp.widght.BorderTextView;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -56,10 +60,12 @@ public class Register02Activity extends BaseActivity {
     ClearEditText mEtPasss;
     @BindView(R.id.mVPasss)
     View mVPasss;
+    @BindView(R.id.protocol_tv)
+    TextView protocol_tv;
 
     @BindView(R.id.checkbox01)
     CheckBox checkBox;
-
+    String tel="+86";
     private int flag;
     private String msgid,pcode,code,mobile;
 
@@ -107,10 +113,11 @@ public class Register02Activity extends BaseActivity {
         });
 
         if (!checkBox.isChecked()) {
-            showToast("请您仔细阅读并且点击同意《用户协议》方可登录");
+            showToast("请您仔细阅读并且点击同意《隐私协议》方可登录");
             return;
         }
-
+        String str1 = "*注册即表示同意<font color='#326ef3'>《隐私协议》</font>";
+        protocol_tv.setText(Html.fromHtml(str1));
 //        mEtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 //            @Override
 //            public void onFocusChange(View view, boolean b) {
@@ -257,7 +264,7 @@ public class Register02Activity extends BaseActivity {
 //        });
     }
 
-    @OnClick({R.id.mTvLogin, R.id.protocol_tv01})
+    @OnClick({R.id.mTvLogin, R.id.protocol_tv})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mTvLogin:
@@ -291,7 +298,14 @@ public class Register02Activity extends BaseActivity {
                     toLogin01(moblies,pass);
                 }
                 break;
-            case R.id.protocol_tv01:
+            case R.id.protocol_tv:
+                if (Utils.isFastClick()) {
+                    String url = AppConst.BASE_URL01 + "archives/130";
+                    Bundle bundle = new Bundle();
+                    bundle.putString("url", url);
+                    bundle.putString("title", "隐私协议");
+                    toActivity(RegisterProtocolActivity.class, bundle);
+                }
                 break;
         }
     }
@@ -314,9 +328,7 @@ public class Register02Activity extends BaseActivity {
                LoaddingDismiss();
                if (e instanceof DataResultException) {
                    DataResultException resultException = (DataResultException) e;
-                   Looper.prepare();
                    showToast(resultException.getMsg());
-                   Looper.loop();
                }
            }
 
@@ -326,15 +338,11 @@ public class Register02Activity extends BaseActivity {
                if("1".equals(baseResponse.getStatus()) ){
                    String token=baseResponse.getData().getToken();
                    SharedPreferencesUtils.put(mContext,"token",token);
-                   Looper.prepare();
                    showToast(baseResponse.getMsg());
-                   Looper.loop();
                    toActivityFinish(MainActivity.class);
                    AppManager.getAppManager().finishAllActivity();
                }else {
-                   Looper.prepare();
                    showToast(baseResponse.getMsg());
-                   Looper.loop();
                }
            }
        });
@@ -359,9 +367,7 @@ public class Register02Activity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -371,16 +377,12 @@ public class Register02Activity extends BaseActivity {
                 if("1".equals(baseResponse.getStatus()) ){
                     String token=baseResponse.getData().getToken();
                     SharedPreferencesUtils.put(mContext,"token",token);
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
 
                     toActivityFinish(MainActivity.class);
                     AppManager.getAppManager().finishAllActivity();
                 }else {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
         });

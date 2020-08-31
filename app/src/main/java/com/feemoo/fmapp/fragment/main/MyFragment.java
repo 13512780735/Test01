@@ -18,10 +18,12 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.activity.MyInfo.BindPhoneActivity;
+import com.feemoo.fmapp.activity.MyInfo.CardPackageActivity;
 import com.feemoo.fmapp.activity.MyInfo.CustomerServiceActivity;
 import com.feemoo.fmapp.activity.MyInfo.MemberActivity;
 import com.feemoo.fmapp.activity.MyInfo.MessageActivity;
 import com.feemoo.fmapp.activity.MyInfo.SettingActivity;
+import com.feemoo.fmapp.activity.MyInfo.SignInActivity;
 import com.feemoo.fmapp.activity.MyInfo.VipInfoActivity;
 import com.feemoo.fmapp.base.BaseFragment;
 import com.feemoo.fmapp.network.model.BaseResponse;
@@ -49,6 +51,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     private TextView mTvVip, mTvEndTime;
     private String avatar;
     private String Isbindphone;
+    private Bundle bundle;
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
@@ -66,7 +69,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-       // ImmersionBar.with(this).statusBarDarkFont(true).init();
+        // ImmersionBar.with(this).statusBarDarkFont(true).init();
         GetData();
     }
 
@@ -81,9 +84,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             public void onError(Throwable e) {
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
-                    showToast( resultException.getMsg());
-                    Looper.loop();
+                    showToast(resultException.getMsg());
                 }
             }
 
@@ -92,9 +93,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 if ("1".equals(baseResponse.getStatus())) {
                     refreshUI(baseResponse.getData());
                 } else {
-                    Looper.prepare();
-                    showToast( baseResponse.getMsg());
-                    Looper.loop();
+                    showToast(baseResponse.getMsg());
                 }
             }
         });
@@ -147,15 +146,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         llSetting.setOnClickListener(this);
         WindowManager wm = getActivity().getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();//屏幕宽度
-        int height01 = width;//屏幕高度
+      //  int height01 = width;//屏幕高度
+        int height01 = width / 2 + 40;//屏幕高度
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mRlHeader.getLayoutParams();
         params.width = width;
-        params.height = height01 / 3 * 2;
+       params.height = height01 ;
         mRlHeader.setLayoutParams(params);//设置配置参数
-        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) ll01.getLayoutParams();
-        params1.width = width;
-        params1.height = wm.getDefaultDisplay().getHeight() - DensityUtil.dip2px(getActivity(), 50);
-        // ll01.setLayoutParams(params1);//设置配置参数
+//        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) ll01.getLayoutParams();
+//        params1.width = width;
+//        params1.height = wm.getDefaultDisplay().getHeight() - DensityUtil.dip2px(getActivity(), 50);
+//         ll01.setLayoutParams(params1);//设置配置参数
     }
 
 
@@ -172,13 +172,17 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 toActivity(VipInfoActivity.class);
                 break;
             case R.id.llUserInfo:
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putString("avatarImg", avatar);
                 toActivity(MemberActivity.class, bundle);
                 break;
             case R.id.llQianDao:
+                bundle = new Bundle();
+                bundle.putString("Isbindphone", Isbindphone);
+                toActivity(SignInActivity.class, bundle);
                 break;
             case R.id.llCard:
+                toActivity(CardPackageActivity.class);
                 break;
             case R.id.llMessage:
                 toActivity(MessageActivity.class);

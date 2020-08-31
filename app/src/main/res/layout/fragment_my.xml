@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.main.MyFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -13,8 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <include layout="@layout/layout_login_header"></include>
@@ -126,9 +126,10 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_10"
                     android:background="@color/line"></View>
+
                 <LinearLayout
                     android:id="@+id/llQianDao"
                     android:layout_width="match_parent"
@@ -157,6 +158,7 @@
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_right01"></ImageView>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/llCard"
                     android:layout_width="match_parent"
@@ -185,6 +187,7 @@
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_right01"></ImageView>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/llMessage"
                     android:layout_width="match_parent"
@@ -213,12 +216,14 @@
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_right01"></ImageView>
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginBottom="@dimen/dp_10"
                     android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_10"
                     android:background="@color/line"></View>
+
                 <LinearLayout
                     android:id="@+id/llBindPhone"
                     android:layout_width="match_parent"
@@ -247,6 +252,7 @@
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_right01"></ImageView>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/llKeFu"
                     android:layout_width="match_parent"
@@ -275,6 +281,7 @@
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_right01"></ImageView>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/llSetting"
                     android:layout_width="match_parent"
@@ -303,7 +310,33 @@
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_right01"></ImageView>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_100"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center_vertical"></ImageView>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:textSize="@dimen/sp_16"
+                        android:textStyle="bold"></TextView>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"></ImageView>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

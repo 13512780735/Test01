@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -26,6 +25,7 @@ import com.feemoo.fmapp.network.model.workStation.WorkStationListModel;
 import com.feemoo.fmapp.network.model.workStation.workStationModel;
 import com.feemoo.fmapp.network.util.DataResultException;
 import com.feemoo.fmapp.network.util.RetrofitUtil;
+import com.feemoo.fmapp.utils.SharedPreferencesUtils;
 import com.mylhyl.crlayout.SwipeRefreshAdapterView;
 import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
@@ -82,7 +82,6 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
         super.onPause();
         isGetData = false;
     }
-
     /**
      * 操作台数据
      */
@@ -99,9 +98,7 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast( resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -148,9 +145,7 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
                     mWorkStationAdapter.setNewData(mWorkStationData);
                     mWorkStationAdapter.notifyDataSetChanged();
                 } else {
-                    Looper.prepare();
                     showToast( baseResponse.getMsg());
-                    Looper.loop();
                 }
 
             }
@@ -164,6 +159,7 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
 
     @Override
     protected void initView(View view) {
+        SharedPreferencesUtils.put(getContext(),"work","");
         register();
         mRecycleView = findView(R.id.mRecycleView);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(),
@@ -204,12 +200,6 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
             }
         }, 2000);
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        onRefresh();
-//    }
 
     @Override
     public void onRefresh() {
@@ -257,13 +247,13 @@ public class WorkStationFragment extends BaseFragment implements SwipeRefreshAda
     protected void initData(Context mContext) {
 
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (receiver != null) {
             getActivity().unregisterReceiver(receiver);
         }
+        SharedPreferencesUtils.put(getContext(),"work","");
     }
 
 

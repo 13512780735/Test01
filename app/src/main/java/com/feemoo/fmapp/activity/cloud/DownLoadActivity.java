@@ -83,9 +83,7 @@ public class DownLoadActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -99,9 +97,7 @@ public class DownLoadActivity extends BaseActivity {
                     tvSize.setText("文件大小：" + baseResponse.getData().getSize());
                     tvContent.setText("本文件内容由" + baseResponse.getData().getUname() + "自行上传，并不代表本站立场");
                 } else {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
         });
@@ -131,7 +127,6 @@ public class DownLoadActivity extends BaseActivity {
             case R.id.rlSvipDown:
             case R.id.rlQuanDown:
                 //checkPermission();
-
                 String[] perms = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE};
                 if (!EasyPermissions.hasPermissions(DownLoadActivity.this, perms)) {
@@ -157,9 +152,7 @@ public class DownLoadActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -217,9 +210,7 @@ public class DownLoadActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -227,13 +218,9 @@ public class DownLoadActivity extends BaseActivity {
             public void onNext(BaseResponse<String> baseResponse) {
                 LoaddingDismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 } else {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
         });
@@ -253,9 +240,7 @@ public class DownLoadActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -263,13 +248,9 @@ public class DownLoadActivity extends BaseActivity {
             public void onNext(BaseResponse<String> baseResponse) {
                 LoaddingDismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 } else {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 }
 
             }

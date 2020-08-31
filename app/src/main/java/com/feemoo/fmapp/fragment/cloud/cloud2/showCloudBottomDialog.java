@@ -5,12 +5,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.activity.cloud.DownLoadActivity;
@@ -31,7 +31,8 @@ public class showCloudBottomDialog {
     private View view;
     private LoaddingDialog loaddingDialog;
     private String cloudFlag;
-    //type 0 文件类 1，在线压缩包
+    private String st;
+    //type 0 文件类 1，在线压缩包 2 搜索
 
     public void BottomDialog(Context context, FilesModel data, String type, int position) {
         loaddingDialog = new LoaddingDialog(context);
@@ -49,7 +50,25 @@ public class showCloudBottomDialog {
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
         cloudFlag = SharedPreferencesUtils.getString(context, "cloud");
+
+        TextView tvShare01 = dialog.findViewById(R.id.tv_share01);
+        TextView tvShare = dialog.findViewById(R.id.tv_share);
+        if ("1".equals(data.getIsshare())) {
+            tvShare01.setVisibility(View.GONE);
+            tvShare.setVisibility(View.VISIBLE);
+        } else {
+            tvShare01.setVisibility(View.VISIBLE);
+            tvShare.setVisibility(View.GONE);
+        }
         Log.d("cloudFlag", cloudFlag + "aaa");
+        tvShare01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                st = "1";
+                setShare(context, data, position, st);
+                dialog.dismiss();
+            }
+        });
         dialog.findViewById(R.id.tv_down).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +83,14 @@ public class showCloudBottomDialog {
         dialog.findViewById(R.id.tv_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toShare(context, data, position);
+                st = "0";
+
+                setShare(context, data, position, st);
+
+                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                // 将文本内容放到系统剪贴板里。
+                cm.setText(data.getLink());
+                showToast(context, "本文件分享地址已复制剪切板，请前往粘贴使用");
                 dialog.dismiss();
             }
         });
@@ -73,7 +99,6 @@ public class showCloudBottomDialog {
             public void onClick(View view) {
                 showMoveBottomDialog dialog1 = new showMoveBottomDialog();
                 dialog1.BottomDialog(context, data, position);
-
                 dialog.dismiss();
             }
         });
@@ -91,9 +116,7 @@ public class showCloudBottomDialog {
                         loaddingDialog.dismiss();
                         if (e instanceof DataResultException) {
                             DataResultException resultException = (DataResultException) e;
-                            Looper.prepare();
-                            showToast(context,resultException.getMsg());
-                            Looper.loop();
+                            showToast(context, resultException.getMsg());
                         }
                     }
 
@@ -101,14 +124,10 @@ public class showCloudBottomDialog {
                     public void onNext(BaseResponse<String> baseResponse) {
                         loaddingDialog.dismiss();
                         if ("1".equals(baseResponse.getStatus())) {
-                            Looper.prepare();
                             showToast(context, baseResponse.getMsg());
-                            Looper.loop();
 
                         } else {
-                            Looper.prepare();
                             showToast(context, baseResponse.getMsg());
-                            Looper.loop();
                         }
                     }
                 });
@@ -118,8 +137,8 @@ public class showCloudBottomDialog {
         dialog.findViewById(R.id.tv_rename).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    showRenameDialog dialog1 = new showRenameDialog();
-                    dialog1.CenterDialog(context, data, data.getBasename(), position);
+                showRenameDialog dialog1 = new showRenameDialog();
+                dialog1.CenterDialog(context, data, data.getBasename(), position);
                 dialog.dismiss();
             }
 
@@ -127,23 +146,23 @@ public class showCloudBottomDialog {
         dialog.findViewById(R.id.tv_del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    CustomDialog dialog1 = new CustomDialog(context).builder()
-                            .setGravity(Gravity.CENTER)
-                            .setTitle("提示", context.getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
-                            .setSubTitle("是否删除该文件")
-                            .setNegativeButton("取消", R.color.button_confirm, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
+                CustomDialog dialog1 = new CustomDialog(context).builder()
+                        .setGravity(Gravity.CENTER)
+                        .setTitle("提示", context.getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
+                        .setSubTitle("是否删除该文件")
+                        .setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
-                                }
-                            })
-                            .setPositiveButton("确定", R.color.button_confirm, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    del(context, data.getId(), position);
-                                }
-                            });
-                    dialog1.show();
+                            }
+                        })
+                        .setPositiveButton("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                del(context, data.getId(), position);
+                            }
+                        });
+                dialog1.show();
                 dialog.dismiss();
             }
         });
@@ -152,12 +171,68 @@ public class showCloudBottomDialog {
     }
 
     /**
+     * 云空间公有文件/私有文件转换
+     *
+     * @param context
+     * @param data
+     * @param position
+     * @param st
+     */
+    private void setShare(Context context, FilesModel data, int position, String st) {
+        loaddingDialog.show();
+        RetrofitUtil.getInstance().setflshare(SharedPreferencesUtils.getString(context, "token"), data.getId(), st, new Subscriber<BaseResponse<String>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                loaddingDialog.dismiss();
+                if (e instanceof DataResultException) {
+                    DataResultException resultException = (DataResultException) e;
+                    showToast(context, resultException.getMsg());
+                }
+            }
+
+            @Override
+            public void onNext(BaseResponse<String> stringBaseResponse) {
+                loaddingDialog.dismiss();
+                if ("1".equals(stringBaseResponse.getStatus())) {
+                    showToast(context, stringBaseResponse.getMsg());
+                    if ("1".equals(cloudFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.cloudFile");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "");
+                        context.sendBroadcast(intent);
+                    } else if ("2".equals(cloudFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.cloudSeach");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "");
+                        context.sendBroadcast(intent);
+                    } else {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.cloud");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "");
+                        context.sendBroadcast(intent);
+                    }
+                } else {
+                    showToast(context, stringBaseResponse.getMsg());
+                }
+            }
+        });
+    }
+
+    /*
      * 分享
      *
      * @param context
      * @param data
      * @param position
-     */
+     *//*
     private void toShare(Context context, FilesModel data, int position) {
         loaddingDialog.show();
         RetrofitUtil.getInstance().getfsl(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data.getId()), new Subscriber<BaseResponse<FSLModel>>() {
@@ -171,9 +246,7 @@ public class showCloudBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
-                    showToast(context,resultException.getMsg());
-                    Looper.loop();
+                    showToast(context, resultException.getMsg());
                 }
             }
 
@@ -181,22 +254,15 @@ public class showCloudBottomDialog {
             public void onNext(BaseResponse<FSLModel> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    // 将文本内容放到系统剪贴板里。
-                    cm.setText(baseResponse.getData().getLink());
-                    Looper.prepare();
-                    showToast(context, "本文件分享地址已复制剪切板，请前往粘贴使用");
-                    Looper.loop();
+
                 } else {
-                    Looper.prepare();
-                    showToast(context,baseResponse.getMsg());
-                    Looper.loop();
+                    showToast(context, baseResponse.getMsg());
                 }
             }
         });
 
 
-    }
+    }*/
 
     /**
      * 删除文件
@@ -220,9 +286,7 @@ public class showCloudBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(context, resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -230,12 +294,16 @@ public class showCloudBottomDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
-                    Looper.loop();
                     if ("1".equals(cloudFlag)) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.cloudFile");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "1");
+                        context.sendBroadcast(intent);
+                    } else if ("2".equals(cloudFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.cloudSeach");
                         intent.putExtra("id", position);
                         intent.putExtra("flag", "1");
                         context.sendBroadcast(intent);
@@ -247,9 +315,7 @@ public class showCloudBottomDialog {
                         context.sendBroadcast(intent);
                     }
                 }
-                Looper.prepare();
                 showToast(context, baseResponse.getMsg());
-                Looper.loop();
             }
         });
     }

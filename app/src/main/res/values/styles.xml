@@ -160,6 +160,7 @@
         <attr name="cpb_height" format="dimension" />
         <attr name="cpb_download_progress_color" format="color" />
         <attr name="cpb_default_progress_color" format="color" />
+        <attr name="centerTextSize" format="dimension"/>
     </declare-styleable>
 
     <style name="toolbar_login_textStyle">
@@ -175,5 +176,17 @@
 
     <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>  <!--把该属性改为false即可使menu位置位于toolbar之下-->
+    </style>
+
+    <style name="OnClick">
+        <item name="android:clickable">true</item>
+        <item name="android:onClick">onClick</item>
+    </style>
+
+    <style name="popwindow_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
+        <!-- 指定显示时的动画xml -->
+        <item name="android:windowExitAnimation">@anim/popup_gone</item>
+        <!-- 指定消失时的动画xml -->
     </style>
 </resources>

@@ -8,7 +8,7 @@ package com.androidev.download;
 public class DownloadInfo implements Comparable<DownloadInfo> {
 
     int state;
-  public   long finishedLength;
+    public long finishedLength;
 
     public long createTime;
     public long finishTime;

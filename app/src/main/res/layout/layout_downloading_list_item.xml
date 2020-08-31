@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.feemoo.fmapp.widght.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_70"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="horizontal">
 
@@ -67,8 +67,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"></TextView>
+                        <TextView
+                            android:id="@+id/tvSpeed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="@dimen/dp_10"
+                            android:layout_alignParentRight="true"
+                            ></TextView>
                     </RelativeLayout>
                 </LinearLayout>
+
 
                 <com.feemoo.fmapp.widght.CircleProgressBar
                     android:id="@+id/download_status"
@@ -77,8 +85,8 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_10"
-                    app:statue="0"
-                  ></com.feemoo.fmapp.widght.CircleProgressBar>
+                    app:statue="0"></com.feemoo.fmapp.widght.CircleProgressBar>
+
             </LinearLayout>
 
             <View

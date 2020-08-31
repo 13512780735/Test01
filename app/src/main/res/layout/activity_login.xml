@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:paddingTop="@dimen/dp_20">
+    android:focusableInTouchMode="true">
 
 
     <androidx.core.widget.NestedScrollView
@@ -24,11 +23,11 @@
             <LinearLayout
                 android:id="@+id/ll01"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/dp_40"
-                android:paddingTop="@dimen/dp_60"
                 android:paddingRight="@dimen/dp_40">
 
                 <LinearLayout
@@ -106,10 +105,10 @@
                         android:padding="10dip"
                         android:singleLine="true"
                         android:text="获取验证码"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="12sp"
                         android:visibility="gone"
-                        app:contentBackColor="@color/yellow_button_bg_pressed_color"
+                        app:contentBackColor="@color/button_confirm"
                         app:cornerRadius="@dimen/dp_10"
                         app:strokeColor01="#999999"
                         app:strokeWidth01="0dp" />
@@ -148,7 +147,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <com.feemoo.fmapp.widght.BorderTextView
@@ -181,54 +181,127 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dip"
-                        android:layout_marginTop="40dip"
-                        android:layout_marginBottom="@dimen/dp_100"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/dp_10">
 
-                        <CheckBox
-                            android:id="@+id/checkbox01"
-                            style="@style/mycheckbox1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/dp_10"
-                            android:checked="true" />
-
-                        <TextView
-                            android:id="@+id/protocol_tv"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/llWchat"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:text="登录即表示您已阅读并同意"
-                            android:textColor="@color/text_color" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:text="&#060;"
-                            android:textColor="@color/button_confirm"></TextView>
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@mipmap/icon_logon_wchat"></ImageView>
 
-                        <TextView
-                            android:id="@+id/protocol_tv01"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:text="用户协议"
-                            android:textColor="@color/button_confirm" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dp_10"
+                                android:text="微信"></TextView>
+                        </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/llQQ"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:text="&#062;"
-                            android:textColor="@color/button_confirm"></TextView>
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@mipmap/icon_logon_qq"></ImageView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dp_10"
+                                android:text="QQ"></TextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llPhone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@mipmap/icon_login_phone"></ImageView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dp_10"
+                                android:text="手机"></TextView>
+                        </LinearLayout>
                     </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dip"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="40dip"
+                    android:layout_marginBottom="@dimen/dp_40"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox01"
+                        style="@style/mycheckbox1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:checked="true" />
+
+                    <TextView
+                        android:id="@+id/protocol_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text=""
+                        android:textColor="@color/text_color" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/button_confirm"></TextView>
+
+                    <TextView
+                        android:id="@+id/protocol_tv01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="用户协议"
+                        android:textColor="@color/button_confirm"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="&#062;"
+                        android:textColor="@color/button_confirm"
+                        android:visibility="gone"></TextView>
                 </LinearLayout>
             </LinearLayout>
 
@@ -242,7 +315,6 @@
         android:id="@+id/mToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="登录"
         app:titleTextAppearance="@style/toolbar_login_textStyle" />
 
 </FrameLayout>

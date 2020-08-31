@@ -18,6 +18,15 @@ public class FilesModel extends CloudModel {
     private String intime;
     private String basename;
     private String link;
+    private String isshare;
+
+    public String getIsshare() {
+        return isshare;
+    }
+
+    public void setIsshare(String isshare) {
+        this.isshare = isshare;
+    }
 
     public String getId() {
         return id;

@@ -124,9 +124,7 @@ public class FilePreviewActivity extends BaseActivity implements SwipeRefreshAda
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast( resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -152,6 +150,7 @@ public class FilePreviewActivity extends BaseActivity implements SwipeRefreshAda
                             filesModel.setBasename(bean.getBasename());
                             filesModel.setExt(bean.getExt());
                             filesModel.setId(bean.getId());
+                            filesModel.setIsshare(bean.getIsshare());
                             filesModel.setIntime(bean.getIntime());
                             filesModel.setLink(bean.getLink());
                             filesModel.setName(bean.getName());
@@ -162,9 +161,7 @@ public class FilePreviewActivity extends BaseActivity implements SwipeRefreshAda
                     mCloudAdapter.setNewData(mCloudData);
                     mCloudAdapter.notifyDataSetChanged();
                 } else {
-                    Looper.prepare();
                     showToast( baseResponse.getMsg());
-                    Looper.loop();
                 }
 
             }

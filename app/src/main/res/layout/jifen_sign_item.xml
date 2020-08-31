@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="@dimen/dp_5"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.feemoo.fmapp.widght.BorderTextView
+        android:id="@+id/tvNum"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/sp_12"
+        app:contentBackColor="@color/gray_background_color"
+        app:cornerRadius="20dp"></com.feemoo.fmapp.widght.BorderTextView>
+
+    <TextView
+        android:id="@+id/tvDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text=""
+        android:textSize="@dimen/sp_12"></TextView>
+</LinearLayout>

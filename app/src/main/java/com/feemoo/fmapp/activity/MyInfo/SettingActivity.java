@@ -6,6 +6,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.activity.login.LoginActivity;
 import com.feemoo.fmapp.base.BaseActivity;
@@ -13,6 +15,7 @@ import com.feemoo.fmapp.utils.AppManager;
 import com.feemoo.fmapp.utils.CustomDialog;
 import com.feemoo.fmapp.utils.SharedPreferencesUtils;
 import com.feemoo.fmapp.utils.StatusBarUtil;
+import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -21,24 +24,28 @@ import butterknife.OnClick;
  * 设置
  */
 public class SettingActivity extends BaseActivity {
-    @BindView(R.id.tv_back)
-    ImageView mBack;
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
     private CustomDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        int color = getResources().getColor(R.color.white);
-        StatusBarUtil.setColor(this, color, 0);
-        StatusBarUtil.setLightMode(this);
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         initUI();
     }
 
     private void initUI() {
-        setBackView();
-        mBack.setImageDrawable(getResources().getDrawable(R.mipmap.icon_back));
-        setTitle("设置");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     @OnClick({R.id.tvLogout})

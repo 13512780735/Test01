@@ -26,7 +26,8 @@ import rx.Subscriber;
 public class showStarBottomDialog {
     private View view;
     private LoaddingDialog loaddingDialog;
-    //type 0 文件类 1，在线压缩包
+    private String starFlag;
+    //type 0 文件类 1，搜索
 
     public void BottomDialog(Context context, FilesModel data, String type, int position) {
         loaddingDialog = new LoaddingDialog(context);
@@ -43,15 +44,15 @@ public class showStarBottomDialog {
         //设置对话框大小
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
-
+        starFlag = SharedPreferencesUtils.getString(context, "star");//1是永存空间过来
         dialog.findViewById(R.id.tv_down).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent intent = new Intent(context, DownLoadActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", Integer.parseInt(data.getId()));
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
+                Intent intent = new Intent(context, DownLoadActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", Integer.parseInt(data.getId()));
+                intent.putExtras(bundle);
+                context.startActivity(intent);
                 dialog.dismiss();
             }
         });
@@ -70,37 +71,31 @@ public class showStarBottomDialog {
         dialog.findViewById(R.id.tv_cloud).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    loaddingDialog.show();
-                    RetrofitUtil.getInstance().tospro(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data.getId()), new Subscriber<BaseResponse<String>>() {
-                        @Override
-                        public void onCompleted() {
-                        }
+                loaddingDialog.show();
+                RetrofitUtil.getInstance().tospro(SharedPreferencesUtils.getString(context, "token"), Integer.parseInt(data.getId()), new Subscriber<BaseResponse<String>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            loaddingDialog.dismiss();
-                            if (e instanceof DataResultException) {
-                                DataResultException resultException = (DataResultException) e;
-                                Looper.prepare();
-                                showToast( context,resultException.getMsg());
-                                Looper.loop();
-                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        loaddingDialog.dismiss();
+                        if (e instanceof DataResultException) {
+                            DataResultException resultException = (DataResultException) e;
+                            showToast(context, resultException.getMsg());
                         }
+                    }
 
-                        @Override
-                        public void onNext(BaseResponse<String> baseResponse) {
-                            loaddingDialog.dismiss();
-                            if ("1".equals(baseResponse.getStatus())) {
-                                Looper.prepare();
-                                showToast( context,baseResponse.getMsg());
-                                Looper.loop();
-                            } else {
-                                Looper.prepare();
-                                showToast( context,baseResponse.getMsg());
-                                Looper.loop();
-                            }
+                    @Override
+                    public void onNext(BaseResponse<String> baseResponse) {
+                        loaddingDialog.dismiss();
+                        if ("1".equals(baseResponse.getStatus())) {
+                            showToast(context, baseResponse.getMsg());
+                        } else {
+                            showToast(context, baseResponse.getMsg());
                         }
-                    });
+                    }
+                });
                 dialog.dismiss();
             }
         });
@@ -120,14 +115,14 @@ public class showStarBottomDialog {
                         .setGravity(Gravity.CENTER)
                         .setTitle("提示", context.getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
                         .setSubTitle("是否删除该文件")
-                        .setNegativeButton("取消", R.color.button_confirm, new View.OnClickListener() {
+                        .setNegativeButton("取消",  new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
 
                             }
                         })
-                        .setPositiveButton("确定", R.color.button_confirm, new View.OnClickListener() {
-                            @Override
+                        .setPositiveButton("确定",  new View.OnClickListener() {
+                                @Override
                             public void onClick(View view) {
                                 del(context, data.getFid(), position);
 //                                Intent intent = new Intent();
@@ -165,9 +160,7 @@ public class showStarBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(context, resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -177,18 +170,25 @@ public class showStarBottomDialog {
 
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
-                    showToast(context ,baseResponse.getMsg());
-                    Looper.loop();
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.star");
-                    intent.putExtra("id", position);
-                    intent.putExtra("flag", "1");
-                    context.sendBroadcast(intent);
+                    if ("1".equals(starFlag)) {
+                        showToast(context, baseResponse.getMsg());
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.starSearch");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "1");
+                        context.sendBroadcast(intent);
+                    } else {
+                        showToast(context, baseResponse.getMsg());
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.star");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "1");
+                        context.sendBroadcast(intent);
+                    }
+
+                } else {
+                    showToast(context, baseResponse.getMsg());
                 }
-                Looper.prepare();
-                showToast( context,baseResponse.getMsg());
-                Looper.loop();
             }
         });
     }

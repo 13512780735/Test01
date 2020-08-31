@@ -4,11 +4,15 @@ package com.feemoo.fmapp.network.api;
 import com.feemoo.fmapp.MyApplication;
 import com.feemoo.fmapp.network.EmptyEntity;
 import com.feemoo.fmapp.network.model.BaseResponse;
+import com.feemoo.fmapp.network.model.CouponModel;
 import com.feemoo.fmapp.network.model.DownLoadModel;
 import com.feemoo.fmapp.network.model.FSLModel;
 import com.feemoo.fmapp.network.model.FilesListModel;
 import com.feemoo.fmapp.network.model.ImageModel;
+import com.feemoo.fmapp.network.model.JXLikeModel;
 import com.feemoo.fmapp.network.model.JXNavModel;
+import com.feemoo.fmapp.network.model.JiFenModel;
+import com.feemoo.fmapp.network.model.JxDetailsModel;
 import com.feemoo.fmapp.network.model.LoginRegisterModel;
 import com.feemoo.fmapp.network.model.LoginCodeModel;
 import com.feemoo.fmapp.network.model.MemberModel;
@@ -17,6 +21,7 @@ import com.feemoo.fmapp.network.model.SvipDownModel;
 import com.feemoo.fmapp.network.model.VipModel;
 import com.feemoo.fmapp.network.model.history.HistoryListModel;
 import com.feemoo.fmapp.network.model.select.JXHomeModel;
+import com.feemoo.fmapp.network.model.share.ShareListModel;
 import com.feemoo.fmapp.network.model.star.StarListModel;
 import com.feemoo.fmapp.network.model.workStation.OnlineFilesModel;
 import com.feemoo.fmapp.network.model.workStation.WorkStationListModel;
@@ -256,6 +261,21 @@ public interface ApiService {
     );
 
     /**
+     * 云空间公有文件/私有文件转换
+     *
+     * @param token
+     * @param fid
+     * @param st
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/setflshare")
+    Observable<BaseResponse<String>> setflshare(@Header("token") String token,
+                                                @Field("fid") String fid,
+                                                @Field("st") String st
+    );
+
+    /**
      * 操作台删除操作台文件
      *
      * @param token
@@ -445,6 +465,7 @@ public interface ApiService {
 
     /**
      * SVIP购买信息
+     *
      * @param token
      * @return
      */
@@ -452,7 +473,7 @@ public interface ApiService {
     Observable<BaseResponse<VipModel>> vipinfo(@Header("token") String token
 
 
-                                             );
+    );
 
     /**
      * 通过手机找回密码
@@ -504,6 +525,22 @@ public interface ApiService {
     );
 
     /**
+     * 我的云文件分享列表
+     *
+     * @param token
+     * @param keywords
+     * @param pg
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("file/getsharefiles")
+    Observable<BaseResponse<ShareListModel>> getsharefiles(@Header("token") String token,
+                                                           @Field("keywords") String keywords,
+                                                           @Field("pg") int pg
+
+    );
+
+    /**
      * 鲸选首页-顶部默认展示一级分类
      *
      * @param token
@@ -525,6 +562,97 @@ public interface ApiService {
 
     );
 
+    /**
+     * 鲸选-详情页
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("choice/jxdetail")
+    Observable<BaseResponse<JxDetailsModel>> jxdetail(@Header("token") String token,
+                                                      @Field("id") String id
+
+    );
+
+    /**
+     * 鲸选-33技术教程的点击展示全文
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("choice/gethfcon")
+    Observable<BaseResponse<String>> gethfcon(@Header("token") String token,
+                                              @Field("id") String id
+
+    );
+
+    /**
+     * 鲸选-点赞/踩
+     *
+     * @param token
+     * @param id
+     * @param st
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("choice/jxlike")
+    Observable<BaseResponse<JXLikeModel>> jxlike(@Header("token") String token,
+                                                 @Field("id") String id,
+                                                 @Field("st") String st
+
+    );
+
+    /**
+     * 鲸选-文件下载
+     *
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("choice/jxdown")
+    Observable<BaseResponse<SvipDownModel>> jxdown(@Header("token") String token,
+                                                   @Field("id") String id
+
+    );
+
+    /**
+     * 扫码二维码-登录
+     *
+     * @param token
+     * @param code
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/scanlogin")
+    Observable<BaseResponse<String>> scanlogin(@Header("token") String token,
+                                               @Field("code") String code
+
+    );
+
+    /**
+     * 卡券包列表数据
+     * @param token
+     * @return
+     */
+    @POST("center/coupct")
+    Observable<BaseResponse<CouponModel>> coupct(@Header("token") String token
+
+    );
+
+    /**
+     * 签到前加载信息
+     * @param token
+     * @return
+     */
+    @POST("user/getsigndayv2")
+    Observable<BaseResponse<JiFenModel>> getsigndayv2(@Header("token") String token
+
+    );
     @Multipart
     @POST("https://ucgimg.fmapp.com/img_server/kind/php/img_up.php")
     Observable<ImageModel> uploadImage(@Part MultipartBody.Part filePart, @Header("token") String token);

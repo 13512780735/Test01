@@ -6,6 +6,7 @@ buildscript {
         //maven{url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         jcenter()
         mavenCentral()
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
@@ -27,6 +28,7 @@ allprojects {
             dirs project(':AliPay').file('libs')
         }
         maven { url "https://jitpack.io" }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         maven { url "https://maven.google.com" }
         mavenCentral()
     }

@@ -6,10 +6,14 @@ import com.feemoo.fmapp.network.Appconst.AppConst;
 import com.feemoo.fmapp.network.EmptyEntity;
 import com.feemoo.fmapp.network.api.ApiService;
 import com.feemoo.fmapp.network.model.BaseResponse;
+import com.feemoo.fmapp.network.model.CouponModel;
 import com.feemoo.fmapp.network.model.DownLoadModel;
 import com.feemoo.fmapp.network.model.FSLModel;
 import com.feemoo.fmapp.network.model.FilesListModel;
+import com.feemoo.fmapp.network.model.JXLikeModel;
 import com.feemoo.fmapp.network.model.JXNavModel;
+import com.feemoo.fmapp.network.model.JiFenModel;
+import com.feemoo.fmapp.network.model.JxDetailsModel;
 import com.feemoo.fmapp.network.model.LoginRegisterModel;
 import com.feemoo.fmapp.network.model.LoginCodeModel;
 import com.feemoo.fmapp.network.model.MemberModel;
@@ -18,6 +22,7 @@ import com.feemoo.fmapp.network.model.SvipDownModel;
 import com.feemoo.fmapp.network.model.VipModel;
 import com.feemoo.fmapp.network.model.history.HistoryListModel;
 import com.feemoo.fmapp.network.model.select.JXHomeModel;
+import com.feemoo.fmapp.network.model.share.ShareListModel;
 import com.feemoo.fmapp.network.model.star.StarListModel;
 import com.feemoo.fmapp.network.model.workStation.OnlineFilesModel;
 import com.feemoo.fmapp.network.model.workStation.WorkStationListModel;
@@ -318,6 +323,22 @@ public class RetrofitUtil {
     }
 
     /**
+     * 云空间公有文件/私有文件转换
+     *
+     * @param token
+     * @param fid
+     * @param st
+     * @param subscriber
+     */
+    public void setflshare(String token, String fid, String st, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.setflshare(token, fid, st)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
      * 云空间移动文件
      *
      * @param token
@@ -522,6 +543,22 @@ public class RetrofitUtil {
     }
 
     /**
+     * 我的云文件分享列表
+     *
+     * @param token
+     * @param keywords
+     * @param pg
+     * @param subscriber
+     */
+    public void getsharefiles(String token, String keywords, int pg, Subscriber<BaseResponse<ShareListModel>> subscriber) {
+        mApiService.getsharefiles(token, keywords, pg)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
      * 鲸选首页-顶部默认展示一级分类
      *
      * @param token
@@ -544,6 +581,67 @@ public class RetrofitUtil {
 
     public void getjxtopfile(String token, Subscriber<BaseResponse<JXHomeModel>> subscriber) {
         mApiService.getjxtopfile(token)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 鲸选-详情页
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void jxdetail(String token, String id, Subscriber<BaseResponse<JxDetailsModel>> subscriber) {
+        mApiService.jxdetail(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 鲸选-33技术教程的点击展示全文
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void gethfcon(String token, String id, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.gethfcon(token, id)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 鲸选-点赞/踩
+     *
+     * @param token
+     * @param id
+     * @param st
+     * @return
+     */
+    public void jxlike(String token, String id, String st, Subscriber<BaseResponse<JXLikeModel>> subscriber) {
+        mApiService.jxlike(token, id, st)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 鲸选-文件下载
+     *
+     * @param token
+     * @param id
+     * @param subscriber
+     */
+    public void jxdown(String token, String id, Subscriber<BaseResponse<SvipDownModel>> subscriber) {
+        mApiService.jxdown(token, id)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -587,6 +685,49 @@ public class RetrofitUtil {
      */
     public void vipinfo(String token, Subscriber<BaseResponse<VipModel>> subscriber) {
         mApiService.vipinfo(token)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 扫码二维码-登录
+     *
+     * @param token
+     * @param code
+     * @param subscriber
+     */
+    public void scanlogin(String token, String code, Subscriber<BaseResponse<String>> subscriber) {
+        mApiService.scanlogin(token, code)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 卡券包列表数据
+     *
+     * @param token
+     * @param subscriber
+     */
+    public void coupct(String token, Subscriber<BaseResponse<CouponModel>> subscriber) {
+        mApiService.coupct(token)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 签到前加载信息
+     *
+     * @param token
+     * @param subscriber
+     */
+    public void getsigndayv2(String token, Subscriber<BaseResponse<JiFenModel>> subscriber) {
+        mApiService.getsigndayv2(token)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

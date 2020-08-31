@@ -15,8 +15,14 @@ android {
         }
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -28,6 +34,14 @@ android {
 
         }
 
+    }
+    signingConfigs {
+        debug {
+            storeFile file('fmapp_debug.keystore')
+            storePassword "123456"
+            keyAlias "key0"
+            keyPassword "123456"
+        }
     }
     compileOptions {
 
@@ -55,6 +69,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.google.android.material:material:1.0.0-rc01'
+
     //网络
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
@@ -69,6 +84,7 @@ dependencies {
     implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
         exclude group: 'org.json', module: 'json'
     }
+
     //注解
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
@@ -76,21 +92,27 @@ dependencies {
     implementation 'com.github.niezhiyang:ClearEditText:1.0'
     implementation 'io.michaelrocks:libphonenumber-android:8.9.14'
     implementation 'com.loopj.android:android-async-http:1.4.9'
+
     //图片选择
     implementation 'com.github.HuanTanSheng:EasyPhotos:3.0.6'
     implementation('com.github.bumptech.glide:glide:4.11.0') {
         exclude group: "com.android.support"
     }
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
     ///'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
     //列表
     implementation project(path: ':AdapterLibrary')
     implementation 'com.mylhyl:commonrefreshlayout:2.4'
+
     //下载
+
     //   implementation 'com.ixuea:AndroidDownloader:latest'
+
     //权限
     implementation 'com.karumi:dexter:4.2.0'
     implementation 'org.greenrobot:eventbus:3.0.0'
@@ -100,24 +122,69 @@ dependencies {
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.github.SuperKotlin:PictureViewer:2.0.1'
     implementation 'pub.devrel:easypermissions:0.4.3'
+
     //压缩包解压
     implementation project(':UnZipLibrary')
     implementation 'com.zhy.base:fileprovider:1.0.0'
     implementation 'com.google.guava:guava:27.0.1-android'
     implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
+
     // api 'org.gnu:gnu-crypto:2.0.1'
+
     //新版本office打开
     implementation files('libs/tbs_sdk_thirdapp_v4.3.0.39_43939_sharewithdownloadwithfile_withoutGame_obfs_20200713_223411.jar')
+
     //微信支付
+
     //
-//    implementation files('libs/AliPaySDK.jar')
-//    implementation files('libs/WxPaySDK.jar')
-   // implementation(name: 'alipaySdk-15.7.9-20200727142846', ext: 'aar')
-   api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1'
+
+    //    implementation files('libs/AliPaySDK.jar')
+
+    //    implementation files('libs/WxPaySDK.jar')
+
+    // implementation(name: 'alipaySdk-15.7.9-20200727142846', ext: 'aar')
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1'
 
     // 基础依赖包，必须要依赖
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
-// fragment快速实现（可选）
+
+    // fragment快速实现（可选）
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'
     implementation project(':AliPay')
+    implementation 'com.zzhoujay.richtext:richtext:3.0.7'
+
+    // implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    implementation 'com.github.yuzhiqiang1993:zxing:2.2.8'
+    implementation 'com.weicong.library:pwebview:1.0.0'
+    implementation 'com.github.promeg:tinypinyin:2.0.3'
+
+    // 下面各SDK根据宿主App是否使用相关业务按需引入。
+
+    // OAID目前为目前国内市场主流的Android Q设备标识，可根据需要选择。
+
+
+    // native crash包依赖(必选)
+
+    //    implementation 'com.umeng.sdk:share-core:latest.integration'
+
+    //    implementation 'com.umeng.sdk:share-qq:latest.integration'
+
+    //    implementation 'com.umeng.sdk:share-wechat:latest.integration'
+
+    ////分享面板
+
+    //    implementation 'com.umeng.sdk:shareboard-widget:latest.integration'
+    // 友盟统计SDK
+    implementation 'com.umeng.umsdk:common:9.1.0'
+
+    // (必选)
+    implementation 'com.umeng.umsdk:asms:1.1.3'
+
+    // asms包依赖(必选)
+    implementation 'com.umeng.umsdk:crash:0.0.4'
+    implementation files('libs/umeng-share-core-7.0.3.jar')
+    implementation files('libs/umeng-share-QQ-simplify-7.0.3.jar')
+    implementation files('libs/umeng-share-wechat-simplify-7.0.3.jar')
+    implementation files('libs/umeng-shareboard-widget-7.0.3.jar')
+    implementation files('libs/umeng-sharetool-7.0.3.jar')
 }

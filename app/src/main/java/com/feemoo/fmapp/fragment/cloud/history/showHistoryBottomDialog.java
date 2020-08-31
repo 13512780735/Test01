@@ -81,9 +81,7 @@ public class showHistoryBottomDialog {
                             loaddingDialog.dismiss();
                             if (e instanceof DataResultException) {
                                 DataResultException resultException = (DataResultException) e;
-                                Looper.prepare();
                                 showToast(context, resultException.getMsg());
-                                Looper.loop();
                             }
                         }
 
@@ -91,17 +89,13 @@ public class showHistoryBottomDialog {
                         public void onNext(BaseResponse<String> baseResponse) {
                             loaddingDialog.dismiss();
                             if ("1".equals(baseResponse.getStatus())) {
-                                Looper.prepare();
                                 showToast(context, baseResponse.getMsg());
-                                Looper.loop();
 //                            Intent intent = new Intent();
 //                            intent.setAction("android.intent.action.cloud");
 //                            intent.putExtra("id", position);
 //                            context.sendBroadcast(intent);
                             } else {
-                                Looper.prepare();
                                 showToast(context, baseResponse.getMsg());
-                                Looper.loop();
                             }
                         }
                     });
@@ -122,13 +116,13 @@ public class showHistoryBottomDialog {
                             .setGravity(Gravity.CENTER)
                             .setTitle("提示", context.getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
                             .setSubTitle("是否删除该文件")
-                            .setNegativeButton("取消", R.color.button_confirm, new View.OnClickListener() {
+                            .setNegativeButton("取消",  new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
 
                                 }
                             })
-                            .setPositiveButton("确定", R.color.button_confirm, new View.OnClickListener() {
+                            .setPositiveButton("确定",  new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     del(context, data.getFid(), position);
@@ -168,9 +162,7 @@ public class showHistoryBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(context, resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -178,17 +170,13 @@ public class showHistoryBottomDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
-                    Looper.loop();
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.history");
                     intent.putExtra("id", position);
                     context.sendBroadcast(intent);
                 }
-                Looper.prepare();
                 showToast(context, baseResponse.getMsg());
-                Looper.loop();
             }
         });
     }

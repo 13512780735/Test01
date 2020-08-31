@@ -14,9 +14,12 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.base.BaseActivity;
 import com.feemoo.fmapp.utils.CustomDialog;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,17 +35,26 @@ public class CustomerServiceActivity extends BaseActivity {
     RelativeLayout rlQQ;
     @BindView(R.id.rlUrl)
     RelativeLayout rlUrl;
-
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_service);
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         initView();
     }
 
     private void initView() {
-        setBackView();
-        setTitle("客服");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         mTvService.setText("800180405");
         mTvUrl.setText("service@feemoo.com");
         rlQQ.setOnClickListener(new View.OnClickListener() {
@@ -54,13 +66,13 @@ public class CustomerServiceActivity extends BaseActivity {
                         .setGravity(Gravity.CENTER)
                         .setTitle("", mContext.getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
                         .setSubTitle("飞猫云想要打开QQ")
-                        .setNegativeButton("取消", R.color.button_confirm, new View.OnClickListener() {
+                        .setNegativeButton("取消", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
 
                             }
                         })
-                        .setPositiveButton("确定", R.color.button_confirm, new View.OnClickListener() {
+                        .setPositiveButton("确定",  new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 if (isQQInstall(mContext)) {

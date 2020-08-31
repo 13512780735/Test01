@@ -6,6 +6,8 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.widget.Toolbar;
+
 import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.activity.login.LoginActivity;
 import com.feemoo.fmapp.activity.login.RegisterActivity;
@@ -18,6 +20,7 @@ import com.feemoo.fmapp.utils.AppManager;
 import com.feemoo.fmapp.utils.StringUtil;
 import com.feemoo.fmapp.utils.Utils;
 import com.feemoo.fmapp.widght.BorderTextView;
+import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,6 +34,10 @@ public class BindPhoneActivity extends BaseActivity {
     ClearEditText mEtCode;//请输入用户名
     @BindView(R.id.send_code_btn)
     BorderTextView mSendCode;
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
     TimeCount time = new TimeCount(30000, 1000);
     private String msgid;
     private String mobile;
@@ -40,15 +47,21 @@ public class BindPhoneActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bind_phone);
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         initUI();
     }
 
     private void initUI() {
-        setBackView();
-        setTitle("绑定手机");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
-    @OnClick({R.id.send_code_btn,  R.id.mTvNext})
+    @OnClick({R.id.send_code_btn, R.id.mTvNext})
     public void onClick(View v) {
         switch (v.getId()) {
 

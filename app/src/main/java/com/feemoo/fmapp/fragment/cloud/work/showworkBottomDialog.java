@@ -77,15 +77,15 @@ public class showworkBottomDialog {
         dialog.findViewById(R.id.tv_down).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    toDownLoad(context, data);
+                toDownLoad(context, data);
                 dialog.dismiss();
             }
         });
         dialog.findViewById(R.id.tv_online).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    showOnlineDialog dialog01 = new showOnlineDialog();
-                    dialog01.CenterDialog(context, data.getId(), data.getName(), "0", position);
+                showOnlineDialog dialog01 = new showOnlineDialog();
+                dialog01.CenterDialog(context, data.getId(), data.getName(), "0", position);
                 dialog.dismiss();
             }
         });
@@ -94,7 +94,7 @@ public class showworkBottomDialog {
             @Override
             public void onClick(View view) {
 
-                    getLookMac(context, data, position);
+                getLookMac(context, data, position);
                 dialog.dismiss();
             }
         });
@@ -143,13 +143,13 @@ public class showworkBottomDialog {
                         .setGravity(Gravity.CENTER)
                         .setTitle("提示", context.getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
                         .setSubTitle("是否删除该文件")
-                        .setNegativeButton("取消", R.color.button_confirm, new View.OnClickListener() {
+                        .setNegativeButton("取消", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
 
                             }
                         })
-                        .setPositiveButton("确定", R.color.button_confirm, new View.OnClickListener() {
+                        .setPositiveButton("确定",  new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 del(context, data.getId(), position);
@@ -183,9 +183,7 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(context, resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -202,9 +200,7 @@ public class showworkBottomDialog {
                     context.startActivity(intent);
 
                 } else {
-                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
-                    Looper.loop();
                 }
 
             }
@@ -230,9 +226,7 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(context, resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -247,9 +241,7 @@ public class showworkBottomDialog {
                     context.startActivity(intent);
 
                 } else {
-                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -301,9 +293,7 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(context, resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -311,9 +301,7 @@ public class showworkBottomDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
-                    Looper.loop();
                     if ("1".equals(workFlag)) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.liveSpace");
@@ -323,6 +311,12 @@ public class showworkBottomDialog {
                     } else if ("2".equals(workFlag)) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.workFile");
+                        intent.putExtra("id", position);
+                        intent.putExtra("flag", "0");
+                        context.sendBroadcast(intent);
+                    } else if ("3".equals(workFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.workSeach");
                         intent.putExtra("id", position);
                         intent.putExtra("flag", "0");
                         context.sendBroadcast(intent);
@@ -360,9 +354,7 @@ public class showworkBottomDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(context, resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -370,9 +362,7 @@ public class showworkBottomDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
-                    Looper.loop();
                     if ("1".equals(workFlag)) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.liveSpace");
@@ -390,9 +380,7 @@ public class showworkBottomDialog {
                         context.sendBroadcast(intent);
                     }
                 }
-                Looper.prepare();
                 showToast(context, baseResponse.getMsg());
-                Looper.loop();
             }
         });
     }

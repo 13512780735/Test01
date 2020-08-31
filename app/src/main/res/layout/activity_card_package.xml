@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:crl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MyInfo.CardPackageActivity">
+
+    <View
+        android:id="@+id/status_bar_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"></View>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/gray_background_color"
+        app:navigationIcon="@mipmap/icon_back"
+        app:popupTheme="@style/ToolbarPopupTheme">
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="卡券包"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18">
+
+        </TextView>
+    </androidx.appcompat.widget.Toolbar>
+
+    <RadioGroup
+        android:id="@+id/mRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/gray_background_color"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_20">
+
+
+        <RadioButton
+            android:id="@+id/mRb01"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/rb_main_background"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="全部"
+            android:textColor="@drawable/radiobutton_main_textcolor"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/mRb02"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/rb_main_background"
+            android:button="@null"
+            android:gravity="center"
+            android:text="下载券"
+            android:textColor="@drawable/radiobutton_main_textcolor"></RadioButton>
+
+        <RadioButton
+            android:id="@+id/mRb03"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/rb_main_background"
+            android:button="@null"
+            android:gravity="center"
+            android:text="代金券"
+            android:textColor="@drawable/radiobutton_main_textcolor"></RadioButton>
+
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/main_frag1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_weight="1"
+        android:background="@color/white"></FrameLayout>
+
+</LinearLayout>

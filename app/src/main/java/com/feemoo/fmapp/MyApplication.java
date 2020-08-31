@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import com.androidev.download.DownloadManager;
 import com.feemoo.fmapp.utils.SharedPreferencesUtils;
 import com.tencent.smtt.sdk.QbSdk;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -58,6 +60,11 @@ public class MyApplication extends Application {
         serviceRun = false;
         DownloadManager.getInstance().initialize(this, 3);
         initTX5();
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+
+
         // startService(new Intent(this, KeepLifeService.class));
         //Hawk存储初始化
         //Hawk.init(this).build();
@@ -102,13 +109,13 @@ public class MyApplication extends Application {
             @Override
             public void onCoreInitFinished() {
                 //x5内核初始化完成回调接口，此接口回调并表示已经加载起来了x5，有可能特殊情况下x5内核加载失败，切换到系统内核。
-                Log.e("@@","加载内核是否onCoreInitFinished成功:");
+                Log.e("@@", "加载内核是否onCoreInitFinished成功:");
             }
 
             @Override
             public void onViewInitFinished(boolean b) {
                 //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-                Log.e("@@","加载内核是否成功:"+b);
+                Log.e("@@", "加载内核是否成功:" + b);
             }
         });
     }
@@ -129,7 +136,7 @@ public class MyApplication extends Application {
                 if (isRunInBackground) {
                     // 后台到前台，在此进行相应操作
                     isRunInBackground = false;
-                   // Toast.makeText(mContext, "推至前台了", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(mContext, "推至前台了", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -149,8 +156,8 @@ public class MyApplication extends Application {
                 if (account == 0) {
                     // 前台到后台，在此进行相应操作
                     isRunInBackground = true;
-                 //   Toast.makeText(mContext, "推至后台了", Toast.LENGTH_SHORT).show();
-                //    Log.d("推至后台了", "");
+                    //   Toast.makeText(mContext, "推至后台了", Toast.LENGTH_SHORT).show();
+                    //    Log.d("推至后台了", "");
                 }
             }
 

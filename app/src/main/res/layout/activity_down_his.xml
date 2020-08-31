@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:crl="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".activity.cloud.DownHisActivity">
+
+    <View
+        android:id="@+id/status_bar_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"></View>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        app:navigationIcon="@mipmap/icon_back"
+        app:popupTheme="@style/ToolbarPopupTheme">
+
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="下载历史"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18">
+
+        </TextView>
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.mylhyl.crlayout.SwipeRefreshRecyclerView
+        android:id="@+id/mRecycleView"
+        crl:load_animator="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

@@ -86,9 +86,7 @@ public class showOnlineDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast( context,resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -97,9 +95,7 @@ public class showOnlineDialog {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus()) ) {
                 } else {
-                    Looper.prepare();
                     showToast( context,baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
 

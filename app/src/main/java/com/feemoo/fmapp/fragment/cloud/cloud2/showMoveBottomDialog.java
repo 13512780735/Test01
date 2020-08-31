@@ -101,14 +101,14 @@ public class showMoveBottomDialog {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    folderid = mMoveData.get(position).getId();
-                    location = location + ">" + mMoveData.get(position).getName();
-                    tv_location.setText(location);
-                    if (mMoveData.size() > 0) {
-                        mMoveData.clear();
-                        mAdapter.notifyDataSetChanged();
-                    }
-                    initData(context, folderid);
+                folderid = mMoveData.get(position).getId();
+                location = location + ">" + mMoveData.get(position).getName();
+                tv_location.setText(location);
+                if (mMoveData.size() > 0) {
+                    mMoveData.clear();
+                    mAdapter.notifyDataSetChanged();
+                }
+                initData(context, folderid);
             }
         });
 
@@ -153,6 +153,12 @@ public class showMoveBottomDialog {
                     if ("1".equals(cloudFlag)) {
                         Intent intent = new Intent();
                         intent.setAction("android.intent.action.cloudFile");
+                        intent.putExtra("id", positionss);
+                        intent.putExtra("flag", "1");
+                        context.sendBroadcast(intent);
+                    } else if ("2".equals(cloudFlag)) {
+                        Intent intent = new Intent();
+                        intent.setAction("android.intent.action.cloudSeach");
                         intent.putExtra("id", positionss);
                         intent.putExtra("flag", "1");
                         context.sendBroadcast(intent);

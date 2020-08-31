@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.feemoo.fmapp.R;
+import com.feemoo.fmapp.activity.login.RegisterProtocolActivity;
 import com.feemoo.fmapp.adapter.VipLevelAdapter;
 import com.feemoo.fmapp.adapter.VipPrivilegeAdapter;
 import com.feemoo.fmapp.base.BaseActivity;
@@ -150,9 +151,7 @@ public class VipInfoActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -164,9 +163,7 @@ public class VipInfoActivity extends BaseActivity {
                     refresh(vipModel);
 
                 } else {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
         });
@@ -350,6 +347,16 @@ public class VipInfoActivity extends BaseActivity {
                 }
             }
         });
+        mTvProtocol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = AppConst.BASE_URL01 + "archives/128";
+                Bundle bundle = new Bundle();
+                bundle.putString("url", url);
+                bundle.putString("title", "SVIP会员服务协议");
+                toActivity(RegisterProtocolActivity.class, bundle);
+            }
+        });
 
     }
 
@@ -452,7 +459,7 @@ public class VipInfoActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, okhttp3.Response response) throws IOException {
                 LoaddingDismiss();
-               // Log.d("数据微信：", response.body().string());
+                // Log.d("数据微信：", response.body().string());
                 try {
                     JSONObject object = new JSONObject(response.body().string());
                     int status = object.optInt("status");

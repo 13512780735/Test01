@@ -52,17 +52,30 @@
         android:text="下载"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp" />
-
+    <TextView
+        android:id="@+id/tv_share01"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/text_bg_selector"
+        android:visibility="gone"
+        android:drawableLeft="@mipmap/icon_pop_share"
+        android:drawablePadding="@dimen/dp_20"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_20"
+        android:text="设为公有文件"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp" />
     <TextView
         android:id="@+id/tv_share"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/text_bg_selector"
-        android:drawableLeft="@mipmap/icon_pop_share"
+        android:drawableLeft="@mipmap/icon_pop_copy"
         android:drawablePadding="@dimen/dp_20"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/dp_20"
-        android:text="分享"
+        android:visibility="gone"
+        android:text="复制分享链接"
         android:textColor="@android:color/background_dark"
         android:textSize="16sp" />
 

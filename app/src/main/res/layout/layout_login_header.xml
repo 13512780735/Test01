@@ -7,15 +7,16 @@
     <RelativeLayout
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
         <com.feemoo.fmapp.widght.CircleImageView
             android:id="@+id/iv01"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_100"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
             android:layout_centerInParent="true"
-            android:src="@mipmap/icon_logo"></com.feemoo.fmapp.widght.CircleImageView>
+            android:src="@mipmap/icon_login_logo"></com.feemoo.fmapp.widght.CircleImageView>
 
         <TextView
             android:id="@+id/tvName"

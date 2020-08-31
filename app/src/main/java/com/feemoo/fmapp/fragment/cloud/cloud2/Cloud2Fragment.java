@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -122,6 +121,7 @@ public class Cloud2Fragment extends BaseFragment implements SwipeRefreshAdapterV
                             filesModel.setId(bean.getId());
                             filesModel.setIntime(bean.getIntime());
                             filesModel.setLink(bean.getLink());
+                            filesModel.setIsshare(bean.getIsshare());
                             filesModel.setName(bean.getName());
                             filesModel.setSize(bean.getSize());
                             mCloudData.add(filesModel);
@@ -130,9 +130,7 @@ public class Cloud2Fragment extends BaseFragment implements SwipeRefreshAdapterV
                     mCloudAdapter.setNewData(mCloudData);
                     mCloudAdapter.notifyDataSetChanged();
                 } else {
-                    Looper.prepare();
                     showToast( baseResponse.getMsg());
-                    Looper.loop();
                 }
 
             }

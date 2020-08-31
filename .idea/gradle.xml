@@ -12,11 +12,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/AdapterLibrary" />
+            <option value="$PROJECT_DIR$/AliPay" />
             <option value="$PROJECT_DIR$/AriaAnnotations" />
             <option value="$PROJECT_DIR$/PhoneAreaCodeLibray" />
             <option value="$PROJECT_DIR$/SwipeBackLayout" />
-            <option value="$PROJECT_DIR$/UnRarLibrary" />
             <option value="$PROJECT_DIR$/UnZipLibrary" />
+            <option value="$PROJECT_DIR$/Zxinglib" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commonrefreshlayout" />
             <option value="$PROJECT_DIR$/download" />

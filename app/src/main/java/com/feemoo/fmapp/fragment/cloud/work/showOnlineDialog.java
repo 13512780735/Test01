@@ -89,9 +89,7 @@ public class showOnlineDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast( context,resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -104,9 +102,7 @@ public class showOnlineDialog {
                     intent.putExtra("name", name);
                     context.startActivity(intent);
                 } else {
-                    Looper.prepare();
                     showToast( context,baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -133,9 +129,7 @@ public class showOnlineDialog {
                 loaddingDialog.dismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast( context,resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -143,13 +137,9 @@ public class showOnlineDialog {
             public void onNext(BaseResponse<String> baseResponse) {
                 loaddingDialog.dismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
-                    Looper.loop();
                 } else {
-                    Looper.prepare();
                     showToast(context, baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
 

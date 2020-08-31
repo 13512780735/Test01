@@ -80,7 +80,7 @@
                 android:background="@drawable/rb_main_background"
                 android:button="@null"
                 android:gravity="center"
-                android:text="下载历史"
+                android:text="我的分享"
                 android:textColor="@drawable/radiobutton_main_textcolor"></RadioButton>
         </RadioGroup>
 
@@ -90,7 +90,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"></FrameLayout>
-
+        <View
+            android:id="@+id/status_bar_view01"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

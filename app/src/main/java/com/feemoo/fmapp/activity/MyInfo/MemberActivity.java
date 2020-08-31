@@ -186,9 +186,7 @@ public class MemberActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast( resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -196,13 +194,9 @@ public class MemberActivity extends BaseActivity {
             public void onNext(BaseResponse<String> baseResponse) {
                 LoaddingDismiss();
                 if ("1".equals(baseResponse.getStatus())) {
-                    Looper.prepare();
                     showToast( baseResponse.getMsg());
-                    Looper.loop();
                 } else {
-                    Looper.prepare();
                     showToast( baseResponse.getMsg());
-                    Looper.loop();
                 }
             }
         });

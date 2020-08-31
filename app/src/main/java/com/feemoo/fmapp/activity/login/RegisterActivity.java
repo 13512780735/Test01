@@ -1,6 +1,7 @@
 package com.feemoo.fmapp.activity.login;
 
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 
@@ -22,6 +24,7 @@ import com.feemoo.fmapp.network.model.BaseResponse;
 import com.feemoo.fmapp.network.model.LoginCodeModel;
 import com.feemoo.fmapp.network.util.DataResultException;
 import com.feemoo.fmapp.network.util.RetrofitUtil;
+import com.feemoo.fmapp.phoneArea.PhoneAreaCodeActivity;
 import com.feemoo.fmapp.utils.DensityUtil;
 import com.feemoo.fmapp.utils.StatusBarUtil;
 import com.feemoo.fmapp.utils.StringUtil;
@@ -53,6 +56,10 @@ public class RegisterActivity extends BaseActivity {
     NestedScrollView myScrollView;
     @BindView(R.id.mToolbar)
     Toolbar mToolbar;
+    @BindView(R.id.tvTitle)
+    TextView tvTitle;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
     @BindView(R.id.rl_header)
     RelativeLayout mRlHeader;
     @BindView(R.id.iv01)
@@ -65,56 +72,69 @@ public class RegisterActivity extends BaseActivity {
     ClearEditText mEtPass;//请输入验证码
     @BindView(R.id.send_code_btn)
     BorderTextView mSendCode;
+    @BindView(R.id.mTvName)
+    TextView mTvName;
+    @BindView(R.id.tvright)
+    TextView tvright;
     TimeCount time = new TimeCount(30000, 1000);
     private String mobile;
-    private String msgid = "2634140";
+    private String msgid ;
     private String code;
     private String pcode;
+    String tel = "+86";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        if (ImmersionBar.isSupportStatusBarDarkFont()) {
-            ImmersionBar.with(this).statusBarDarkFont(true).init();
-        } else {
-
-            Log.d("RegisterActivity", "当前设备不支持状态栏字体变色");
-        }
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         initUI();
     }
 
     private void initUI() {
-        mToolbar.setAlpha(0);
         WindowManager wm = this.getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();//屏幕宽度
-        int height01 = width;//屏幕高度
+        int height01 = width / 2 + 40;//屏幕高度
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mRlHeader.getLayoutParams();
         params.width = width;
         params.height = height01;
         mRlHeader.setLayoutParams(params);//设置配置参数
-        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) ll01.getLayoutParams();
-        params1.width = width;
-        params1.height = wm.getDefaultDisplay().getHeight() - DensityUtil.dip2px(mContext, 50);
-        ll01.setLayoutParams(params1);//设置配置参数
-        myScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
-            int height = DensityUtil.dip2px(mContext, 50);
-            if (i1 <= 0) {
-                mToolbar.setTitle("注册");
-                mToolbar.setAlpha(0);
-                iv01.setVisibility(View.VISIBLE);
-            } else if (i1 > 0 && i1 < height) {
-                mToolbar.setTitle("注册");
-                //获取渐变率
-                float scale = (float) i1 / height;
-                //获取渐变数值
-                float alpha = (1.0f * scale);
-                mToolbar.setAlpha(alpha);
-                iv01.setVisibility(View.INVISIBLE);
-            } else {
-                mToolbar.setAlpha(1f);
+//        LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) ll01.getLayoutParams();
+//        params1.width = width;
+//        params1.height = wm.getDefaultDisplay().getHeight() - DensityUtil.dip2px(mContext, 50);
+//        ll01.setLayoutParams(params1);//设置配置参数
+//        myScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (nestedScrollView, i, i1, i2, i3) -> {
+//            int height = DensityUtil.dip2px(mContext, 50);
+//            if (i1 <= 0) {
+//                mToolbar.setTitle("注册");
+//                mToolbar.setAlpha(0);
+//                iv01.setVisibility(View.VISIBLE);
+//            } else if (i1 > 0 && i1 < height) {
+//                mToolbar.setTitle("注册");
+//                //获取渐变率
+//                float scale = (float) i1 / height;
+//                //获取渐变数值
+//                float alpha = (1.0f * scale);
+//                mToolbar.setAlpha(alpha);
+//                iv01.setVisibility(View.INVISIBLE);
+//            } else {
+//                mToolbar.setAlpha(1f);
+//            }
+//
+//        });
+        tvright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
-
+        });
+        mTvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, PhoneAreaCodeActivity.class);
+                startActivityForResult(intent, 1);
+            }
         });
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -167,7 +187,7 @@ public class RegisterActivity extends BaseActivity {
 
     private void toGet(String mobile, String code) {
         LoaddingShow();
-        pcode = "+86";
+        pcode = tel;
         String url = AppConst.BASE_URL + "user/checkregphone";
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
@@ -202,10 +222,14 @@ public class RegisterActivity extends BaseActivity {
                         bundle.putString("code", code);
                         bundle.putString("phone", mobile);
                         toActivity(Register02Activity.class, bundle);
+                        Looper.prepare();
                         showToast(msg);
+                        Looper.loop();
 
                     } else {
+                        Looper.prepare();
                         showToast(msg);
+                        Looper.loop();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -235,7 +259,7 @@ public class RegisterActivity extends BaseActivity {
      * @param mobile
      */
     private void VerificationCode(String mobile) {
-        RetrofitUtil.getInstance().getregcode("+86", mobile, new Subscriber<BaseResponse<LoginCodeModel>>() {
+        RetrofitUtil.getInstance().getregcode(tel, mobile, new Subscriber<BaseResponse<LoginCodeModel>>() {
             @Override
             public void onCompleted() {
 
@@ -246,9 +270,7 @@ public class RegisterActivity extends BaseActivity {
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
@@ -261,13 +283,8 @@ public class RegisterActivity extends BaseActivity {
                     Log.d("msgid", msgid);
                     // ToastCustom.showToast(mContext, baseResponse.getMsg());
                     showToast(baseResponse.getMsg());
-                    Looper.prepare();
-                    showToast(baseResponse.getMsg());
-                    Looper.loop();
                 } else {
-                    Looper.prepare();
                     showToast(baseResponse.getMsg());
-                    Looper.loop();
                     //  ToastCustom.showToast(mContext, baseResponse.getMsg());
                 }
             }
@@ -283,9 +300,9 @@ public class RegisterActivity extends BaseActivity {
         public void onFinish() {// 计时完毕
             mSendCode.setText("获取验证码");
             mSendCode.setClickable(true);
-            mSendCode.setContentColorResource01(getResources().getColor(R.color.yellow_button_bg_pressed_color));
-            mSendCode.setStrokeColor01(getResources().getColor(R.color.yellow_button_bg_pressed_color));
-            mSendCode.setTextColor(getResources().getColor(R.color.black));
+            mSendCode.setContentColorResource01(getResources().getColor(R.color.button_confirm));
+            mSendCode.setStrokeColor01(getResources().getColor(R.color.button_confirm));
+            mSendCode.setTextColor(getResources().getColor(R.color.white));
         }
 
         @Override
@@ -295,6 +312,16 @@ public class RegisterActivity extends BaseActivity {
             mSendCode.setContentColorResource01(getResources().getColor(R.color.gray_background_color));
             mSendCode.setStrokeColor01(getResources().getColor(R.color.gray_background_color));
             mSendCode.setTextColor(getResources().getColor(R.color.text_color));
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //  super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 1) {
+            Bundle bundle = data.getExtras();
+            tel = bundle.getString("tel");
+            mTvName.setText(tel);
         }
     }
 }

@@ -190,29 +190,6 @@
                 android:text="*注册即表示同意"
                 android:textColor="@color/text_color"
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:textColor="@color/button_confirm"
-                android:layout_height="wrap_content"
-                android:text="&#060;"></TextView>
-            <TextView
-                android:id="@+id/protocol_tv01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:text="用户协议"
-                android:textColor="@color/button_confirm"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:textColor="@color/button_confirm"
-                android:layout_height="wrap_content"
-                android:text="&#062;"></TextView>
         </LinearLayout>
     </LinearLayout>
 

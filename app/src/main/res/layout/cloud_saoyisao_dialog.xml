@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_my_bg"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="5dp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@mipmap/icon_pop_top"></View>
+
+    <TextView
+        android:id="@+id/tv_saoyisao01"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/text_bg_selector"
+        android:drawableLeft="@mipmap/icon_pop_saoyisao01"
+        android:drawablePadding="@dimen/dp_20"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_20"
+        android:text="输入识别码"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_saoyisao02"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/text_bg_selector"
+        android:drawableLeft="@mipmap/icon_pop_saoyisao"
+        android:drawablePadding="@dimen/dp_20"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_20"
+        android:text="扫一扫"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/text_bg_selector"
+        android:drawablePadding="@dimen/dp_20"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_20"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp" />
+</LinearLayout>

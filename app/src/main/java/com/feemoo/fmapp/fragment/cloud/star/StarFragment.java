@@ -24,6 +24,7 @@ import com.feemoo.fmapp.network.model.star.StarListModel;
 import com.feemoo.fmapp.network.model.star.StarModel;
 import com.feemoo.fmapp.network.util.DataResultException;
 import com.feemoo.fmapp.network.util.RetrofitUtil;
+import com.feemoo.fmapp.utils.SharedPreferencesUtils;
 import com.mylhyl.crlayout.SwipeRefreshAdapterView;
 import com.mylhyl.crlayout.SwipeRefreshRecyclerView;
 
@@ -45,6 +46,7 @@ public class StarFragment extends BaseFragment implements SwipeRefreshAdapterVie
 
     public StarFragment() {
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -90,16 +92,14 @@ public class StarFragment extends BaseFragment implements SwipeRefreshAdapterVie
                 LoaddingDismiss();
                 if (e instanceof DataResultException) {
                     DataResultException resultException = (DataResultException) e;
-                    Looper.prepare();
                     showToast(resultException.getMsg());
-                    Looper.loop();
                 }
             }
 
             @Override
             public void onNext(BaseResponse<StarListModel> baseResponse) {
                 LoaddingDismiss();
-                if ("1".equals(baseResponse.getStatus()) ) {
+                if ("1".equals(baseResponse.getStatus())) {
                     StarListModel starListModel = baseResponse.getData();
                     if (starListModel.getFiles().size() > 0) {
                         List<StarListModel.FilesBean> filesBeans = starListModel.getFiles();
@@ -120,9 +120,7 @@ public class StarFragment extends BaseFragment implements SwipeRefreshAdapterVie
                     mStarAdapter.setNewData(mStarData);
                     mStarAdapter.notifyDataSetChanged();
                 } else {
-                    Looper.prepare();
-                    showToast( baseResponse.getMsg());
-                    Looper.loop();
+                    showToast(baseResponse.getMsg());
                 }
 
             }
@@ -137,6 +135,7 @@ public class StarFragment extends BaseFragment implements SwipeRefreshAdapterVie
 
     @Override
     protected void initView(View view) {
+        SharedPreferencesUtils.put(getActivity(), "star", "");
         register();
         mRecycleView = findView(R.id.mRecycleView);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity(),

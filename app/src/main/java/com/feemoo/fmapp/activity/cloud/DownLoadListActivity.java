@@ -1,7 +1,11 @@
 package com.feemoo.fmapp.activity.cloud;
 
 
+import android.net.TrafficStats;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,11 +27,14 @@ import com.androidev.download.DownloadTask;
 import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.activity.file.showOnlineDialog;
 import com.feemoo.fmapp.base.BaseActivity;
+import com.feemoo.fmapp.download.NetSpeed;
+import com.feemoo.fmapp.download.NetSpeedTimer;
 import com.feemoo.fmapp.download.util.FileManager;
 import com.feemoo.fmapp.utils.CustomDialog;
 import com.feemoo.fmapp.utils.Utils;
 import com.feemoo.fmapp.widght.CircleProgressBar;
 import com.feemoo.fmapp.widght.SwipeItemLayout;
+import com.gyf.immersionbar.ImmersionBar;
 
 
 import java.io.File;
@@ -35,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 
@@ -49,8 +59,10 @@ import static com.feemoo.fmapp.utils.com.GetHeaderImgById;
 public class DownLoadListActivity extends BaseActivity {
     private RecyclerView mDownloaded;
     private RecyclerView mDownload;
-    @BindView(R.id.tv_back)
-    ImageView mBack;
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
     private TextView tvContinue, tvFinish;
     private DownloadAdapter01 mDownLoadadapter;//进行中
 
@@ -89,12 +101,16 @@ public class DownLoadListActivity extends BaseActivity {
     private CustomDialog dialog02;
     private CustomDialog dialog01;
     private List<DownloadInfo> infos;
+    private NetSpeedTimer mNetSpeedTimer;
+    private String percent;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_down_load_list);
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         fileManager = new FileManager(this);
         manager = DownloadManager.getInstance();
         manager.addDownloadJobListener(jobListener);
@@ -142,9 +158,12 @@ public class DownLoadListActivity extends BaseActivity {
     }
 
     private void initUI() {
-        setBackView();
-        mBack.setImageDrawable(getResources().getDrawable(R.mipmap.icon_back));
-        setTitle("下载列表");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         tvContinue = findView(R.id.tvContinue);
         tvFinish = findView(R.id.tvFinish);
         /**
@@ -167,6 +186,8 @@ public class DownLoadListActivity extends BaseActivity {
 
         updateUI1();
     }
+
+
 
     /**
      * 进行中
@@ -197,17 +218,67 @@ public class DownLoadListActivity extends BaseActivity {
             }
             if (task.size == 0) {
                 holder.size.setText(R.string.download_unknown);
+
             } else {
                 holder.size.setText(String.format(Locale.US, "%.1fMB", task.size / 1048576.0f) + " / " + (String.format(Locale.US, "%.1fMB", finishedLength / 1048576.0f)));
             }
+            // initNewWork();
+
             String extension = fileManager.getExtension(task.name);
             holder.icon.setImageResource(GetHeaderImgById(extension));
+//            lastTotalRxBytes = getTotalRxBytes();
+//            lastTimeStamp = System.currentTimeMillis();
+//            new Timer().schedule(task1, 1000, 2000);
         }
 
         @Override
         public int getItemCount() {
             return tasks == null ? 0 : tasks.size();
         }
+
+//
+//        private long lastTotalRxBytes = 0;
+//        private long lastTimeStamp = 0;
+//
+//        private long getTotalRxBytes() {
+//            return TrafficStats.getUidRxBytes(getApplicationInfo().uid) == TrafficStats.UNSUPPORTED ? 0 : (TrafficStats.getTotalRxBytes() / 1024);//转为KB
+//        }
+//
+//        TimerTask task1 = new TimerTask() {
+//            @Override
+//            public void run() {
+//                showNetSpeed();
+//            }
+//        };
+//
+//        private void showNetSpeed() {
+//
+//            long nowTotalRxBytes = getTotalRxBytes();
+//            long nowTimeStamp = System.currentTimeMillis();
+//            long speed = ((nowTotalRxBytes - lastTotalRxBytes) * 1000 / (nowTimeStamp - lastTimeStamp));//毫秒转换
+//
+//            lastTimeStamp = nowTimeStamp;
+//            lastTotalRxBytes = nowTotalRxBytes;
+//
+//            Message msg = mHandler.obtainMessage();
+//            msg.what = 100;
+//            msg.obj = String.valueOf(speed) + " kb/s";
+//
+//            mHandler.sendMessage(msg);//更新界面
+//        }
+//
+//        private Handler mHandler = new Handler() {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//                if (msg.what == NetSpeedTimer.NET_SPEED_TIMER_DEFAULT) {
+//                    String speed = (String) msg.obj;
+//                    //打印你所需要的网速值，单位默认为kb/s
+//                    Log.i("网速", speed + "");
+//                }
+//            }
+//        };
+
     }
 
     private class DownloadViewHolder01 extends RecyclerView.ViewHolder implements View.OnClickListener, DownloadListener {
@@ -217,6 +288,7 @@ public class DownLoadListActivity extends BaseActivity {
         ImageView icon;
         TextView name;
         TextView size;
+        TextView tvSpeed;
         CircleProgressBar status;
         TextView mDel;
 
@@ -225,12 +297,12 @@ public class DownLoadListActivity extends BaseActivity {
             icon = itemView.findViewById(R.id.download_icon);
             name = itemView.findViewById(R.id.download_name);
             size = itemView.findViewById(R.id.download_size);
+            tvSpeed = itemView.findViewById(R.id.tvSpeed);
             status = itemView.findViewById(R.id.download_status);
             mDel = itemView.findViewById(R.id.delete);
             itemView.setOnClickListener(this);
             mDel.setOnClickListener(this);
             status.setOnClickListener(this);
-            // size.setText(String.format(Locale.US, "%.1fMB", tasks.get(getAdapterPosition()).size / 1048576.0f) + " / " + (String.format(Locale.US, "%.1fMB", finishedLength / 1048576.0f)));
         }
 
         void setKey(String key) {
@@ -261,13 +333,13 @@ public class DownLoadListActivity extends BaseActivity {
                         .setGravity(Gravity.CENTER)
                         .setTitle("提示", getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
                         .setSubTitle("是否删除该文件")
-                        .setNegativeButton("取消", R.color.button_confirm, new View.OnClickListener() {
+                        .setNegativeButton("取消", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                dialog01.dismiss();
                             }
                         })
-                        .setPositiveButton("确定", R.color.button_confirm, new View.OnClickListener() {
+                        .setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 if (tasks.contains(task)) {
@@ -276,6 +348,7 @@ public class DownLoadListActivity extends BaseActivity {
                                     mDownLoadadapter.notifyItemRemoved(position);
                                     updateUI();
                                 }
+                                dialog01.dismiss();
                             }
                         })
                 ;
@@ -318,14 +391,17 @@ public class DownLoadListActivity extends BaseActivity {
         public void onProgressChanged(String key, long finishedLength, long contentLength) {
 
             if (!key.equals(this.key)) return;
-            // status.setText(String.format(Locale.US, "%.1f%%", finishedLength * 100.f / Math.max(contentLength, 1)));
-            status.setProgress(finishedLength * 100.f / Math.max(contentLength, 1));
-            status.setStatue(CircleProgressBar.DOWNLOAD_STATUE);
+
+            percent = String.format(Locale.US, "%.1f%%", finishedLength * 100.f / Math.max(contentLength, 1));
+            percent = percent.substring(0, percent.length() - 1);
+            status.setProgress(Float.valueOf(percent));
 
             if (contentLength == 0) {
                 size.setText(R.string.download_unknown);
             } else {
-                status.setProgress(finishedLength * 100.f / Math.max(contentLength, 1));
+                percent = String.format(Locale.US, "%.1f%%", finishedLength * 100.f / Math.max(contentLength, 1));
+                percent = percent.substring(0, percent.length() - 1);
+                status.setProgress(Float.valueOf(percent));
                 status.setStatue(CircleProgressBar.DOWNLOAD_STATUE);
                 size.setText(String.format(Locale.US, "%.1fMB", contentLength / 1048576.0f) + " / " + (String.format(Locale.US, "%.1fMB", finishedLength / 1048576.0f)));
             }
@@ -355,7 +431,6 @@ public class DownLoadListActivity extends BaseActivity {
             DownloadInfo info = downloads.get(position);
             holder.name.setText(info.name);
             holder.timestamp.setText(format.format(new Date(info.createTime)));
-            //holder.size.setText(String.format(Locale.US, "%.1fMB", info.contentLength / 1048576.0f));
             holder.size.setText(info.extras);
             String extension = fileManager.getExtension(info.name);
             holder.icon.setImageResource(GetHeaderImgById(extension));
@@ -415,13 +490,13 @@ public class DownLoadListActivity extends BaseActivity {
                         .setGravity(Gravity.CENTER)
                         .setTitle("提示", getResources().getColor(R.color.black))//可以不设置标题颜色，默认系统颜色
                         .setSubTitle("是否删除该文件")
-                        .setNegativeButton("取消", R.color.button_confirm, new View.OnClickListener() {
+                        .setNegativeButton("取消", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                dialog02.dismiss();
                             }
                         })
-                        .setPositiveButton("确定", R.color.button_confirm, new View.OnClickListener() {
+                        .setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 DownloadInfo info = downloads.get(position);
@@ -429,6 +504,7 @@ public class DownLoadListActivity extends BaseActivity {
                                 downloads.remove(info);
                                 mDownLoadedAdapter.notifyItemRemoved(position);
                                 updateUI1();
+                                dialog02.dismiss();
                             }
                         })
                 ;
@@ -461,13 +537,19 @@ public class DownLoadListActivity extends BaseActivity {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         manager.removeDownloadJobListener(jobListener);
         for (DownloadTask task : tasks) {
             task.clear();
         }
         tasks.clear();
         tasks = null;
+        if (null != mNetSpeedTimer) {
+            mNetSpeedTimer.stopSpeedTimer();
+        }
+        super.onDestroy();
     }
+
+
+
 
 }

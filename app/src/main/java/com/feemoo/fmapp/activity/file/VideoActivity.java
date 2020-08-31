@@ -13,9 +13,15 @@ import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.xiao.nicevideoplayer.TxVideoPlayerController;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import butterknife.BindView;
 
 public class VideoActivity extends BaseActivity {
+
     @BindView(R.id.nice_video_player)
     NiceVideoPlayer mNiceVideoPlayer;
     private String uri;
@@ -39,10 +45,22 @@ public class VideoActivity extends BaseActivity {
         mNiceVideoPlayer.setUp(videoUrl, null);
         TxVideoPlayerController controller = new TxVideoPlayerController(this);
         MediaMetadataRetriever media = new MediaMetadataRetriever();
-        media.setDataSource(videoUrl);
+//        FileInputStream inputStream = null;
+//        try {
+//            inputStream = new FileInputStream(new File(videoUrl).getAbsolutePath());
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            media.setDataSource(inputStream.getFD());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        //media.setDataSource(videoUrl);
         Bitmap bitmap = media.getFrameAtTime();
         controller.setTitle(name);
-        controller.imageView().setImageBitmap(bitmap);
+        //controller.imageView().setImageBitmap(bitmap);
+        controller.setImage(R.mipmap.icon_logo);
         controller.setLenght(98000);
         mNiceVideoPlayer.setController(controller);
     }

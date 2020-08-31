@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_search"
+        android:icon="@mipmap/icon_search"
+        android:title="Search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_downhis"
+        android:icon="@mipmap/icon_downhis01"
+        android:title="11"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_down"
+        android:icon="@mipmap/icon_down01"
+        android:title="下载"
+        app:actionProviderClass="com.feemoo.fmapp.widght.BadgeActionProvider"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_saoyisao"
+        android:icon="@mipmap/icon_add"
+        android:orderInCategory="100"
+        android:title="notifications"
+        app:showAsAction="always" />
+
+</menu>

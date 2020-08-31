@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_70"
     android:background="@color/white"
@@ -34,16 +35,41 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvName"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/black"></TextView>
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:singleLine="true"
+                        android:textColor="@color/black"></TextView>
+
+
+                    <com.feemoo.fmapp.widght.BorderTextView
+                        android:id="@+id/tvIsShare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_toRightOf="@+id/tvName"
+                        android:padding="2dp"
+                        android:textSize="@dimen/sp_12"
+                        android:visibility="gone"
+                        android:layout_centerVertical="true"
+                        app:contentBackColor="@color/button_confirm"
+                        android:textColor="@color/white"
+                        app:cornerRadius="@dimen/dp_5"
+                        app:strokeWidth01="0dp"></com.feemoo.fmapp.widght.BorderTextView>
+                </RelativeLayout>
+
 
                 <TextView
                     android:id="@+id/tvContent"

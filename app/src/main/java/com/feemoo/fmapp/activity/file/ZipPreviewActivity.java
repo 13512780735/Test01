@@ -2,7 +2,10 @@ package com.feemoo.fmapp.activity.file;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +13,7 @@ import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.adapter.OnlineZipAdapter;
 import com.feemoo.fmapp.base.BaseActivity;
 import com.feemoo.fmapp.network.model.OnlineZipModel;
+import com.gyf.immersionbar.ImmersionBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -26,6 +31,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 public class ZipPreviewActivity extends BaseActivity {
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
+    @BindView(R.id.tv_title)
+    TextView mTitle;
     private RecyclerView mRecycleView;
     private List<OnlineZipModel> mOnlineDatas = new ArrayList<>();
     private OnlineZipAdapter mOnlineZipAdapter;
@@ -37,6 +48,8 @@ public class ZipPreviewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zip_preview);
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         url = getIntent().getStringExtra("url");
         name = getIntent().getStringExtra("name");
         initView();
@@ -98,8 +111,13 @@ public class ZipPreviewActivity extends BaseActivity {
     }
 
     private void initView() {
-        setBackView();
-        setTitle(name);
+        mTitle.setText(name);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         mRecycleView = findView(R.id.recycler_view);
         mRecycleView.setLayoutManager(new LinearLayoutManager(mContext,
                 LinearLayoutManager.VERTICAL, false));

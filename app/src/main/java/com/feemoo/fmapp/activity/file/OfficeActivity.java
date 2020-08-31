@@ -6,11 +6,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.feemoo.fmapp.R;
 import com.feemoo.fmapp.base.BaseActivity;
+import com.gyf.immersionbar.ImmersionBar;
 import com.tencent.smtt.sdk.TbsReaderView;
 
 import java.io.File;
@@ -18,8 +23,12 @@ import java.io.File;
 import butterknife.BindView;
 
 public class OfficeActivity extends BaseActivity implements TbsReaderView.ReaderCallback {
-    @BindView(R.id.tv_back)
-    ImageView mBack;
+    @BindView(R.id.mToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.status_bar_view)
+    View status_bar_view;
+    @BindView(R.id.tv_title)
+    TextView mTitle;
     RelativeLayout mRelativeLayout;
     private String path;
     private String name;
@@ -31,12 +40,17 @@ public class OfficeActivity extends BaseActivity implements TbsReaderView.Reader
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_office);
+        ImmersionBar.setStatusBarView(this, status_bar_view);
+        ImmersionBar.with(this).statusBarColor(R.color.white).init();
         path = getIntent().getStringExtra("uri");
         name = getIntent().getStringExtra("name");
-        setBackView();
-        mBack.setImageDrawable(getResources().getDrawable(R.mipmap.icon_back));
-        setTitle(name);
-
+        mTitle.setText(name);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         mTbsReaderView = new TbsReaderView(this, this);
         mRelativeLayout = findView(R.id.tbsView);
         mRelativeLayout.addView(mTbsReaderView, new RelativeLayout.LayoutParams(-1, -1));
@@ -46,7 +60,7 @@ public class OfficeActivity extends BaseActivity implements TbsReaderView.Reader
 //            uri = Uri.fromFile(new File(path));
 //        }
 
-        Log.d("路径",uri+"");
+        Log.d("路径", uri + "");
         File docFile = new File(download, name);
         displayFile(docFile.toString(), name);
     }
@@ -80,8 +94,6 @@ public class OfficeActivity extends BaseActivity implements TbsReaderView.Reader
         3.自适应大小
 
     */
-        Log.d("print", "filePath" + filePath);//可能是路径错误
-        Log.d("print", "tempPath" + tbsReaderTemp);
         bundle.putString("filePath", filePath);
         bundle.putString("tempPath", tbsReaderTemp);
         boolean result = mTbsReaderView.preOpen(getFileType(fileName), false);
