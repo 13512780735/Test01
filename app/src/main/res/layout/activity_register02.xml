@@ -150,7 +150,7 @@
 
 
 
-        <com.feemoo.fmapp.widght.BorderTextView
+        <com.feemoo.widght.BorderTextView
             android:id="@+id/mTvLogin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
@@ -162,7 +162,7 @@
             app:contentBackColor="@color/button_confirm"
             app:cornerRadius="@dimen/dp_10"
             app:strokeColor01="#999999"
-            app:strokeWidth01="0dp"></com.feemoo.fmapp.widght.BorderTextView>
+            app:strokeWidth01="0dp"></com.feemoo.widght.BorderTextView>
 
 
         <LinearLayout

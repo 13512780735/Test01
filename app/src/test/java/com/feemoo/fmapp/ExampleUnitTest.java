@@ -1,4 +1,4 @@
-package com.feemoo.fmapp;
+package com.feemoo;
 
 import org.junit.Test;
 

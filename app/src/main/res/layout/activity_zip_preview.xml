@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.feemoo.fmapp.activity.file.ZipPreviewActivity">
+    tools:context="com.feemoo.activity.file.ZipPreviewActivity">
 
     <View
         android:id="@+id/status_bar_view"

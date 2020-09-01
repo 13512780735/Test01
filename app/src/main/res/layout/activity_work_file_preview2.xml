@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.feemoo.fmapp.activity.file.work.workFilePreviewActivity">
+    tools:context="com.feemoo.activity.file.work.workFilePreviewActivity">
 
     <include layout="@layout/topbar_nor"></include>
 

@@ -14,7 +14,7 @@
         android:id="@+id/action_down"
         android:icon="@mipmap/icon_down01"
         android:title="下载"
-        app:actionProviderClass="com.feemoo.fmapp.widght.BadgeActionProvider"
+        app:actionProviderClass="com.feemoo.widght.BadgeActionProvider"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_saoyisao"

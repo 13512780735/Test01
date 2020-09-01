@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.feemoo.fmapp">
+    package="com.feemoo">
     <!-- 允许程序打开网络套接字 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许程序设置内置sd卡的写权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许程序获取网络状态 -->
@@ -159,7 +159,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.feemoo.fmapp.android7.fileprovider"
+            android:authorities="com.feemoo.android7.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:ignore="WrongManifestParent"
@@ -198,7 +198,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent100424468" />
+                <data android:scheme="101730227" />
             </intent-filter>
         </activity>
         <activity

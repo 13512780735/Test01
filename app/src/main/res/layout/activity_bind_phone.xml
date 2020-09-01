@@ -84,7 +84,7 @@
                 android:singleLine="true"></cn.nzy.library.ClearEditText>
 
 
-            <com.feemoo.fmapp.widght.BorderTextView
+            <com.feemoo.widght.BorderTextView
                 android:id="@+id/send_code_btn"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
             android:layout_height="1dp"
             android:background="@color/default_window_background"></View>
 
-        <com.feemoo.fmapp.widght.BorderTextView
+        <com.feemoo.widght.BorderTextView
             android:id="@+id/mTvNext"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
@@ -124,6 +124,6 @@
             app:contentBackColor="@color/button_confirm"
             app:cornerRadius="@dimen/dp_5"
             app:strokeColor01="#999999"
-            app:strokeWidth01="0dp"></com.feemoo.fmapp.widght.BorderTextView>
+            app:strokeWidth01="0dp"></com.feemoo.widght.BorderTextView>
     </LinearLayout>
 </LinearLayout>

@@ -52,7 +52,7 @@
                 android:text=""></TextView>
         </LinearLayout>
 
-        <com.feemoo.fmapp.widght.BorderTextView
+        <com.feemoo.widght.BorderTextView
             android:id="@+id/tvUse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:text="使用"
             android:textColor="@color/white"
             app:contentBackColor="@color/yellow_button_bg_pressed_color"
-            app:cornerRadius="@dimen/dp_20"></com.feemoo.fmapp.widght.BorderTextView>
+            app:cornerRadius="@dimen/dp_20"></com.feemoo.widght.BorderTextView>
     </LinearLayout>
 
     <View

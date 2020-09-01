@@ -58,7 +58,7 @@
     </LinearLayout>
 
 
-    <com.feemoo.fmapp.widght.BorderTextView
+    <com.feemoo.widght.BorderTextView
         android:id="@+id/tvConfirm"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_30"
@@ -70,5 +70,5 @@
         android:text="知道了"
         android:textColor="@color/white"
         app:contentBackColor="@color/jifen_qiandao01"
-        app:cornerRadius="@dimen/dp_15"></com.feemoo.fmapp.widght.BorderTextView>
+        app:cornerRadius="@dimen/dp_15"></com.feemoo.widght.BorderTextView>
 </LinearLayout>

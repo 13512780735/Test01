@@ -91,7 +91,7 @@
                         android:singleLine="true"></cn.nzy.library.ClearEditText>
 
 
-                    <com.feemoo.fmapp.widght.BorderTextView
+                    <com.feemoo.widght.BorderTextView
                         android:id="@+id/send_code_btn"
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <com.feemoo.fmapp.widght.BorderTextView
+                    <com.feemoo.widght.BorderTextView
                         android:id="@+id/mTvLogin"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_45"
@@ -163,9 +163,9 @@
                         app:contentBackColor="@color/button_confirm"
                         app:cornerRadius="@dimen/dp_5"
                         app:strokeColor01="#999999"
-                        app:strokeWidth01="0dp"></com.feemoo.fmapp.widght.BorderTextView>
+                        app:strokeWidth01="0dp"></com.feemoo.widght.BorderTextView>
 
-                    <com.feemoo.fmapp.widght.BorderTextView
+                    <com.feemoo.widght.BorderTextView
                         android:id="@+id/mTvRegister"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_45"
@@ -177,7 +177,7 @@
                         app:contentBackColor="@color/white"
                         app:cornerRadius="@dimen/dp_5"
                         app:strokeColor01="@color/button_confirm"
-                        app:strokeWidth01="1dp"></com.feemoo.fmapp.widght.BorderTextView>
+                        app:strokeWidth01="1dp"></com.feemoo.widght.BorderTextView>
 
                     <LinearLayout
                         android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <com.feemoo.fmapp.widght.BorderRelativeLayout
+    <com.feemoo.widght.BorderRelativeLayout
         android:layout_width="200dp"
         android:layout_height="120dp"
         app:contentBackColor="@color/white"
@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             app:riv_corner_radius="@dimen/dp_10"></com.makeramen.roundedimageview.RoundedImageView>
-    </com.feemoo.fmapp.widght.BorderRelativeLayout>
+    </com.feemoo.widght.BorderRelativeLayout>
 
 
     <TextView

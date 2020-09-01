@@ -61,7 +61,7 @@
             android:text="即将登录Windows网页端"
             android:textColor="@color/black"></TextView>
 
-        <com.feemoo.fmapp.widght.BorderTextView
+        <com.feemoo.widght.BorderTextView
             android:id="@+id/tvConfirm"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -71,6 +71,6 @@
             android:textColor="@color/white"
             android:textSize="@dimen/sp_16"
             app:contentBackColor="@color/button_confirm"
-            app:cornerRadius="@dimen/dp_10"></com.feemoo.fmapp.widght.BorderTextView>
+            app:cornerRadius="@dimen/dp_10"></com.feemoo.widght.BorderTextView>
     </LinearLayout>
 </LinearLayout>

@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.feemoo.fmapp.widght.BorderTextView
+    <com.feemoo.widght.BorderTextView
         android:id="@+id/tvNum"
         android:layout_width="35dp"
         android:layout_height="35dp"
@@ -17,7 +17,7 @@
         android:textColor="@color/text_color"
         android:textSize="@dimen/sp_12"
         app:contentBackColor="@color/gray_background_color"
-        app:cornerRadius="20dp"></com.feemoo.fmapp.widght.BorderTextView>
+        app:cornerRadius="20dp"></com.feemoo.widght.BorderTextView>
 
     <TextView
         android:id="@+id/tvDay"

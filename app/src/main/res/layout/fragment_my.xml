@@ -88,8 +88,8 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/dp_20"
-                        android:layout_height="@dimen/dp_20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dp_10"
                         android:src="@mipmap/icon_right"></ImageView>
                 </LinearLayout>
@@ -101,8 +101,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_userinfo"></ImageView>
 
@@ -113,7 +113,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="个人中心"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:textStyle="bold"></TextView>
 
                     <ImageView
@@ -137,8 +137,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_qiandao"></ImageView>
 
@@ -149,7 +149,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="签到"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:textStyle="bold"></TextView>
 
                     <ImageView
@@ -166,8 +166,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_card"></ImageView>
 
@@ -178,7 +178,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="卡券包"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:textStyle="bold"></TextView>
 
                     <ImageView
@@ -195,8 +195,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_message"></ImageView>
 
@@ -207,7 +207,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="消息"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:textStyle="bold"></TextView>
 
                     <ImageView
@@ -231,8 +231,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_bindphone"></ImageView>
 
@@ -243,7 +243,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="绑定手机"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:textStyle="bold"></TextView>
 
                     <ImageView
@@ -260,8 +260,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_kefu"></ImageView>
 
@@ -272,7 +272,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="客服"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:textStyle="bold"></TextView>
 
                     <ImageView
@@ -289,8 +289,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_setting"></ImageView>
 
@@ -301,7 +301,7 @@
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="设置"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:textStyle="bold"></TextView>
 
                     <ImageView
@@ -318,8 +318,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dp_40"
-                        android:layout_height="@dimen/dp_40"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"></ImageView>
 
                     <TextView
@@ -328,7 +328,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:paddingLeft="10dp"
-                        android:textSize="@dimen/sp_16"
+                        android:textSize="@dimen/sp_14"
                         android:textStyle="bold"></TextView>
 
                     <ImageView

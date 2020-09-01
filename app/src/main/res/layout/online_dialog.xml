@@ -39,7 +39,7 @@
         android:orientation="horizontal">
 
 
-        <com.feemoo.fmapp.widght.BorderTextView
+        <com.feemoo.widght.BorderTextView
             android:id="@+id/tvCancel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -50,14 +50,14 @@
             app:contentBackColor="@color/white"
             app:cornerRadius="@dimen/dp_5"
             app:strokeColor01="@color/button_confirm"
-            app:strokeWidth01="1dp"></com.feemoo.fmapp.widght.BorderTextView>
+            app:strokeWidth01="1dp"></com.feemoo.widght.BorderTextView>
 
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"></View>
 
-        <com.feemoo.fmapp.widght.BorderTextView
+        <com.feemoo.widght.BorderTextView
             android:id="@+id/tvConfirm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -66,6 +66,6 @@
             android:text="确定"
             android:textColor="@color/white"
             app:contentBackColor="@color/button_confirm"
-            app:cornerRadius="@dimen/dp_5"></com.feemoo.fmapp.widght.BorderTextView>
+            app:cornerRadius="@dimen/dp_5"></com.feemoo.widght.BorderTextView>
     </LinearLayout>
 </LinearLayout>

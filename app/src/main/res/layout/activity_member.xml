@@ -14,17 +14,17 @@
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
-        <com.feemoo.fmapp.widght.CircleImageView
+        <com.feemoo.widght.CircleImageView
             android:id="@+id/ivHeader"
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_100"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/dp_40"
-            android:src="@mipmap/icon_logo"></com.feemoo.fmapp.widght.CircleImageView>
+            android:src="@mipmap/icon_logo"></com.feemoo.widght.CircleImageView>
 
     </RelativeLayout>
 
-    <com.feemoo.fmapp.widght.BorderTextView
+    <com.feemoo.widght.BorderTextView
         android:id="@+id/mTvSave"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
@@ -34,6 +34,6 @@
         android:textColor="@color/white"
         android:textSize="@dimen/sp_16"
         app:contentBackColor="@color/button_confirm"
-        app:cornerRadius="@dimen/dp_20"></com.feemoo.fmapp.widght.BorderTextView>
+        app:cornerRadius="@dimen/dp_20"></com.feemoo.widght.BorderTextView>
 
 </LinearLayout>

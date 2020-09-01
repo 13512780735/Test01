@@ -19,17 +19,17 @@
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true">
 
-            <com.feemoo.fmapp.widght.CircleImageView
+            <com.feemoo.widght.CircleImageView
                 android:id="@+id/iv01"
                 android:layout_width="@dimen/dp_100"
                 android:layout_height="@dimen/dp_100"
-                android:layout_centerInParent="true"></com.feemoo.fmapp.widght.CircleImageView>
+                android:layout_centerInParent="true"></com.feemoo.widght.CircleImageView>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.feemoo.fmapp.widght.BorderTextView
+                <com.feemoo.widght.BorderTextView
                     android:id="@+id/tvVip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                     android:paddingRight="@dimen/dp_5"
                     android:text=""
                     app:contentBackColor="@color/yellow_button_bg_pressed_color"
-                    app:cornerRadius="2dp"></com.feemoo.fmapp.widght.BorderTextView>
+                    app:cornerRadius="2dp"></com.feemoo.widght.BorderTextView>
             </RelativeLayout>
         </FrameLayout>
 
